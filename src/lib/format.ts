@@ -22,3 +22,9 @@ export function formatEuro(value: number) {
 export function formatNumber(value: number) {
   return number.format(value);
 }
+
+/** « 06 26 34 76 77 » → « tel:+33626347677 » (format international pour les liens d'appel). */
+export function telHref(number: string) {
+  const digits = number.replace(/[^\d+]/g, "");
+  return `tel:${digits.startsWith("0") ? `+33${digits.slice(1)}` : digits}`;
+}

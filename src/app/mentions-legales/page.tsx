@@ -33,8 +33,12 @@ export default function MentionsLegalesPage() {
         </p>
         <p>
           Contact : <Value value={site.contact.email} label="adresse email" />
-          {" · "}
-          <Value value={site.contact.phone} label="téléphone" />
+          {site.contact.phones.map((phone) => (
+            <span key={phone.number}>
+              {" · "}
+              {phone.name} {phone.number}
+            </span>
+          ))}
         </p>
         <p>
           Directeur ou directrice de la publication :{" "}

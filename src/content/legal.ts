@@ -46,8 +46,8 @@ export const legal = {
   privacy: {
     /** Personne ou société responsable du traitement des données. */
     controller: null as string | null,
-    /** Adresse email pour exercer ses droits. */
-    contactEmail: null as string | null,
+    /** Adresse email pour exercer ses droits (par défaut, l'adresse de contact du site). */
+    contactEmail: "comme.al.la.maison@gmail.com" as string | null,
     /** Durée de conservation des demandes envoyées par le formulaire. */
     retention: null as string | null,
     /** Service utilisé pour recevoir les demandes (par exemple un service d'envoi d'emails). */

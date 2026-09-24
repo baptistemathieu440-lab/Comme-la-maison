@@ -1,6 +1,7 @@
 import { founders } from "@/content/about";
 import { faq } from "@/content/faq";
 import { site } from "@/content/site";
+import { telHref } from "@/lib/format";
 
 type Json = Record<string, unknown>;
 
@@ -32,7 +33,19 @@ export function organizationJsonLd(): Json {
       { "@type": "AdministrativeArea", name: site.area.region },
     ],
     founder: founders.map((f) => ({ "@type": "Person", name: f.name, jobTitle: f.role })),
-    ...(site.contact.phone ? { telephone: site.contact.phone } : {}),
+    ...(site.contact.phones.length > 0
+      ? {
+          telephone: site.contact.phones[0].number,
+          contactPoint: site.contact.phones.map((phone) => ({
+            "@type": "ContactPoint",
+            name: phone.name,
+            telephone: telHref(phone.number).replace("tel:", ""),
+            contactType: "customer service",
+            areaServed: "FR",
+            availableLanguage: "French",
+          })),
+        }
+      : {}),
     ...(site.contact.email ? { email: site.contact.email } : {}),
     ...(sameAs.length > 0 ? { sameAs } : {}),
     makesOffer: {

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { legalNav, mainNav, primaryCta } from "@/content/navigation";
 import { site } from "@/content/site";
+import { telHref } from "@/lib/format";
 
 import { SocialIcon } from "./SocialIcon";
 
@@ -12,7 +13,7 @@ export function Footer() {
   const socials = (Object.keys(site.socials) as Array<keyof typeof site.socials>).filter(
     (key) => site.socials[key],
   );
-  const { phone, email } = site.contact;
+  const { phones, email } = site.contact;
   const year = new Date().getFullYear();
 
   return (
@@ -47,13 +48,14 @@ export function Footer() {
                   {primaryCta.label}
                 </Link>
               </li>
-              {phone ? (
-                <li>
-                  <a href={`tel:${phone.replace(/\s/g, "")}`} className="inline-flex min-h-10 items-center text-cream/90 underline-offset-4 hover:text-cream hover:underline">
-                    {phone}
+              {phones.map((phone) => (
+                <li key={phone.number}>
+                  <a href={telHref(phone.number)} className="inline-flex min-h-10 items-center gap-1.5 text-cream/90 underline-offset-4 hover:text-cream hover:underline">
+                    <span className="text-cream/70">{phone.name}</span>
+                    <span className="whitespace-nowrap">{phone.number}</span>
                   </a>
                 </li>
-              ) : null}
+              ))}
               {email ? (
                 <li>
                   <a href={`mailto:${email}`} className="inline-flex min-h-10 items-center break-all text-cream/90 underline-offset-4 hover:text-cream hover:underline">

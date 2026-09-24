@@ -3,6 +3,7 @@ import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Eyebrow, Section } from "@/components/ui/Section";
 import { collaborationSteps } from "@/content/offer";
 import { site } from "@/content/site";
+import { telHref } from "@/lib/format";
 
 import { ContactForm } from "./ContactForm";
 
@@ -12,7 +13,7 @@ const reassurance = [
 ];
 
 export function Contact() {
-  const { phone, email, availability } = site.contact;
+  const { phones, email, availability } = site.contact;
 
   return (
     <Section id="estimation" tone="stone" labelledBy="estimation-title">
@@ -54,15 +55,21 @@ export function Contact() {
             </ol>
           </div>
 
-          {phone || email ? (
+          {phones.length > 0 || email ? (
             <div className="mt-auto flex flex-col gap-3 border-t border-cream/20 pt-6">
               <p className="text-caption text-olive-light">Nous joindre directement</p>
-              {phone ? (
-                <a href={`tel:${phone.replace(/\s/g, "")}`} className="inline-flex min-h-11 items-center gap-3 text-lead font-medium text-cream underline-offset-4 hover:underline">
-                  <Phone aria-hidden="true" className="size-5" strokeWidth={1.75} />
-                  {phone}
+              {phones.map((phone) => (
+                <a
+                  key={phone.number}
+                  href={telHref(phone.number)}
+                  className="inline-flex min-h-11 items-center gap-3 font-medium text-cream underline-offset-4 hover:underline"
+                >
+                  <Phone aria-hidden="true" className="size-5 shrink-0" strokeWidth={1.75} />
+                  <span>
+                    {phone.name} <span className="whitespace-nowrap">{phone.number}</span>
+                  </span>
                 </a>
-              ) : null}
+              ))}
               {email ? (
                 <a href={`mailto:${email}`} className="inline-flex min-h-11 items-center gap-3 break-all font-medium text-cream underline-offset-4 hover:underline">
                   <Mail aria-hidden="true" className="size-5 shrink-0" strokeWidth={1.75} />

@@ -38,10 +38,12 @@ export const site = {
   },
 
   contact: {
-    /** Exemple : "06 12 34 56 78" */
-    phone: null as string | null,
-    /** Exemple : "bonjour@commealamaison.fr" */
-    email: null as string | null,
+    /** Numéros directs, affichés avec le prénom. Format : "06 12 34 56 78". */
+    phones: [
+      { name: "Baptiste", number: "06 26 34 76 77" },
+      { name: "Simon", number: "06 51 50 19 34" },
+    ] as Array<{ name: string; number: string }>,
+    email: "comme.al.la.maison@gmail.com" as string | null,
     /** Exemple : "Du lundi au samedi, de 9 h à 19 h" */
     availability: null as string | null,
   },

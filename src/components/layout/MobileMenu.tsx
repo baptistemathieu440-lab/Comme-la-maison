@@ -8,6 +8,7 @@ import { Logo } from "@/components/brand/Logo";
 import { ButtonLink } from "@/components/ui/Button";
 import { mainNav, primaryCta } from "@/content/navigation";
 import { site } from "@/content/site";
+import { telHref } from "@/lib/format";
 
 /**
  * Menu plein écran pour mobile et tablette.
@@ -80,6 +81,18 @@ export function MobileMenu() {
             <ButtonLink href={primaryCta.href} onClick={close} arrow className="w-full">
               {primaryCta.label}
             </ButtonLink>
+            {site.contact.phones.length > 0 ? (
+              <ul className="flex flex-wrap justify-center gap-x-5 gap-y-1">
+                {site.contact.phones.map((phone) => (
+                  <li key={phone.number}>
+                    <a href={telHref(phone.number)} className="inline-flex min-h-11 items-center gap-1.5 font-medium text-maison underline-offset-4 hover:underline">
+                      Appeler {phone.name}
+                      <span className="whitespace-nowrap text-ink-soft">{phone.number}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
             <p className="text-small text-center text-ink-soft">
               Conciergerie à {site.area.city} et dans sa métropole · {site.commission.label} {site.commission.taxNote} des revenus locatifs
             </p>

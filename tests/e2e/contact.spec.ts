@@ -17,6 +17,14 @@ test.describe("Formulaire d'estimation", () => {
     await expect(page.locator("#contact-email-error")).toContainText("Exemple : prenom@domaine.fr");
   });
 
+  test("propose d'appeler Baptiste ou Simon directement", async ({ page }) => {
+    await page.goto("/#estimation");
+    const section = page.locator("#estimation");
+    await expect(section.getByRole("link", { name: /Baptiste 06 26 34 76 77/ })).toHaveAttribute("href", "tel:+33626347677");
+    await expect(section.getByRole("link", { name: /Simon 06 51 50 19 34/ })).toHaveAttribute("href", "tel:+33651501934");
+    await expect(section.getByRole("link", { name: "comme.al.la.maison@gmail.com" })).toHaveAttribute("href", "mailto:comme.al.la.maison@gmail.com");
+  });
+
   test("envoie une demande complète", async ({ page }) => {
     await page.goto("/#estimation");
     await page.getByRole("textbox", { name: "Prénom", exact: true }).fill("Camille");

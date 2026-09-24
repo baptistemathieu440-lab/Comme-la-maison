@@ -26,6 +26,7 @@ test.describe("Formulaire d'estimation", () => {
   });
 
   test("envoie une demande complète", async ({ page }) => {
+    test.skip(Boolean(process.env.PLAYWRIGHT_BASE_URL), "pas d'envoi réel sur le site en ligne");
     await page.goto("/#estimation");
     await page.getByRole("textbox", { name: "Prénom", exact: true }).fill("Camille");
     await page.getByRole("textbox", { name: "Nom", exact: true }).fill("Durand");

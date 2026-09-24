@@ -1,4 +1,4 @@
-# Déploiement sur Netlify (Next.js détecté automatiquement).
+# Déploiement sur Netlify.
 [build]
   command = "npm run build"
   publish = ".next"
@@ -9,3 +9,7 @@
   # Les demandes du formulaire d'estimation sont reçues par Netlify Forms
   # (tableau de bord Netlify > Forms). Voir public/__forms.html.
   NEXT_PUBLIC_FORM_BACKEND = "netlify"
+
+# Adaptateur Next.js de Netlify (routage, rendu serveur, images optimisées).
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

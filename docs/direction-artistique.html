@@ -1,0 +1,939 @@
+<title>Direction artistique Comme à la Maison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..700;1,400&family=Instrument+Sans:wdth,wght@75..100,400..600&display=swap">
+<style>
+  :root {
+    /* Palette proposée — issue du logo (vert, crème, terracotta) + olive pastel demandé */
+    --olive: #B4BE9C;
+    --olive-light: #E4E8D8;
+    --olive-strong: #A3AE8B;
+    --green: #354943;
+    --green-hover: #2A3B36;
+    --green-active: #22302B;
+    --cream: #F5F0E7;
+    --stone: #EDE4D3;
+    --surface: #FBF8F2;
+    --ink: #23302B;
+    --ink-2: #56625C;
+    --line: #DDD3C1;
+    --line-strong: #7F8A83;
+    --terra: #BB6C51;
+    --terra-text: #9E5139;
+    --terra-on-dark: #D4896B;
+    --terra-light: #E0A48A;
+    --error: #A33A2B;
+    --disabled-bg: #D9D6CC;
+    --disabled-fg: #6B736E;
+
+    --display: 'Instrument Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --text: 'Hanken Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --logo: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --ease: cubic-bezier(.2,.7,.2,1);
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font: 400 17px/1.6 var(--text);
+    padding-inline: clamp(16px, 4vw, 40px);
+    padding-block: 0 64px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  h1, h2, h3 { font-family: var(--display); font-stretch: 92%; font-weight: 500; color: var(--green); text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(40px, 6vw, 68px); line-height: 1.04; letter-spacing: -0.02em; }
+  h2 { font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -0.018em; }
+  h3 { font-size: clamp(21px, 2.2vw, 25px); line-height: 1.2; letter-spacing: -0.01em; }
+  p { margin: 0; }
+  .dot { color: var(--terra); }
+  .muted { color: var(--ink-2); }
+  .eyebrow { font: 600 13px/1.3 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); display: inline-flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--terra); flex: none; }
+  .lead { font-size: clamp(18px, 1.6vw, 20px); line-height: 1.55; max-width: 62ch; }
+  .prose { max-width: 66ch; }
+  a { color: var(--green); text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+  code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: .86em; background: var(--olive-light); padding: .1em .4em; border-radius: 6px; color: var(--ink); }
+
+  /* Barre du haut */
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 22px; border-bottom: 1px solid var(--line); }
+  .lockup-h { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+  .lockup-h svg { width: 42px; height: 42px; flex: none; }
+  .lockup-h .wm { font-family: var(--logo); color: var(--green); font-size: 19px; line-height: 1.1; letter-spacing: -0.005em; display: block; }
+  .lockup-h .bl { font-family: var(--logo); color: var(--terra-text); font-size: 12.5px; line-height: 1.2; display: block; margin-top: 2px; }
+  .status { font: 600 13px/1 var(--text); color: var(--green); background: var(--olive-light); border-radius: 999px; padding: 9px 14px; display: inline-flex; gap: 8px; align-items: center; }
+  .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--terra); }
+
+  /* Intro */
+  .intro { padding-block: clamp(48px, 8vw, 96px) clamp(40px, 6vw, 72px); display: grid; gap: 28px; }
+  .decisions { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-top: 12px; }
+  .decision { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px 20px; display: grid; gap: 6px; align-content: start; }
+  .decision b { font: 600 13px/1.3 var(--text); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+  .decision span { font-size: 16px; line-height: 1.5; }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a { font: 500 15px/1 var(--text); color: var(--green); text-decoration: none; border: 1px solid var(--line-strong); border-radius: 999px; padding: 11px 16px; min-height: 44px; display: inline-flex; align-items: center; transition: background .2s var(--ease); }
+  .toc a:hover { background: var(--olive-light); }
+
+  /* Sections */
+  section.block > *, .grid-2 > *, .compare > *, .qgroups > *, .geo > *, .mock-body > * { min-width: 0; }
+  section.block { padding-block: clamp(56px, 8vw, 104px); border-top: 1px solid var(--line); display: grid; gap: clamp(28px, 4vw, 44px); }
+  .sec-head { display: grid; gap: 14px; max-width: 760px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(20px, 3vw, 40px); align-items: start; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: clamp(20px, 3vw, 32px); }
+  .panel.olive { background: var(--olive); border-color: transparent; }
+  .panel.olive-light { background: var(--olive-light); border-color: transparent; }
+  .panel.dark { background: var(--green); border-color: transparent; color: var(--cream); }
+  .panel h3 + * { margin-top: 12px; }
+
+  ul.clean { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  ul.clean li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; }
+  ul.clean li svg { width: 20px; height: 20px; margin-top: 3px; }
+  .ico { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Logo */
+  .logo-stage { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 20px; }
+  .logo-card { border-radius: 24px; padding: 28px; display: grid; gap: 16px; align-content: space-between; min-height: 260px; }
+  .logo-card figcaption { font-size: 15px; line-height: 1.5; }
+  .logo-card figcaption b { display: block; font-weight: 600; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+  figure { margin: 0; }
+  .on-cream { background: var(--surface); border: 1px solid var(--line); color: var(--ink); }
+  .on-cream figcaption b { color: var(--ink-2); }
+  .on-green { background: var(--green); color: var(--cream); }
+  .on-green figcaption b { color: var(--olive-light); }
+  .on-olive { background: var(--olive); color: var(--ink); }
+  .on-olive figcaption b { color: var(--ink); }
+  .logo-vert { width: min(240px, 100%); margin-inline: auto; display: block; }
+  .fav-row { display: flex; align-items: end; gap: 22px; flex-wrap: wrap; }
+  .fav-row div { display: grid; gap: 8px; justify-items: center; font-size: 13px; color: var(--ink-2); }
+  .geo { display: grid; grid-template-columns: minmax(0, 360px) 1fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
+  @media (max-width: 760px) { .geo { grid-template-columns: 1fr; } }
+  .geo svg { width: 100%; height: auto; max-width: 360px; }
+  .facts { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .facts div { display: grid; grid-template-columns: 150px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+  .facts dt, .facts .k { color: var(--ink-2); font-size: 14px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding-top: 2px; }
+  @media (max-width: 520px) { .facts div { grid-template-columns: 1fr; gap: 2px; } }
+
+  ol.fixes { margin: 0; padding: 0; list-style: none; counter-reset: fx; display: grid; gap: 14px; }
+  ol.fixes li { counter-increment: fx; display: grid; grid-template-columns: 34px 1fr; gap: 12px; }
+  ol.fixes li::before { content: counter(fx); width: 30px; height: 30px; border-radius: 50%; background: var(--olive-light); color: var(--green); font: 600 14px/30px var(--text); text-align: center; }
+
+  /* Référence */
+  .compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .compare h3 { font-size: 21px; }
+  .compare li { font-size: 16px; }
+
+  /* Concept */
+  .motifs { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .motif { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 22px; display: grid; gap: 12px; align-content: start; }
+  .motif .viz { height: 96px; display: flex; align-items: center; justify-content: center; background: var(--olive-light); border-radius: 16px; }
+  .motif p { font-size: 15.5px; line-height: 1.55; }
+
+  /* Hero mock */
+  .mock { background: var(--cream); border: 1px solid var(--line); border-radius: 28px; overflow: hidden; box-shadow: 0 1px 2px rgba(35,48,43,.05), 0 24px 48px -28px rgba(35,48,43,.35); }
+  .mock-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px clamp(16px, 3vw, 32px); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .mock-nav nav { display: flex; gap: 22px; font-size: 14.5px; color: var(--ink); flex-wrap: wrap; }
+  .mock-nav nav span { position: relative; }
+  .mock-nav nav span.on::after { content: ""; position: absolute; left: 50%; bottom: -9px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--terra); }
+  @media (max-width: 900px) { .mock-nav nav { display: none; } }
+  .mock-body { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(24px, 4vw, 56px); padding: clamp(28px, 5vw, 64px) clamp(16px, 4vw, 56px); align-items: center; }
+  @media (max-width: 820px) { .mock-body { grid-template-columns: 1fr; } }
+  .mock h1 .kw { display: block; font: 600 13px/1.3 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 18px; font-stretch: 100%; }
+  .mock .sub { margin-top: 20px; font-size: 19px; line-height: 1.5; color: var(--ink); }
+  .mock .sub2 { margin-top: 8px; color: var(--ink-2); }
+  .mock .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .trust { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 26px; font-size: 14.5px; color: var(--ink-2); }
+  .trust span { display: inline-flex; align-items: center; gap: 8px; }
+  .trust span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--olive-strong); }
+  .arch { position: relative; aspect-ratio: 3 / 4; max-width: 100%; border-radius: 999px 999px 18px 18px / 50% 50% 18px 18px; overflow: hidden;
+    background:
+      radial-gradient(120% 60% at 72% 26%, rgba(255,250,238,.95) 0 18%, rgba(255,246,228,0) 46%),
+      linear-gradient(180deg, #EFE6D5 0 58%, #C9A882 58% 61%, #B8946C 61% 100%);
+  }
+  .arch::before { content: ""; position: absolute; left: 14%; right: 40%; top: 36%; bottom: 36%; background: linear-gradient(180deg, #A3AE8B, #8F9B76); border-radius: 10px 10px 4px 4px; opacity: .85; }
+  .arch::after { content: ""; position: absolute; left: 8%; right: 8%; bottom: 20%; height: 12%; background: #F7F3EA; border-radius: 10px; box-shadow: 0 8px 18px -10px rgba(35,48,43,.4); }
+  .arch .ph { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 14px; font-size: 12.5px; line-height: 1.35; color: var(--cream); background: linear-gradient(0deg, rgba(35,48,43,.8), rgba(35,48,43,0)); z-index: 1; }
+  .float { position: absolute; left: -8%; bottom: 18%; z-index: 2; background: var(--surface); border-radius: 18px; padding: 14px 16px; display: grid; gap: 2px; box-shadow: 0 1px 2px rgba(35,48,43,.06), 0 16px 32px -14px rgba(35,48,43,.35); max-width: 240px; }
+  .float small { font: 600 11.5px/1.3 var(--text); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
+  .float strong { font: 500 34px/1 var(--display); font-stretch: 92%; color: var(--green); letter-spacing: -0.02em; }
+  .float span { font-size: 14px; line-height: 1.35; color: var(--ink); }
+  .arch-wrap { position: relative; width: min(380px, 100%); justify-self: center; }
+  @media (max-width: 820px) { .float { left: 12px; } }
+
+  /* Buttons */
+  .btn { --bg: var(--green); --fg: var(--cream); --bd: transparent;
+    font: 600 16px/1 var(--text); letter-spacing: .005em; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 50px; padding: 0 24px; border-radius: 999px; border: 1.5px solid var(--bd); background: var(--bg); color: var(--fg);
+    cursor: pointer; text-decoration: none; transition: background .2s var(--ease), transform .12s var(--ease), border-color .2s var(--ease); }
+  .btn svg { width: 18px; height: 18px; transition: transform .25s var(--ease); }
+  .btn:hover, .btn.is-hover { --bg: var(--green-hover); }
+  .btn:hover svg, .btn.is-hover svg { transform: translateX(3px); }
+  .btn:active, .btn.is-active { --bg: var(--green-active); transform: scale(.98); }
+  .btn:focus-visible, .btn.is-focus { outline: 2px solid var(--green); outline-offset: 3px; }
+  .btn[disabled], .btn.is-disabled { --bg: var(--disabled-bg); --fg: var(--disabled-fg); --bd: transparent; cursor: not-allowed; transform: none; }
+  .btn[disabled] svg, .btn.is-disabled svg { transform: none; }
+  .btn.secondary { --bg: var(--olive); --fg: var(--ink); }
+  .btn.secondary:hover, .btn.secondary.is-hover { --bg: var(--olive-strong); }
+  .btn.secondary:active, .btn.secondary.is-active { --bg: #97A27E; }
+  .btn.ghost { --bg: transparent; --fg: var(--green); --bd: var(--green); }
+  .btn.ghost:hover, .btn.ghost.is-hover { --bg: var(--olive-light); }
+  .btn.ghost:active, .btn.ghost.is-active { --bg: #D6DCC6; }
+  .btn.secondary[disabled], .btn.secondary.is-disabled, .btn.ghost[disabled], .btn.ghost.is-disabled { --bg: var(--disabled-bg); --fg: var(--disabled-fg); --bd: transparent; }
+  .btn-table-wrap { overflow-x: auto; }
+  .btn-table { border-collapse: separate; border-spacing: 0 14px; min-width: 760px; }
+  .btn-table th { font: 600 12.5px/1.2 var(--text); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); text-align: left; padding: 0 14px 0 0; }
+  .btn-table td { padding-right: 14px; }
+  .btn-table .btn { min-width: 150px; }
+
+  /* Palette */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+  .sw { border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); display: grid; grid-template-rows: 104px auto; }
+  .sw .chip { display: flex; align-items: flex-end; justify-content: space-between; padding: 12px 14px; font: 600 12px/1 var(--text); letter-spacing: .08em; text-transform: uppercase; }
+  .sw .meta { padding: 14px; display: grid; gap: 3px; font-size: 14.5px; line-height: 1.45; }
+  .sw .meta b { font-size: 16px; font-weight: 600; }
+  .sw .hex { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 13.5px; color: var(--ink-2); }
+  .sw .role { color: var(--green); font-weight: 600; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+  .ratio-bar { display: flex; height: 44px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  .ratio-bar div { min-width: 0; display: flex; align-items: center; padding-left: 10px; font: 600 12px/1 var(--text); white-space: nowrap; overflow: hidden; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
+  table.data { width: 100%; border-collapse: collapse; min-width: 620px; font-size: 15px; }
+  table.data th, table.data td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.data th { font: 600 12.5px/1.3 var(--text); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); background: var(--stone); }
+  table.data tr:last-child td { border-bottom: 0; }
+  table.data td.num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font: 600 12.5px/1 var(--text); padding: 6px 10px; border-radius: 999px; white-space: nowrap; }
+  .pill.ok { background: var(--olive-light); color: var(--green); }
+  .pill.lim { background: #F3E1D7; color: var(--terra-text); }
+  .pill.no { background: #F2D9D4; color: var(--error); }
+  .sample { display: inline-flex; align-items: center; justify-content: center; min-width: 64px; padding: 6px 10px; border-radius: 10px; font-weight: 600; }
+
+  /* Typo */
+  .type-row { display: grid; grid-template-columns: 190px 1fr; gap: 20px; padding-block: 22px; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .type-row:first-child { border-top: 1px solid var(--line); }
+  .type-row .spec { font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+  .type-row .spec b { display: block; color: var(--green); font-size: 14px; letter-spacing: .06em; text-transform: uppercase; }
+  @media (max-width: 640px) { .type-row { grid-template-columns: 1fr; gap: 8px; } }
+  .t-h1 { font: 500 clamp(40px, 6vw, 72px)/1.04 var(--display); font-stretch: 92%; letter-spacing: -0.02em; color: var(--green); }
+  .t-h2 { font: 500 clamp(30px, 4vw, 52px)/1.08 var(--display); font-stretch: 92%; letter-spacing: -0.018em; color: var(--green); }
+  .t-h3 { font: 500 clamp(21px, 2.2vw, 26px)/1.2 var(--display); font-stretch: 92%; letter-spacing: -0.01em; color: var(--green); }
+  .t-body { font: 400 clamp(17px, 1.4vw, 18px)/1.65 var(--text); max-width: 62ch; }
+  .t-small { font: 400 15px/1.5 var(--text); color: var(--ink-2); max-width: 62ch; }
+  .t-btn { font: 600 16px/1 var(--text); letter-spacing: .005em; color: var(--green); }
+  .t-cap { font: 600 13px/1.3 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+  .t-num { font: 500 clamp(88px, 12vw, 150px)/.9 var(--display); font-stretch: 92%; letter-spacing: -0.04em; color: var(--green); font-variant-numeric: tabular-nums; }
+  .fontpair { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .fontcard { border-radius: 24px; padding: 24px; display: grid; gap: 10px; align-content: start; }
+  .fontcard .big { font-size: clamp(44px, 9vw, 64px); line-height: 1; color: var(--green); white-space: nowrap; }
+
+  /* Cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; align-items: start; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 22px; display: grid; gap: 12px; align-content: start; }
+  .card .tag { font: 600 12px/1.3 var(--text); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
+  .icon-disc { width: 48px; height: 48px; border-radius: 50%; background: var(--olive-light); color: var(--green); display: grid; place-items: center; }
+  .icon-disc svg { width: 22px; height: 22px; }
+  .card h3 { font-size: 21px; }
+  .card p { font-size: 15.5px; line-height: 1.55; color: var(--ink-2); }
+  .card.pilier { background: var(--olive); border-color: transparent; }
+  .card.pilier p { color: var(--ink); }
+  .card.pilier .tag { color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .card.pilier .tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--terra); }
+  .card.metric .val { font: 500 44px/1 var(--display); font-stretch: 92%; color: var(--line-strong); letter-spacing: -0.02em; }
+  .card.metric dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 14px; }
+  .card.metric dt { color: var(--ink-2); }
+  .card.metric dd { margin: 0; }
+  .card.future { background: transparent; border: 1.5px dashed var(--line-strong); }
+  .card.founder { padding: 14px 14px 20px; }
+  .founder-arch { aspect-ratio: 3/4; border-radius: 999px 999px 14px 14px / 50% 50% 14px 14px; background: var(--olive-light); display: grid; place-items: center; }
+  .founder-arch span { font: 500 72px/1 var(--display); font-stretch: 92%; color: var(--green); }
+  .founder-arch small { display: block; text-align: center; font: 600 11.5px/1.3 var(--text); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); margin-top: 6px; }
+  .card.founder .who { padding-inline: 8px; display: grid; gap: 2px; }
+
+  details.faq { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; }
+  details.faq + details.faq { margin-top: 10px; }
+  details.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 20px; min-height: 56px; font: 500 18px/1.35 var(--display); font-stretch: 92%; color: var(--green); border-radius: 20px; }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary .chev { width: 36px; height: 36px; border-radius: 50%; background: var(--olive-light); display: grid; place-items: center; flex: none; transition: transform .25s var(--ease); }
+  details.faq summary .chev svg { width: 18px; height: 18px; }
+  details.faq[open] summary .chev { transform: rotate(180deg); }
+  details.faq .ans { padding: 0 20px 20px; font-size: 16px; color: var(--ink); max-width: 64ch; }
+
+  /* Badges données */
+  .badges { display: flex; flex-wrap: wrap; gap: 10px; }
+  .dbadge { display: inline-flex; align-items: center; gap: 8px; font: 600 13px/1 var(--text); letter-spacing: .04em; padding: 9px 13px; border-radius: 999px; min-height: 34px; }
+  .dbadge svg { width: 15px; height: 15px; }
+  .dbadge.reel { background: var(--green); color: var(--cream); }
+  .dbadge.sim { color: var(--ink); background: repeating-linear-gradient(135deg, var(--olive) 0 5px, var(--olive-light) 5px 10px); }
+  .dbadge.est { color: var(--ink); border: 1.5px solid var(--ink-2); background: var(--surface); }
+  .dbadge.proj { color: var(--ink); border: 1.5px dashed var(--ink-2); background: var(--surface); }
+  .legend-svg { width: 100%; max-width: 560px; height: auto; }
+
+  /* Champs */
+  .field { display: grid; gap: 6px; }
+  .field label { font-weight: 600; font-size: 15px; }
+  .field label .opt { font-weight: 400; color: var(--ink-2); }
+  .field input { font: 400 17px/1.4 var(--text); color: var(--ink); background: var(--surface); border: 1.5px solid var(--line-strong); border-radius: 14px; min-height: 52px; padding: 12px 14px; width: 100%; }
+  .field input:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; border-color: var(--green); }
+  .field .help { font-size: 14px; color: var(--ink-2); }
+  .field.err input { border-color: var(--error); border-width: 2px; }
+  .field .msg { display: flex; gap: 8px; align-items: flex-start; font-size: 14.5px; color: var(--error); font-weight: 500; }
+  .field .msg svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+
+  /* Arborescence */
+  .tree { display: grid; gap: 10px; }
+  .node { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px 18px; }
+  .node code { background: var(--olive-light); white-space: nowrap; }
+  .node p { font-size: 15.5px; line-height: 1.5; color: var(--ink-2); }
+  .node p b { color: var(--ink); font-weight: 600; }
+  .node.child { margin-left: clamp(16px, 4vw, 40px); }
+  ol.flow { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: s; }
+  ol.flow li { counter-increment: s; display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  ol.flow li::before { content: counter(s, decimal-leading-zero); font: 500 15px/1.6 var(--display); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  ol.flow li b { font-weight: 600; color: var(--green); }
+  ol.flow li p { font-size: 15.5px; color: var(--ink-2); line-height: 1.5; }
+  .moved { font: 600 11.5px/1 var(--text); letter-spacing: .08em; text-transform: uppercase; color: var(--terra-text); background: #F3E1D7; border-radius: 999px; padding: 5px 9px; margin-left: 8px; vertical-align: 2px; white-space: nowrap; }
+
+  /* Questions */
+  .qgroups { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; align-items: start; }
+  .qgroup { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 22px; display: grid; gap: 12px; }
+  .qgroup h3 { font-size: 20px; }
+  .qgroup ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .qgroup li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; font-size: 15.5px; line-height: 1.5; }
+  .qgroup li::before { content: ""; width: 14px; height: 14px; border: 1.5px solid var(--line-strong); border-radius: 4px; margin-top: 4px; }
+  .qgroup li.prio::before { border-color: var(--terra); background: #F3E1D7; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; counter-reset: st; }
+  .step { counter-increment: st; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 20px; display: grid; gap: 8px; align-content: start; }
+  .step::before { content: "Étape " counter(st); font: 600 12px/1 var(--text); letter-spacing: .12em; text-transform: uppercase; color: var(--terra-text); }
+  .step b { font-family: var(--display); font-stretch: 92%; font-weight: 500; font-size: 20px; color: var(--green); line-height: 1.2; }
+  .step p { font-size: 15px; color: var(--ink-2); line-height: 1.5; }
+
+  .note { font-size: 14.5px; color: var(--ink-2); }
+  .foot { padding-top: 40px; border-top: 1px solid var(--line); display: flex; gap: 16px; justify-content: space-between; flex-wrap: wrap; align-items: center; font-size: 14px; color: var(--ink-2); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="mark" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="50" fill="var(--disc, #354943)"/>
+      <path d="M32 80.6V50a18 18 0 0 1 36 0v30.6z" fill="var(--door, #F5F0E7)"/>
+      <circle cx="61.2" cy="66.8" r="3.4" fill="var(--knob, #BB6C51)"/>
+    </symbol>
+    <symbol id="mark-mono" viewBox="0 0 100 100">
+      <path fill-rule="evenodd" fill="#354943" d="M50 0a50 50 0 1 0 0 100A50 50 0 1 0 50 0zM32 80.6V50a18 18 0 0 1 36 0v30.6z"/>
+      <circle cx="61.2" cy="66.8" r="3.4" fill="#354943"/>
+    </symbol>
+    <symbol id="mark-fav" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="50" fill="#354943"/>
+      <path d="M30 80V50a20 20 0 0 1 40 0v30z" fill="#F5F0E7"/>
+      <circle cx="61" cy="66" r="5.6" fill="#BB6C51"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path class="ico" d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path class="ico" d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path class="ico" d="M5 12h14M12 5l7 7-7 7"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path class="ico" d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path class="ico" d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle class="ico" cx="12" cy="13" r="3"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle class="ico" cx="7.5" cy="15.5" r="4.5"/><path class="ico" d="m10.7 12.3 9.8-9.8M17 6l3 3M14.5 8.5l2 2"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle class="ico" cx="12" cy="12" r="10"/><path class="ico" d="M12 8v4M12 16h.01"/></symbol>
+    <symbol id="i-calc" viewBox="0 0 24 24"><rect class="ico" x="4" y="2" width="16" height="20" rx="2"/><path class="ico" d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h8"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24"><path class="ico" d="m22 7-8.5 8.5-5-5L2 17"/><path class="ico" d="M16 7h6v6"/></symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="topbar">
+    <span class="lockup-h" aria-label="Comme à la maison, votre conciergerie">
+      <svg aria-hidden="true"><use href="#mark"/></svg>
+      <span><span class="wm">Comme à la maison</span><span class="bl">Votre conciergerie</span></span>
+    </span>
+    <span class="status">Proposition v1 · à valider · 24 septembre 2026</span>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="t-intro">
+      <p class="eyebrow">Avant le développement</p>
+      <h1 id="t-intro">Direction artistique et plan du site<span class="dot">.</span></h1>
+      <p class="lead">Ce document reprend les étapes demandées avant de coder : analyse du logo, lecture de la référence, direction artistique, palette, typographies, composants, arborescence et informations manquantes. Rien n’est développé tant que vous ne l’avez pas validé.</p>
+      <div class="decisions">
+        <div class="decision"><b>Concept</b><span>« La porte ouverte » : l’arche, la poignée et le disque du logo deviennent les motifs du site.</span></div>
+        <div class="decision"><b>Couleurs</b><span>Olive pastel en grandes surfaces, vert du logo pour le texte et les boutons, terracotta seulement en ponctuation.</span></div>
+        <div class="decision"><b>Typographies</b><span>Instrument Sans pour les titres, Hanken Grotesk pour le texte. Deux grotesques, cousines de l’Helvetica du logo.</span></div>
+        <div class="decision"><b>Parcours</b><span>Une page d’accueil de conversion en 13 sections, une page Transparence, deux pages légales.</span></div>
+      </div>
+      <nav class="toc" aria-label="Sommaire">
+        <a href="#logo">1 · Logo</a><a href="#reference">2 · Référence</a><a href="#concept">3 · Direction</a><a href="#couleurs">4 · Couleurs</a><a href="#typo">5 · Typographie</a><a href="#composants">6 · Composants</a><a href="#architecture">7 · Architecture</a><a href="#technique">8 · Technique</a><a href="#questions">9 · Questions</a><a href="#etapes">10 · Étapes</a>
+      </nav>
+    </section>
+
+    <!-- 1. LOGO -->
+    <section class="block" id="logo" aria-labelledby="t-logo">
+      <div class="sec-head">
+        <p class="eyebrow">1 · Analyse du logo</p>
+        <h2 id="t-logo">Le logo, point de départ du design system<span class="dot">.</span></h2>
+        <p class="lead">Le dépôt GitHub est vide : le seul fichier du logo est l’image PNG que vous avez jointe (2170 × 1410 px, fond crème, sans transparence). Je l’ai mesurée au pixel près et redessinée en vectoriel, sans rien changer à sa forme.</p>
+      </div>
+
+      <div class="geo">
+        <svg viewBox="-14 -14 128 134" role="img" aria-labelledby="geo-t">
+          <title id="geo-t">Géométrie du symbole : disque, porte en arche concentrique et poignée</title>
+          <use href="#mark" x="0" y="0" width="100" height="100"/>
+          <circle cx="50" cy="50" r="18" fill="none" stroke="#BB6C51" stroke-width=".5" stroke-dasharray="1.4 1.2"/>
+          <line x1="50" y1="-6" x2="50" y2="106" stroke="#BB6C51" stroke-width=".35" stroke-dasharray="1 1.2"/>
+          <line x1="-6" y1="50" x2="106" y2="50" stroke="#BB6C51" stroke-width=".35" stroke-dasharray="1 1.2"/>
+          <circle cx="50" cy="50" r="1.2" fill="#BB6C51"/>
+          <line x1="32" y1="80.6" x2="32" y2="108" stroke="#56625C" stroke-width=".3" stroke-dasharray="1 1"/>
+          <line x1="68" y1="80.6" x2="68" y2="108" stroke="#56625C" stroke-width=".3" stroke-dasharray="1 1"/>
+          <line x1="32" y1="106" x2="68" y2="106" stroke="#56625C" stroke-width=".45"/>
+          <line x1="32" y1="104" x2="32" y2="108" stroke="#56625C" stroke-width=".45"/>
+          <line x1="68" y1="104" x2="68" y2="108" stroke="#56625C" stroke-width=".45"/>
+          <text x="50" y="114" text-anchor="middle" font-size="4.6" fill="#56625C" font-family="Hanken Grotesk, Arial">porte : 36 % du Ø</text>
+          <line x1="104" y1="32" x2="104" y2="80.6" stroke="#56625C" stroke-width=".45"/>
+          <line x1="102" y1="32" x2="106" y2="32" stroke="#56625C" stroke-width=".45"/>
+          <line x1="102" y1="80.6" x2="106" y2="80.6" stroke="#56625C" stroke-width=".45"/>
+          <text x="108" y="58" font-size="4.6" fill="#56625C" font-family="Hanken Grotesk, Arial" transform="rotate(90 108 58)" text-anchor="middle">hauteur ≈ 4/3 × largeur</text>
+          <text x="50" y="-7" text-anchor="middle" font-size="4.6" fill="#9E5139" font-family="Hanken Grotesk, Arial">arche concentrique au disque</text>
+        </svg>
+        <dl class="facts">
+          <div><dt>Couleurs</dt><dd>Vert <code>#354943</code>, crème <code>#F5F0E7</code>, terracotta <code>#BB6C51</code>. Trois couleurs, aucun dégradé.</dd></div>
+          <div><dt>Symbole</dt><dd>Un disque plein dans lequel une porte en arche est découpée. La porte n’est pas dessinée : c’est le fond qui apparaît, comme une porte ouverte sur la lumière.</dd></div>
+          <div><dt>Proportions</dt><dd>La porte fait 36 % du diamètre en largeur et 48,6 % en hauteur, soit un rapport proche de 3:4. Le centre de l’arche est exactement le centre du disque.</dd></div>
+          <div><dt>Poignée</dt><dd>Point terracotta de 6,8 % du diamètre, placé au quatre-cinquième de la largeur de la porte. C’est le seul accent chaud du logo.</dd></div>
+          <div><dt>Wordmark</dt><dd>« Comme à la maison » en grotesque de type Helvetica, graisse normale, en minuscules. Il mesure 2,45 fois le diamètre du symbole.</dd></div>
+          <div><dt>Baseline</dt><dd>« Votre conciergerie » en terracotta, un peu plus de la moitié de la taille du wordmark, centrée.</dd></div>
+        </dl>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <h3>Ce qui bloque une intégration parfaite</h3>
+          <ol class="fixes" style="margin-top:16px">
+            <li><span><b>Pas de fichier vectoriel.</b> Un PNG sur fond crème ne s’affiche pas proprement sur un fond olive ou vert. Le symbole est redessiné en SVG avec la géométrie ci-dessus.</span></li>
+            <li><span><b>Le texte est en Helvetica.</b> Pour un SVG fiable, il faut le vectoriser. Sans fichier source, je le recompose avec TeX Gyre Heros, un équivalent libre d’Helvetica, pour un rendu identique à l’œil.</span></li>
+            <li><span><b>Format vertical trop haut pour une barre de navigation.</b> J’ajoute une version horizontale, symbole à gauche.</span></li>
+            <li><span><b>À 16 px, la poignée fait moins d’un pixel.</b> Le favicon garde le même dessin avec une poignée et une porte légèrement agrandies.</span></li>
+            <li><span><b>Sur fond vert, le disque disparaît.</b> Version inversée : disque crème, porte de la couleur du fond. La logique reste la même, la porte est toujours le vide.</span></li>
+          </ol>
+        </div>
+        <div class="panel olive-light">
+          <h3>Règles d’usage proposées</h3>
+          <ul class="clean" style="margin-top:16px">
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Zone de protection autour du logo : le rayon de l’arche (18 % du diamètre du symbole) sur les quatre côtés.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Tailles minimales : symbole 24 px, version horizontale 140 px de large, version verticale 120 px.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Le symbole seul sert d’icône (favicon, réseaux sociaux, écran d’accueil mobile).</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>On ne déforme pas, on ne recolore pas la poignée en dehors des variantes prévues, on ne pose pas le logo sur une photo chargée.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="logo-stage">
+        <figure class="logo-card on-cream">
+          <svg class="logo-vert" viewBox="-80 -8 260 192" role="img" aria-label="Logo principal, version verticale">
+            <use href="#mark" x="0" y="0" width="100" height="100"/>
+            <text x="50" y="143.6" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27.5" fill="#354943" textLength="244.7" lengthAdjust="spacingAndGlyphs">Comme à la maison</text>
+            <text x="50" y="172.6" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16.7" fill="#BB6C51" textLength="133.4" lengthAdjust="spacingAndGlyphs">Votre conciergerie</text>
+          </svg>
+          <figcaption><b>Principal · fond clair</b>Version d’origine, inchangée. Footer, page contact, documents.</figcaption>
+        </figure>
+        <figure class="logo-card on-green">
+          <svg class="logo-vert" viewBox="-80 -8 260 192" role="img" aria-label="Logo sur fond foncé" style="--disc:#F5F0E7;--door:#354943;--knob:#D4896B">
+            <use href="#mark" x="0" y="0" width="100" height="100"/>
+            <text x="50" y="143.6" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="27.5" fill="#F5F0E7" textLength="244.7" lengthAdjust="spacingAndGlyphs">Comme à la maison</text>
+            <text x="50" y="172.6" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16.7" fill="#E0A48A" textLength="133.4" lengthAdjust="spacingAndGlyphs">Votre conciergerie</text>
+          </svg>
+          <figcaption><b>Fond foncé</b>Disque crème, porte vert maison, poignée <code style="background:#2A3B36;color:#F5F0E7">#D4896B</code> et baseline <code style="background:#2A3B36;color:#F5F0E7">#E0A48A</code> éclaircies pour rester lisibles.</figcaption>
+        </figure>
+        <figure class="logo-card on-olive">
+          <span class="lockup-h" style="justify-self:start">
+            <svg aria-hidden="true"><use href="#mark"/></svg>
+            <span><span class="wm">Comme à la maison</span><span class="bl" style="color:#23302B">Votre conciergerie</span></span>
+          </span>
+          <figcaption><b>Horizontal · navigation</b>Symbole à gauche, wordmark à droite. Sur olive, la baseline passe en vert encre pour garder un contraste suffisant.</figcaption>
+        </figure>
+        <figure class="logo-card on-cream">
+          <div class="fav-row">
+            <div><svg width="16" height="16" aria-hidden="true"><use href="#mark-fav"/></svg>16 px</div>
+            <div><svg width="32" height="32" aria-hidden="true"><use href="#mark-fav"/></svg>32 px</div>
+            <div><svg width="64" height="64" aria-hidden="true"><use href="#mark-fav"/></svg>64 px</div>
+            <div><svg width="64" height="64" aria-hidden="true"><use href="#mark-mono"/></svg>Monochrome</div>
+          </div>
+          <figcaption><b>Favicon et monochrome</b>Favicon avec poignée agrandie. Version une couleur pour les tampons, la gravure ou les documents imprimés en noir.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 2. RÉFÉRENCE -->
+    <section class="block" id="reference" aria-labelledby="t-ref">
+      <div class="sec-head">
+        <p class="eyebrow">2 · Référence</p>
+        <h2 id="t-ref">La Conciergerie du Pyla : ce qu’on en retient<span class="dot">.</span></h2>
+        <p class="lead">J’ai parcouru <a href="https://www.conciergeriedupyla.com/" target="_blank" rel="noopener">conciergeriedupyla.com</a> page par page (accueil, offre, à propos, contact). Voici les codes du secteur qui fonctionnent, et ce que Comme à la Maison fera autrement. Aucun texte, visuel ou mise en page n’est repris.</p>
+      </div>
+      <div class="compare">
+        <div class="panel">
+          <h3>Les bons codes du secteur</h3>
+          <ul class="clean" style="margin-top:16px">
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Une navigation courte (4 entrées) et un seul bouton d’action, toujours visible.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Alternance photo et texte, avec des listes à coches qui se lisent en quelques secondes.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Un sur-titre court au-dessus de chaque section.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>L’offre découpée en étapes numérotées.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Un contact en deux volets : réassurance d’un côté, formulaire court de l’autre, consentement RGPD explicite.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Un footer utile : zones d’intervention, contact direct, liens légaux.</span></li>
+          </ul>
+        </div>
+        <div class="panel olive">
+          <h3>Ce que nous faisons autrement</h3>
+          <ul class="clean" style="margin-top:16px">
+            <li><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>Leur prix n’est affiché nulle part. Chez nous, les 20 % apparaissent dès le premier écran et ont leur propre section.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>Leurs visuels affichent des montants (« 20 M€ », « +45 % ») sans source ni période. Chez nous, aucun chiffre sans source, et chaque donnée porte son statut : réelle, simulation, estimation ou projection.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>Pas d’avis ni de logos Airbnb ou Booking tant que nous n’avons ni avis vérifiés ni partenariat.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>Titres gras bicolores et bleu-gris chez eux ; titres fins, olive pastel et motif de l’arche chez nous.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>Les fondateurs présentés avec leurs vraies photos uniquement, jamais d’images de banque.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CONCEPT -->
+    <section class="block" id="concept" aria-labelledby="t-concept">
+      <div class="sec-head">
+        <p class="eyebrow">3 · Direction artistique</p>
+        <h2 id="t-concept">La porte ouverte<span class="dot">.</span></h2>
+        <p class="lead">Le logo montre une porte qui s’ouvre sur la lumière. Le site prolonge cette image : on entre dans un logement bordelais lumineux, pierre blonde, parquet, lin blanc et plantes. Quatre motifs, tous tirés du logo, suffisent à rendre la marque reconnaissable.</p>
+      </div>
+      <div class="motifs">
+        <div class="motif">
+          <div class="viz" aria-hidden="true"><div style="width:54px;height:72px;background:var(--green);border-radius:27px 27px 4px 4px"></div></div>
+          <h3>L’arche</h3>
+          <p>La porte du logo, qui rappelle les portes cintrées des échoppes bordelaises. Elle cadre les photos clés au format 3:4.</p>
+        </div>
+        <div class="motif">
+          <div class="viz" aria-hidden="true"><span style="font:500 40px/1 var(--display);font-stretch:92%;color:var(--green)">tout<span class="dot">.</span></span></div>
+          <h3>La poignée</h3>
+          <p>Le point terracotta, c’est le détail. Il termine les grands titres, marque la page active et jalonne le parcours. Un ou deux par écran, pas plus.</p>
+        </div>
+        <div class="motif">
+          <div class="viz" aria-hidden="true" style="background:var(--olive)"><div style="width:70%;height:12px;border-radius:6px;background:var(--olive-light)"></div></div>
+          <h3>Les aplats olive</h3>
+          <p>La couleur principale en grandes surfaces calmes : sections, tarif, cartes clés. Jamais pour du petit texte.</p>
+        </div>
+        <div class="motif">
+          <div class="viz" aria-hidden="true"><div style="display:flex;gap:8px"><span style="width:44px;height:44px;border-radius:50%;background:var(--green)"></span><span style="width:96px;height:44px;border-radius:22px;background:var(--olive)"></span></div></div>
+          <h3>Le disque</h3>
+          <p>Boutons en pilule, pastilles d’icônes rondes. Aucun angle vif dans l’interface, comme dans le symbole.</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <h3>Photographies</h3>
+          <ul class="clean" style="margin-top:16px">
+            <li><svg aria-hidden="true"><use href="#i-camera"/></svg><span>Lumière naturelle, heure dorée ou matin. Pas de flash, pas de HDR.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-camera"/></svg><span>Matières : pierre blonde, parquet, lin blanc, bois, céramique, plantes.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-camera"/></svg><span>Détails préparés : un lit fait, une clé posée, un plateau d’accueil. Des scènes de vie discrètes, sans visages mis en scène.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-camera"/></svg><span>Bordeaux reconnaissable par l’architecture (façades, balcons, échoppes), pas par les cartes postales.</span></li>
+          </ul>
+          <p class="note" style="margin-top:14px">En attendant vos photos, je propose des images libres de droits (licence Unsplash) choisies avec soin et signalées comme provisoires dans un seul fichier, pour être remplacées en une ligne.</p>
+        </div>
+        <div class="panel dark">
+          <h3 style="color:var(--cream)">Ce qu’on évite</h3>
+          <ul class="clean" style="margin-top:16px">
+            <li><svg aria-hidden="true"><use href="#i-x"/></svg><span>Noir pur, vert saturé, dorures, dégradés, effets 3D.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-x"/></svg><span>Le trio « crème, serif, terracotta » très répandu sur les sites générés : ici le terracotta reste une ponctuation et les titres restent en grotesque, fidèles au logo.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-x"/></svg><span>Faux tableaux de bord, faux avis, compteurs de chiffres inventés.</span></li>
+            <li><svg aria-hidden="true"><use href="#i-x"/></svg><span>Illustrations enfantines et emojis.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sec-head" style="margin-top:8px">
+        <h3>Aperçu du premier écran</h3>
+        <p class="muted">Maquette simplifiée pour juger l’équilibre. La photo est un emplacement : la vraie sera une photographie d’intérieur.</p>
+      </div>
+      <div class="mock" aria-label="Aperçu du hero de la page d’accueil">
+        <div class="mock-nav">
+          <span class="lockup-h"><svg aria-hidden="true"><use href="#mark"/></svg><span><span class="wm">Comme à la maison</span><span class="bl">Votre conciergerie</span></span></span>
+          <nav aria-label="Navigation de la maquette"><span class="on">Accompagnement</span><span>Tarifs</span><span>Simulateur</span><span>Qui sommes-nous</span><span>Transparence</span><span>FAQ</span></nav>
+          <span class="btn" style="min-height:44px;padding:0 18px;font-size:15px">Estimer mon logement</span>
+        </div>
+        <div class="mock-body">
+          <div>
+            <h1><span class="kw">Conciergerie Airbnb à Bordeaux</span>Votre logement, notre savoir‑faire<span class="dot">.</span></h1>
+            <p class="sub">Conciergerie Airbnb et location courte durée à Bordeaux et dans sa métropole.</p>
+            <p class="sub2">De l’estimation de votre logement à l’accueil des voyageurs, nous nous occupons de tout.</p>
+            <div class="ctas">
+              <span class="btn">Estimer mon logement <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+              <span class="btn ghost">Découvrir notre accompagnement</span>
+            </div>
+            <div class="trust"><span>20 % des revenus locatifs, tout compris</span><span>Bordeaux et métropole</span><span>Deux associés, un interlocuteur</span></div>
+          </div>
+          <div class="arch-wrap">
+            <div class="arch" role="img" aria-label="Emplacement photo"><span class="ph">Emplacement photo : salon bordelais, parquet, lumière du matin</span></div>
+            <div class="float"><small>Commission unique</small><strong>20 %</strong><span>des revenus locatifs, pour une gestion complète</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="note">Le H1 commence par « Conciergerie Airbnb à Bordeaux » en petites capitales : le mot-clé principal est dans le titre pour le référencement, le slogan reste la phrase qu’on lit. « savoir‑faire » utilise un trait d’union insécable pour ne jamais être coupé en fin de ligne.</p>
+    </section>
+
+    <!-- 4. COULEURS -->
+    <section class="block" id="couleurs" aria-labelledby="t-col">
+      <div class="sec-head">
+        <p class="eyebrow">4 · Couleurs</p>
+        <h2 id="t-col">Une palette tirée du logo<span class="dot">.</span></h2>
+        <p class="lead">Le vert du logo (<code>#354943</code>) n’est pas un olive : c’est un vert de gris profond. L’olive pastel demandé devient donc la couleur des grandes surfaces, et le vert du logo celle du texte et des boutons. Testé côte à côte, cet olive tient avec le symbole sans jurer.</p>
+      </div>
+
+      <div class="swatches">
+        <div class="sw"><div class="chip" style="background:#B4BE9C;color:#23302B"><span>Olive</span></div><div class="meta"><span class="role">Primary</span><b>Olive pastel</b><span class="hex">#B4BE9C</span><span class="muted">Grandes surfaces, bouton secondaire.</span></div></div>
+        <div class="sw"><div class="chip" style="background:#354943;color:#F5F0E7"><span>Logo</span></div><div class="meta"><span class="role">Primary Dark</span><b>Vert maison</b><span class="hex">#354943</span><span class="muted">Titres, boutons, footer. Couleur du logo.</span></div></div>
+        <div class="sw"><div class="chip" style="background:#E4E8D8;color:#23302B"><span>Dérivé</span></div><div class="meta"><span class="role">Primary Light</span><b>Olive brume</b><span class="hex">#E4E8D8</span><span class="muted">Pastilles d’icônes, survols, fonds doux.</span></div></div>
+        <div class="sw"><div class="chip" style="background:#F5F0E7;color:#23302B;border-bottom:1px solid #DDD3C1"><span>Logo</span></div><div class="meta"><span class="role">Background</span><b>Crème</b><span class="hex">#F5F0E7</span><span class="muted">Fond principal du site. Fond du logo.</span></div></div>
+        <div class="sw"><div class="chip" style="background:#EDE4D3;color:#23302B"><span>Dérivé</span></div><div class="meta"><span class="role">Background Secondary</span><b>Pierre blonde</b><span class="hex">#EDE4D3</span><span class="muted">Sections alternées. La couleur des façades bordelaises.</span></div></div>
+        <div class="sw"><div class="chip" style="background:#FBF8F2;color:#23302B;border-bottom:1px solid #DDD3C1"><span>Dérivé</span></div><div class="meta"><span class="role">Surface</span><b>Blanc cassé</b><span class="hex">#FBF8F2</span><span class="muted">Cartes, champs de formulaire.</span></div></div>
+        <div class="sw"><div class="chip" style="background:#23302B;color:#F5F0E7"><span>Dérivé</span></div><div class="meta"><span class="role">Text</span><b>Encre</b><span class="hex">#23302B</span><span class="muted">Texte courant. Un vert très sombre, jamais de noir pur.</span></div></div>
+        <div class="sw"><div class="chip" style="background:#56625C;color:#F5F0E7"><span>Dérivé</span></div><div class="meta"><span class="role">Text Secondary</span><b>Gris sauge</b><span class="hex">#56625C</span><span class="muted">Légendes, sur-titres, textes d’aide.</span></div></div>
+        <div class="sw"><div class="chip" style="background:#DDD3C1;color:#23302B"><span>Dérivé</span></div><div class="meta"><span class="role">Border</span><b>Lin</b><span class="hex">#DDD3C1</span><span class="muted">Séparateurs. Champs : <span class="hex">#7F8A83</span>.</span></div></div>
+        <div class="sw"><div class="chip" style="background:#BB6C51;color:#FBF8F2"><span>Logo</span></div><div class="meta"><span class="role">Accent</span><b>Terracotta</b><span class="hex">#BB6C51</span><span class="muted">La poignée. Points, repères, grands chiffres.</span></div></div>
+        <div class="sw"><div class="chip" style="background:#9E5139;color:#FBF8F2"><span>Dérivé</span></div><div class="meta"><span class="role">Accent Text</span><b>Terracotta foncé</b><span class="hex">#9E5139</span><span class="muted">Terracotta pour les textes de petite taille.</span></div></div>
+        <div class="sw"><div class="chip" style="background:#A33A2B;color:#FBF8F2"><span>État</span></div><div class="meta"><span class="role">Error</span><b>Brique</b><span class="hex">#A33A2B</span><span class="muted">Erreurs de formulaire, toujours avec icône et texte.</span></div></div>
+      </div>
+
+      <div>
+        <h3 style="margin-bottom:12px">Proportions indicatives sur une page</h3>
+        <div class="ratio-bar" role="img" aria-label="Crème 45 %, olive 25 %, vert maison 18 %, pierre blonde 10 %, terracotta 2 %">
+          <div style="flex:45;background:#F5F0E7;color:#23302B">Crème 45 %</div>
+          <div style="flex:25;background:#B4BE9C;color:#23302B">Olive 25 %</div>
+          <div style="flex:18;background:#354943;color:#F5F0E7">Vert 18 %</div>
+          <div style="flex:10;background:#EDE4D3;color:#23302B">Pierre 10 %</div>
+          <div style="flex:2;background:#BB6C51"></div>
+        </div>
+        <p class="note" style="margin-top:8px">Le dernier segment, à peine visible, est le terracotta : 2 % de la surface.</p>
+      </div>
+
+      <div>
+        <h3 style="margin-bottom:12px">Contrastes vérifiés (WCAG 2.2)</h3>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>Combinaison</th><th>Aperçu</th><th>Ratio</th><th>Résultat</th><th>Règle</th></tr></thead>
+            <tbody>
+              <tr><td>Encre sur crème</td><td><span class="sample" style="background:#F5F0E7;color:#23302B;border:1px solid #DDD3C1">Texte</span></td><td class="num">12,1:1</td><td><span class="pill ok">AAA</span></td><td>Texte courant.</td></tr>
+              <tr><td>Vert maison sur crème</td><td><span class="sample" style="background:#F5F0E7;color:#354943;border:1px solid #DDD3C1">Titre</span></td><td class="num">8,5:1</td><td><span class="pill ok">AAA</span></td><td>Titres, liens, boutons fantômes.</td></tr>
+              <tr><td>Crème sur vert maison</td><td><span class="sample" style="background:#354943;color:#F5F0E7">Bouton</span></td><td class="num">8,5:1</td><td><span class="pill ok">AAA</span></td><td>Bouton principal, footer.</td></tr>
+              <tr><td>Encre sur olive</td><td><span class="sample" style="background:#B4BE9C;color:#23302B">Texte</span></td><td class="num">7,1:1</td><td><span class="pill ok">AAA</span></td><td>Seule couleur de texte courant sur olive.</td></tr>
+              <tr><td>Gris sauge sur crème</td><td><span class="sample" style="background:#F5F0E7;color:#56625C;border:1px solid #DDD3C1">Légende</span></td><td class="num">5,6:1</td><td><span class="pill ok">AA</span></td><td>Textes secondaires.</td></tr>
+              <tr><td>Terracotta foncé sur crème</td><td><span class="sample" style="background:#F5F0E7;color:#9E5139;border:1px solid #DDD3C1">Lien</span></td><td class="num">5,0:1</td><td><span class="pill ok">AA</span></td><td>Terracotta en petit texte.</td></tr>
+              <tr><td>Terracotta sur crème</td><td><span class="sample" style="background:#F5F0E7;color:#BB6C51;border:1px solid #DDD3C1">20 %</span></td><td class="num">3,4:1</td><td><span class="pill lim">Grand texte</span></td><td>Seulement au-dessus de 24 px, ou pour un élément graphique.</td></tr>
+              <tr><td>Bordure de champ sur blanc cassé</td><td><span class="sample" style="background:#FBF8F2;border:1.5px solid #7F8A83;color:#56625C">Champ</span></td><td class="num">3,4:1</td><td><span class="pill ok">AA · 1.4.11</span></td><td>Contour des champs de formulaire.</td></tr>
+              <tr><td>Gris sauge sur olive</td><td><span class="sample" style="background:#B4BE9C;color:#56625C">Légende</span></td><td class="num">3,3:1</td><td><span class="pill no">Interdit</span></td><td>Sur olive, on utilise l’encre.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. TYPO -->
+    <section class="block" id="typo" aria-labelledby="t-typo">
+      <div class="sec-head">
+        <p class="eyebrow">5 · Typographie</p>
+        <h2 id="t-typo">Deux grotesques, dans la lignée du logo<span class="dot">.</span></h2>
+        <p class="lead">Le wordmark est en Helvetica. Plutôt que d’ajouter un serif décoratif, je prolonge cette famille avec deux polices Google Fonts plus actuelles et plus chaleureuses. Elles seront hébergées avec le site : aucun appel à Google pendant la visite, ce qui est plus rapide et plus simple pour le RGPD.</p>
+      </div>
+      <div class="fontpair">
+        <div class="fontcard panel olive">
+          <span class="t-cap" style="color:var(--ink)">Titres · Instrument Sans</span>
+          <span class="big" style="font-family:var(--display);font-stretch:92%;font-weight:500;letter-spacing:-0.02em">Aa Bb 20 %</span>
+          <p style="font-size:15.5px">Graisse 500, largeur resserrée à 92 %, interlettrage –2 %. Élégante en grand, nette sur mobile.</p>
+        </div>
+        <div class="fontcard panel">
+          <span class="t-cap">Texte et interface · Hanken Grotesk</span>
+          <span class="big" style="font-family:var(--text);font-weight:400">Aa Bb 20 %</span>
+          <p style="font-size:15.5px">Grande hauteur d’x, chiffres tabulaires pour le simulateur, très lisible à 17 px sur téléphone.</p>
+        </div>
+      </div>
+      <div>
+        <div class="type-row"><div class="spec"><b>H1</b>Instrument Sans 500<br>42 → 72 px · interligne 1,04</div><div class="t-h1">Votre logement, notre savoir‑faire<span class="dot">.</span></div></div>
+        <div class="type-row"><div class="spec"><b>H2</b>Instrument Sans 500<br>32 → 52 px · interligne 1,08</div><div class="t-h2">Vous louez. Nous gérons<span class="dot">.</span></div></div>
+        <div class="type-row"><div class="spec"><b>H3</b>Instrument Sans 500<br>21 → 26 px · interligne 1,2</div><div class="t-h3">Une attention qui commence dès l’arrivée</div></div>
+        <div class="type-row"><div class="spec"><b>Body</b>Hanken Grotesk 400<br>17 → 18 px · interligne 1,65</div><div class="t-body">Votre logement mérite une attention particulière. Nous prenons en charge chaque étape de sa location courte durée afin que vous puissiez profiter de votre bien sans en gérer les contraintes.</div></div>
+        <div class="type-row"><div class="spec"><b>Small</b>Hanken Grotesk 400<br>15 px · interligne 1,5</div><div class="t-small">Simulation indicative. Les revenus réels peuvent varier selon la saison, la demande, le logement, sa localisation, son positionnement et son taux d’occupation.</div></div>
+        <div class="type-row"><div class="spec"><b>Button</b>Hanken Grotesk 600<br>16 px</div><div class="t-btn">Estimer mon logement</div></div>
+        <div class="type-row"><div class="spec"><b>Caption</b>Hanken Grotesk 600<br>13 px · capitales · +14 %</div><div class="t-cap">Notre accompagnement</div></div>
+        <div class="type-row"><div class="spec"><b>Chiffre clé</b>Instrument Sans 500<br>88 → 150 px · réservé au tarif</div><div class="t-num">20<span style="font-size:.5em;letter-spacing:0"> %</span></div></div>
+      </div>
+    </section>
+
+    <!-- 6. COMPOSANTS -->
+    <section class="block" id="composants" aria-labelledby="t-comp">
+      <div class="sec-head">
+        <p class="eyebrow">6 · Composants</p>
+        <h2 id="t-comp">Boutons, cartes, badges, champs<span class="dot">.</span></h2>
+        <p class="lead">Tous les boutons font au moins 50 px de haut (cible tactile confortable, au-delà du minimum WCAG 2.2 de 24 px). Le focus clavier est toujours visible : un contour vert de 2 px, décalé de 3 px. La ligne « Réel » ci-dessous est interactive.</p>
+      </div>
+
+      <div class="btn-table-wrap">
+        <table class="btn-table">
+          <thead><tr><th></th><th>Default</th><th>Hover</th><th>Active</th><th>Focus</th><th>Disabled</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Primary</th>
+              <td><span class="btn">Estimer <svg aria-hidden="true"><use href="#i-arrow"/></svg></span></td>
+              <td><span class="btn is-hover">Estimer <svg aria-hidden="true"><use href="#i-arrow"/></svg></span></td>
+              <td><span class="btn is-active">Estimer <svg aria-hidden="true"><use href="#i-arrow"/></svg></span></td>
+              <td><span class="btn is-focus">Estimer <svg aria-hidden="true"><use href="#i-arrow"/></svg></span></td>
+              <td><span class="btn is-disabled">Estimer <svg aria-hidden="true"><use href="#i-arrow"/></svg></span></td></tr>
+            <tr><th scope="row">Secondary</th>
+              <td><span class="btn secondary">Découvrir</span></td>
+              <td><span class="btn secondary is-hover">Découvrir</span></td>
+              <td><span class="btn secondary is-active">Découvrir</span></td>
+              <td><span class="btn secondary is-focus">Découvrir</span></td>
+              <td><span class="btn secondary is-disabled">Découvrir</span></td></tr>
+            <tr><th scope="row">Ghost</th>
+              <td><span class="btn ghost">En savoir plus</span></td>
+              <td><span class="btn ghost is-hover">En savoir plus</span></td>
+              <td><span class="btn ghost is-active">En savoir plus</span></td>
+              <td><span class="btn ghost is-focus">En savoir plus</span></td>
+              <td><span class="btn ghost is-disabled">En savoir plus</span></td></tr>
+            <tr><th scope="row">Réel</th>
+              <td colspan="5"><div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn" type="button">Estimer mon logement <svg aria-hidden="true"><use href="#i-arrow"/></svg></button><button class="btn secondary" type="button">Découvrir notre accompagnement</button><button class="btn ghost" type="button">Voir les tarifs</button><button class="btn" type="button" disabled>Envoi en cours…</button></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <span class="tag">Carte service</span>
+          <div class="icon-disc" aria-hidden="true"><svg><use href="#i-key"/></svg></div>
+          <h3>Accueil &amp; check-in</h3>
+          <p>Les voyageurs sont accueillis et reçoivent tout ce qu’il faut pour s’installer.</p>
+        </article>
+        <article class="card pilier">
+          <span class="tag">Transparence</span>
+          <h3>Une commission affichée</h3>
+          <p>20 % des revenus locatifs, clairement indiqués dès la première page.</p>
+        </article>
+        <article class="card metric">
+          <span class="tag">Carte chiffre · état au lancement</span>
+          <span class="dbadge reel" style="justify-self:start"><svg aria-hidden="true"><use href="#i-check"/></svg>Donnée réelle</span>
+          <span class="val" aria-label="Aucune donnée publiée">—</span>
+          <h3>Nuits réservées</h3>
+          <dl><dt>Source</dt><dd>À renseigner</dd><dt>Période</dt><dd>À renseigner</dd></dl>
+          <p>Nos données seront publiées ici au fur et à mesure que notre activité se développe.</p>
+        </article>
+        <article class="card founder">
+          <div class="founder-arch"><div><span>B</span><small>Photo à venir</small></div></div>
+          <div class="who"><h3>Baptiste</h3><span class="muted">Co-fondateur</span></div>
+        </article>
+        <article class="card future">
+          <span class="tag">Témoignage · emplacement réservé</span>
+          <p>Cette carte n’apparaît sur le site que lorsqu’un avis vérifié est ajouté, avec le prénom, le type de logement et la date. Tant qu’il n’y en a pas, la section reste masquée.</p>
+        </article>
+        <div class="card" style="gap:14px">
+          <span class="tag">Champ de formulaire</span>
+          <div class="field">
+            <label for="f-ville">Ville du logement</label>
+            <input id="f-ville" type="text" value="Mérignac" autocomplete="address-level2">
+            <span class="help">Bordeaux ou une commune de la métropole.</span>
+          </div>
+          <div class="field err">
+            <label for="f-mail">Email</label>
+            <input id="f-mail" type="email" value="baptiste@" aria-invalid="true" aria-describedby="f-mail-err">
+            <span class="msg" id="f-mail-err"><svg aria-hidden="true"><use href="#i-alert"/></svg>Adresse incomplète. Exemple : prenom@domaine.fr</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <h3 style="margin-bottom:12px">FAQ en accordéon</h3>
+          <details class="faq" open>
+            <summary>Quel est votre tarif ?<span class="chev" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></summary>
+            <div class="ans">Notre rémunération correspond à 20 % des revenus générés par les locations. Elle couvre l’ensemble de notre accompagnement et de notre gestion.</div>
+          </details>
+          <details class="faq">
+            <summary>Le box de bienvenue est-il inclus ?<span class="chev" aria-hidden="true"><svg><use href="#i-chev"/></svg></span></summary>
+            <div class="ans">Oui, il est inclus dans la commission de 20 %. Son contenu est adapté à la gamme du logement.</div>
+          </details>
+          <p class="note" style="margin-top:10px">Accordéons natifs (<code>details</code>) : ils fonctionnent au clavier et avec les lecteurs d’écran, même sans JavaScript.</p>
+        </div>
+        <div>
+          <h3 style="margin-bottom:12px">Statut des données</h3>
+          <div class="badges">
+            <span class="dbadge reel"><svg aria-hidden="true"><use href="#i-check"/></svg>Donnée réelle</span>
+            <span class="dbadge sim"><svg aria-hidden="true"><use href="#i-calc"/></svg>Simulation</span>
+            <span class="dbadge est"><span aria-hidden="true">≈</span>Estimation</span>
+            <span class="dbadge proj"><svg aria-hidden="true"><use href="#i-trend"/></svg>Projection</span>
+          </div>
+          <svg class="legend-svg" viewBox="0 0 560 150" role="img" aria-labelledby="lg-t" style="margin-top:16px">
+            <title id="lg-t">Styles graphiques : réel en plein, simulation hachurée, estimation en contour, projection en pointillés</title>
+            <defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#E4E8D8"/><rect width="4" height="8" fill="#B4BE9C"/></pattern></defs>
+            <line x1="0" y1="112" x2="560" y2="112" stroke="#DDD3C1" stroke-width="1"/>
+            <rect x="30" y="40" width="70" height="72" rx="6" fill="#354943"/>
+            <rect x="170" y="40" width="70" height="72" rx="6" fill="url(#hatch)"/>
+            <rect x="311" y="41" width="68" height="70" rx="6" fill="none" stroke="#56625C" stroke-width="2"/>
+            <path d="M440 100 L480 76 L520 52" fill="none" stroke="#354943" stroke-width="2.5" stroke-dasharray="3 6" stroke-linecap="round"/>
+            <circle cx="520" cy="52" r="4" fill="#354943"/>
+            <text x="65" y="136" text-anchor="middle" font-size="14" fill="#23302B" font-family="Hanken Grotesk, Arial">Réel</text>
+            <text x="205" y="136" text-anchor="middle" font-size="14" fill="#23302B" font-family="Hanken Grotesk, Arial">Simulation</text>
+            <text x="345" y="136" text-anchor="middle" font-size="14" fill="#23302B" font-family="Hanken Grotesk, Arial">Estimation</text>
+            <text x="480" y="136" text-anchor="middle" font-size="14" fill="#23302B" font-family="Hanken Grotesk, Arial">Projection</text>
+          </svg>
+          <p class="note">Chaque statut se distingue par la forme et le libellé, pas seulement par la couleur. Chaque graphique affiche sa source et sa période.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. ARCHITECTURE -->
+    <section class="block" id="architecture" aria-labelledby="t-archi">
+      <div class="sec-head">
+        <p class="eyebrow">7 · Architecture</p>
+        <h2 id="t-archi">Arborescence et ordre des sections<span class="dot">.</span></h2>
+        <p class="lead">Une page d’accueil qui raconte tout dans l’ordre où un propriétaire se pose les questions, et une page Transparence qui grandira avec vos données.</p>
+      </div>
+      <div class="grid-2">
+        <div class="tree">
+          <div class="node"><code>/</code><p><b>Accueil.</b> Page de conversion, 13 sections, ancres pour la navigation.</p></div>
+          <div class="node child"><code>#estimation</code><p><b>Formulaire.</b> Cible de tous les boutons « Estimer mon logement ».</p></div>
+          <div class="node"><code>/transparence</code><p><b>Nos chiffres, en toute transparence.</b> Graphiques alimentés par un fichier de données ; message d’attente au lancement.</p></div>
+          <div class="node"><code>/mentions-legales</code><p><b>Mentions légales.</b> Gabarit prêt, à compléter avec vos informations.</p></div>
+          <div class="node"><code>/confidentialite</code><p><b>Politique de confidentialité.</b> Traitement des demandes du formulaire.</p></div>
+          <div class="node" style="border-style:dashed;background:transparent"><code>/bordeaux/…</code><p><b>Plus tard, en option.</b> Des pages par commune (Mérignac, Pessac, Talence…) si nous avons du contenu propre à chacune. Pas de pages dupliquées.</p></div>
+          <div class="panel olive-light" style="margin-top:6px">
+            <h3 style="font-size:19px">Navigation</h3>
+            <p style="margin-top:8px;font-size:15.5px">Accompagnement · Tarifs · Simulateur · Qui sommes-nous · Transparence · FAQ, et le bouton « Estimer mon logement ». Sur mobile : menu plein écran et un bouton « Estimer mon logement » fixé en bas, qui n’apparaît qu’après le premier écran et s’efface sur le formulaire.</p>
+          </div>
+        </div>
+        <ol class="flow">
+          <li><div><b>Hero</b><p>Qui, quoi, où, combien, et le bouton d’estimation. Tout est lisible en moins de 10 secondes.</p></div></li>
+          <li><div><b>Vous louez. Nous gérons.</b><p>La promesse, en image et texte.</p></div></li>
+          <li><div><b>Sans conciergerie / avec Comme à la Maison</b><span class="moved">Remontée</span><p>La liste de ce que le propriétaire n’a plus à gérer. Placée avant la solution, et renommée pour ne pas se confondre avec « Avant / Pendant / Après ».</p></div></li>
+          <li><div><b>Notre accompagnement</b><p>Avant, pendant, après : une frise où la poignée terracotta marque chaque étape.</p></div></li>
+          <li><div><b>Nos services</b><p>Les 12 services en grille, icônes Lucide au trait fin.</p></div></li>
+          <li><div><b>Tarification · 20 %</b><p>Le chiffre en très grand, ce qui est inclus en liste cochée.</p></div></li>
+          <li><div><b>Simulateur</b><span class="moved">Rapproché</span><p>Juste après le tarif, pour voir ce que 20 % représentent sur son propre logement.</p></div></li>
+          <li><div><b>Box de bienvenue</b><p>Une échelle simple : la box suit la gamme du logement. Aucun contenu ni montant inventé.</p></div></li>
+          <li><div><b>Pourquoi Comme à la Maison</b><p>Les 6 piliers.</p></div></li>
+          <li><div><b>Qui sommes-nous</b><p>Baptiste et Simon, cadres en arche prêts pour vos photos.</p></div></li>
+          <li><div><b>Transparence</b><p>Aperçu et lien vers la page dédiée.</p></div></li>
+          <li><div><b>FAQ</b><p>11 questions, réponses sans engagement contractuel inventé.</p></div></li>
+          <li><div><b>Contact · Et si vous n’aviez plus rien à gérer ?</b><p>Formulaire en deux volets, contact direct à côté.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 8. TECHNIQUE -->
+    <section class="block" id="technique" aria-labelledby="t-tech">
+      <div class="sec-head">
+        <p class="eyebrow">8 · Technique</p>
+        <h2 id="t-tech">Rapide, accessible, facile à modifier<span class="dot">.</span></h2>
+      </div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Sujet</th><th>Choix</th><th>Pourquoi</th></tr></thead>
+          <tbody>
+            <tr><td><b>Stack</b></td><td>Next.js (App Router), TypeScript strict, Tailwind CSS v4, Lucide</td><td>Celle du brief et du <code>CLAUDE.md</code> du dépôt. Pages générées à l’avance, donc servies instantanément.</td></tr>
+            <tr><td><b>Dépendances</b></td><td>Aucune bibliothèque d’animation ni de graphiques</td><td>Graphiques en SVG maison, animations en CSS. Objectif : moins de 60 ko de JavaScript.</td></tr>
+            <tr><td><b>Contenu</b></td><td>Un dossier <code>content/</code> : textes, FAQ, services, coordonnées, photos, données</td><td>Vous modifiez un texte ou un chiffre sans toucher aux composants.</td></tr>
+            <tr><td><b>Données</b></td><td><code>content/metrics.ts</code> : chaque série a un statut, une source, une période</td><td>Une série vide affiche « Données à venir ». Impossible de publier un chiffre sans source.</td></tr>
+            <tr><td><b>Formulaire</b></td><td>Server Action, validation Zod, envoi par email (Resend ou équivalent), anti-spam invisible</td><td>Pas de CAPTCHA ni de cookie. Messages d’erreur précis, champ par champ.</td></tr>
+            <tr><td><b>Images</b></td><td><code>next/image</code>, AVIF et WebP, chargement différé, dimensions réservées</td><td>Aucun saut de mise en page, photo du hero prioritaire.</td></tr>
+            <tr><td><b>SEO</b></td><td>Title, meta description, Open Graph, sitemap, robots, JSON-LD LocalBusiness et FAQPage</td><td>Title proposé : « Conciergerie Airbnb à Bordeaux · Comme à la Maison ».</td></tr>
+            <tr><td><b>Accessibilité</b></td><td>Lien d’évitement, repères ARIA, focus visible, <code>prefers-reduced-motion</code>, résultats du simulateur annoncés aux lecteurs d’écran</td><td>Contrôle automatique (axe) et manuel au clavier.</td></tr>
+            <tr><td><b>Objectifs</b></td><td>Lighthouse ≥ 95 sur les 4 axes, LCP &lt; 2 s en 4G, CLS &lt; 0,05</td><td>Testé de 360 à 1920 px, sur iPhone, Android, tablette et desktop.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 9. QUESTIONS -->
+    <section class="block" id="questions" aria-labelledby="t-q">
+      <div class="sec-head">
+        <p class="eyebrow">9 · Informations manquantes</p>
+        <h2 id="t-q">Ce qu’il nous faut de votre côté<span class="dot">.</span></h2>
+        <p class="lead">Rien de ceci ne bloque le démarrage : tout est prévu sous forme d’emplacements clairement identifiés. Les points marqués en terracotta changent le contenu de la FAQ ou de la tarification, ils sont prioritaires.</p>
+      </div>
+      <div class="qgroups">
+        <div class="qgroup">
+          <h3>Logo et marque</h3>
+          <ul>
+            <li class="prio">Un fichier source du logo (SVG, PDF, AI, Figma ou Canva) et le nom de la police utilisée.</li>
+            <li class="prio">L’orthographe de référence : « Comme à la Maison » (brief) ou « Comme à la maison » (logo) ?</li>
+            <li>« Le box » ou « la box » de bienvenue ? L’usage courant est « la box ».</li>
+          </ul>
+        </div>
+        <div class="qgroup">
+          <h3>Offre et tarif</h3>
+          <ul>
+            <li class="prio">Sur quelle base sont calculés les 20 % : prix des nuits seul, avec ou sans frais de ménage payés par les voyageurs, avant ou après frais de plateforme ? HT ou TTC ?</li>
+            <li class="prio">Ménage et linge : inclus dans les 20 % ou financés par les frais de ménage facturés aux voyageurs ?</li>
+            <li class="prio">Des frais de mise en place (photos, annonce) ? Une durée d’engagement, un préavis ?</li>
+            <li>Comment le propriétaire est-il payé (versement direct des plateformes ou reversement par vous) ?</li>
+            <li>Sur quelles plateformes publiez-vous les annonces ?</li>
+          </ul>
+        </div>
+        <div class="qgroup">
+          <h3>Coordonnées et zone</h3>
+          <ul>
+            <li>Téléphone, email de contact, disponibilités.</li>
+            <li>Les communes couvertes : les 28 communes de Bordeaux Métropole, ou une partie ?</li>
+            <li>Liens Instagram, LinkedIn, Facebook (les icônes restent masquées tant qu’un lien manque).</li>
+            <li>Nom de domaine souhaité.</li>
+          </ul>
+        </div>
+        <div class="qgroup">
+          <h3>Mentions légales</h3>
+          <ul>
+            <li class="prio">Raison sociale, forme juridique, capital, SIREN ou RCS, siège, directeur de la publication.</li>
+            <li>Carte professionnelle (loi Hoguet) et assurance responsabilité civile professionnelle, si elles s’appliquent à votre activité.</li>
+            <li>L’adresse qui reçoit les demandes du formulaire et la durée de conservation des données.</li>
+          </ul>
+        </div>
+        <div class="qgroup">
+          <h3>Photos et textes</h3>
+          <ul>
+            <li>Vos photos de logements, ou votre accord pour des photos libres de droits provisoires.</li>
+            <li>Les photos de Baptiste et Simon, et deux lignes chacun sur votre rôle ou votre parcours.</li>
+            <li>Des photos de la box de bienvenue quand elle sera prête.</li>
+          </ul>
+        </div>
+        <div class="qgroup">
+          <h3>Simulateur et outils</h3>
+          <ul>
+            <li>Valeurs par défaut : 100 € par nuit et 20 nuits par mois, comme dans le brief ?</li>
+            <li>Ajouter « avant frais de plateforme, charges et impôts » sous le résultat, pour éviter de le lire comme un revenu net ?</li>
+            <li>Hébergement proposé : Vercel. Mesure d’audience sans cookie (Plausible ou Umami), oui ou non ?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. ÉTAPES -->
+    <section class="block" id="etapes" aria-labelledby="t-steps">
+      <div class="sec-head">
+        <p class="eyebrow">10 · Après validation</p>
+        <h2 id="t-steps">Le déroulé du développement<span class="dot">.</span></h2>
+      </div>
+      <div class="steps">
+        <div class="step"><b>Fondations</b><p>Projet Next.js, couleurs et typographies en tokens, logos SVG, favicon. Une page de styleguide non indexée pour voir les composants en vrai.</p></div>
+        <div class="step"><b>Page d’accueil</b><p>Les 13 sections, en mobile d’abord, puis tablette et desktop.</p></div>
+        <div class="step"><b>Simulateur et formulaire</b><p>Calcul en direct, validation, envoi des demandes.</p></div>
+        <div class="step"><b>Transparence</b><p>Page, badges de statut, graphiques SVG et fichier de données.</p></div>
+        <div class="step"><b>SEO et pages légales</b><p>Métadonnées, données structurées, Open Graph, gabarits légaux.</p></div>
+        <div class="step"><b>Contrôle qualité</b><p>Accessibilité, tests Playwright, Lighthouse, captures sur 6 tailles d’écran envoyées pour validation.</p></div>
+      </div>
+      <div class="panel olive" style="display:grid;gap:14px">
+        <h3>Pour lancer le développement</h3>
+        <p>Validez ou corrigez : le concept « La porte ouverte », la palette, le couple Instrument Sans + Hanken Grotesk, et l’ordre des sections. Les informations manquantes peuvent arriver pendant le développement.</p>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span class="lockup-h"><svg aria-hidden="true"><use href="#mark"/></svg><span><span class="wm">Comme à la maison</span><span class="bl">Votre conciergerie</span></span></span>
+      <span>Proposition de direction artistique · Bordeaux &amp; Bordeaux Métropole</span>
+    </footer>
+  </main>
+</div>

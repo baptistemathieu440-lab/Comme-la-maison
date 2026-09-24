@@ -8,6 +8,8 @@
 
 function resolveSiteUrl() {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  // Netlify fournit l'adresse principale du site (domaine personnalisé compris) dans URL.
+  if (process.env.NETLIFY === "true" && process.env.URL) return process.env.URL;
   if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
     return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
   }

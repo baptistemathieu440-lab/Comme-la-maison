@@ -48,3 +48,6 @@ next-env.d.ts
 
 # Modèle de variables d’environnement (sans secret)
 !.env.example
+
+# Netlify
+.netlify

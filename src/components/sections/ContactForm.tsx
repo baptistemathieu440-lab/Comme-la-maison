@@ -9,8 +9,10 @@ import { Button } from "@/components/ui/Button";
 import { site } from "@/content/site";
 import { cn } from "@/lib/cn";
 import {
+  NETLIFY_FORM_NAME,
   bedroomOptions,
   contactFields,
+  directContactMessage,
   fieldLabels,
   initialContactState,
   propertyTypeOptions,
@@ -19,7 +21,29 @@ import {
   validateContact,
   type ContactErrors,
   type ContactField,
+  type ContactState,
 } from "@/lib/contact";
+
+/**
+ * Sur Netlify, les demandes sont reçues par Netlify Forms : le navigateur les envoie
+ * au formulaire statique public/__forms.html. Ailleurs, l'action serveur les envoie par email.
+ */
+const useNetlifyForms = process.env.NEXT_PUBLIC_FORM_BACKEND === "netlify";
+
+async function submitToNetlify(data: FormData) {
+  const body = new URLSearchParams({ "form-name": NETLIFY_FORM_NAME });
+  for (const field of [...contactFields, "website"]) body.set(field, String(data.get(field) ?? ""));
+  try {
+    const response = await fetch("/__forms.html", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
 
 const inputClass =
   "w-full rounded-[var(--radius-field)] border-[1.5px] border-line-strong bg-surface px-4 text-[1.0625rem] text-ink " +
@@ -98,7 +122,11 @@ function Field({
 }
 
 export function ContactForm() {
-  const [state, formAction, pending] = useActionState(submitContact, initialContactState);
+  const [actionState, formAction, actionPending] = useActionState(submitContact, initialContactState);
+  const [netlifyState, setNetlifyState] = useState<ContactState | null>(null);
+  const [netlifyPending, setNetlifyPending] = useState(false);
+  const state = netlifyState ?? actionState;
+  const pending = actionPending || netlifyPending;
   const [clientErrors, setClientErrors] = useState<ContactErrors | null>(null);
   const startedAtRef = useRef<HTMLInputElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
@@ -148,8 +176,27 @@ export function ContactForm() {
           event.preventDefault();
           setClientErrors(found);
           requestAnimationFrame(() => summaryRef.current?.focus());
-        } else {
-          setClientErrors(null);
+          return;
+        }
+        setClientErrors(null);
+        if (useNetlifyForms) {
+          event.preventDefault();
+          const data = new FormData(event.currentTarget);
+          const values = readValues(data);
+          setNetlifyPending(true);
+          submitToNetlify(data).then((ok) => {
+            setNetlifyPending(false);
+            setNetlifyState(
+              ok
+                ? { status: "success", firstName: values.firstName }
+                : {
+                    status: "error",
+                    message: `Votre demande n’a pas pu être envoyée. Vérifiez votre connexion puis réessayez. ${directContactMessage()}`,
+                    errors: {},
+                    values,
+                  },
+            );
+          });
         }
       }}
       onChange={(event) => {

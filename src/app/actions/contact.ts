@@ -1,7 +1,7 @@
 "use server";
 
-import { site } from "@/content/site";
 import {
+  directContactMessage,
   fieldLabels,
   readValues,
   validateContact,
@@ -51,13 +51,6 @@ async function deliver(values: ContactValues): Promise<"sent" | "not-configured"
   }
 }
 
-/** Solution de repli quand l'envoi échoue : les coordonnées directes. */
-function directContact() {
-  const phones = site.contact.phones.map((p) => `${p.name} au ${p.number}`).join(" ou ");
-  const parts = [phones ? `appelez ${phones}` : null, site.contact.email ? `écrivez à ${site.contact.email}` : null].filter(Boolean);
-  return parts.length > 0 ? `Vous pouvez aussi nous joindre directement : ${parts.join(", ou ")}.` : "";
-}
-
 export async function submitContact(_prev: ContactState, formData: FormData): Promise<ContactState> {
   const values = readValues(formData);
 
@@ -94,8 +87,8 @@ export async function submitContact(_prev: ContactState, formData: FormData): Pr
     status: "error",
     message:
       result === "not-configured"
-        ? `L’envoi du formulaire n’est pas encore activé. ${directContact()}`
-        : `Votre demande n’a pas pu être envoyée. Vérifiez votre connexion puis réessayez. ${directContact()}`,
+        ? `L’envoi du formulaire n’est pas encore activé. ${directContactMessage()}`
+        : `Votre demande n’a pas pu être envoyée. Vérifiez votre connexion puis réessayez. ${directContactMessage()}`,
     errors: {},
     values,
   };

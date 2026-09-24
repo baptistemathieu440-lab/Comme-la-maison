@@ -1,0 +1,11 @@
+# Déploiement sur Netlify (Next.js détecté automatiquement).
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NEXT_TELEMETRY_DISABLED = "1"
+  # Les demandes du formulaire d'estimation sont reçues par Netlify Forms
+  # (tableau de bord Netlify > Forms). Voir public/__forms.html.
+  NEXT_PUBLIC_FORM_BACKEND = "netlify"

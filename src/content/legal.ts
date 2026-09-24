@@ -37,10 +37,9 @@ export const legal = {
   },
 
   hosting: {
-    /** Par exemple "Vercel Inc." */
-    name: null as string | null,
-    address: null as string | null,
-    contact: null as string | null,
+    name: "Netlify, Inc." as string | null,
+    address: "101 2nd Street, San Francisco, CA 94105, États-Unis" as string | null,
+    contact: "support@netlify.com · www.netlify.com" as string | null,
   },
 
   privacy: {
@@ -51,6 +50,6 @@ export const legal = {
     /** Durée de conservation des demandes envoyées par le formulaire. */
     retention: null as string | null,
     /** Service utilisé pour recevoir les demandes (par exemple un service d'envoi d'emails). */
-    processors: null as string | null,
+    processors: "Netlify, Inc., qui héberge le site et reçoit les demandes du formulaire (Netlify Forms)" as string | null,
   },
 };

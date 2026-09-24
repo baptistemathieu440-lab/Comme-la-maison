@@ -1,7 +1,12 @@
+import { site } from "@/content/site";
+
 /**
  * Formulaire d'estimation : champs, options et validation.
  * Partagé entre le navigateur (retour immédiat) et le serveur (contrôle final).
  */
+
+/** Nom du formulaire déclaré dans public/__forms.html pour Netlify Forms. */
+export const NETLIFY_FORM_NAME = "estimation";
 
 export const propertyTypeOptions = [
   "Studio",
@@ -106,3 +111,13 @@ export type ContactState =
   | { status: "error"; message: string; errors: ContactErrors; values: ContactValues };
 
 export const initialContactState: ContactState = { status: "idle" };
+
+/** Solution de repli quand l'envoi échoue : les coordonnées directes. */
+export function directContactMessage() {
+  const phones = site.contact.phones.map((p) => `${p.name} au ${p.number}`).join(" ou ");
+  const parts = [
+    phones ? `appelez ${phones}` : null,
+    site.contact.email ? `écrivez à ${site.contact.email}` : null,
+  ].filter(Boolean);
+  return parts.length > 0 ? `Vous pouvez aussi nous joindre directement : ${parts.join(", ou ")}.` : "";
+}

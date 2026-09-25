@@ -48,3 +48,11 @@ export async function platformOptions(supabase: ServerClient): Promise<Option[]>
   const { data } = await supabase.from("platforms").select("id, name").order("position");
   return (data ?? []).map((row) => ({ value: row.id, label: row.name }));
 }
+
+export async function adminOptions(supabase: ServerClient): Promise<Option[]> {
+  const { data } = await supabase
+    .from("user_roles")
+    .select("user_id, profile:profiles!user_roles_user_id_fkey(full_name, email)")
+    .eq("role", "admin");
+  return (data ?? []).map((row) => ({ value: row.user_id, label: row.profile?.full_name || row.profile?.email || "Administrateur" }));
+}

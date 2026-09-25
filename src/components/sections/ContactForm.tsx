@@ -5,6 +5,7 @@ import { ChevronDown, CircleAlert, CircleCheck } from "lucide-react";
 import { useActionState, useEffect, useRef, useState, type ReactNode } from "react";
 
 import { submitContact } from "@/app/actions/contact";
+import { recordLead } from "@/app/actions/lead";
 import { Button } from "@/components/ui/Button";
 import { site } from "@/content/site";
 import { cn } from "@/lib/cn";
@@ -184,7 +185,9 @@ export function ContactForm() {
           const data = new FormData(event.currentTarget);
           const values = readValues(data);
           setNetlifyPending(true);
-          submitToNetlify(data).then((ok) => {
+          // Netlify Forms (notification) et CRM de la plateforme : la demande est reçue si l'un des deux l'enregistre.
+          Promise.all([submitToNetlify(data), recordLead(data).catch(() => false)]).then(([sent, recorded]) => {
+            const ok = sent || recorded;
             setNetlifyPending(false);
             setNetlifyState(
               ok

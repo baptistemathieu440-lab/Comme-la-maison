@@ -36,11 +36,13 @@ export default async function MfaChallengePage({ searchParams }: PageProps<"/con
             className="font-display text-[1.5rem] tracking-[0.3em] tabular-nums"
           />
         </Field>
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
           <SubmitButton pendingLabel="Vérification…">Valider</SubmitButton>
-          <SignOutButton />
         </div>
       </ActionForm>
+      <div className="mt-6 border-t border-line pt-4">
+        <SignOutButton />
+      </div>
     </>
   );
 }

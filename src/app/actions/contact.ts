@@ -8,6 +8,7 @@ import {
   type ContactState,
   type ContactValues,
 } from "@/lib/contact";
+import { saveLead } from "@/server/leads";
 
 /** Délai minimal entre l'affichage du formulaire et son envoi (anti-robots). */
 const MIN_FILL_MS = 2500;
@@ -71,9 +72,9 @@ export async function submitContact(_prev: ContactState, formData: FormData): Pr
     };
   }
 
-  const result = await deliver(values);
+  const [result, lead] = await Promise.all([deliver(values), saveLead(values)]);
 
-  if (result === "sent") return { status: "success", firstName: values.firstName };
+  if (result === "sent" || lead === "saved") return { status: "success", firstName: values.firstName };
 
   const logOnly = process.env.CONTACT_DELIVERY === "log" || process.env.NODE_ENV !== "production";
   if (result === "not-configured" && logOnly) {

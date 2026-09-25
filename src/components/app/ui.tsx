@@ -30,7 +30,7 @@ export function Badge({ tone = "neutral", children, className }: { tone?: Tone; 
   return (
     <span
       className={cn(
-        "inline-flex min-h-7 items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-[0.8125rem] font-semibold leading-none",
+        "inline-flex w-fit min-h-7 items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-[0.8125rem] font-semibold leading-none",
         toneClass,
         className,
       )}
@@ -54,7 +54,7 @@ export function DemoBadge({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "hatch inline-flex min-h-6 items-center gap-1 rounded-full px-2 py-0.5 text-[0.75rem] font-bold uppercase leading-none tracking-[0.06em] text-ink",
+        "hatch inline-flex w-fit min-h-6 items-center gap-1 rounded-full px-2 py-0.5 text-[0.75rem] font-bold uppercase leading-none tracking-[0.06em] text-ink",
         className,
       )}
       title="Donnée de démonstration"

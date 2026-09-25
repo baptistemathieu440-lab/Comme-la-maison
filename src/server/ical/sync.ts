@@ -21,7 +21,8 @@ export type SyncResult = {
 
 async function fetchCalendar(url: string) {
   const parsed = new URL(url);
-  if (parsed.protocol !== "https:") throw new Error("Seules les adresses https:// sont acceptées.");
+  const localDev = process.env.NODE_ENV !== "production" && ["localhost", "127.0.0.1"].includes(parsed.hostname);
+  if (parsed.protocol !== "https:" && !localDev) throw new Error("Seules les adresses https:// sont acceptées.");
   const response = await fetch(parsed, {
     signal: AbortSignal.timeout(TIMEOUT_MS),
     headers: { Accept: "text/calendar, text/plain;q=0.8", "User-Agent": "CommeALaMaison-Calendrier/1.0" },

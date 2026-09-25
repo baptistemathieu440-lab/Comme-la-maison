@@ -56,3 +56,15 @@ export async function adminOptions(supabase: ServerClient): Promise<Option[]> {
     .eq("role", "admin");
   return (data ?? []).map((row) => ({ value: row.user_id, label: row.profile?.full_name || row.profile?.email || "Administrateur" }));
 }
+
+/** Taux de commission effectif par bien (bien, sinon propriétaire, sinon défaut). */
+export async function propertyRates(supabase: ServerClient): Promise<Record<string, number>> {
+  const [{ data: properties }, { data: settings }] = await Promise.all([
+    supabase.from("properties").select("id, commission_rate_bps, owner:owners!inner(commission_rate_bps)"),
+    supabase.from("settings").select("default_commission_bps").single(),
+  ]);
+  const fallback = settings?.default_commission_bps ?? 2000;
+  return Object.fromEntries(
+    (properties ?? []).map((p) => [p.id, p.commission_rate_bps ?? p.owner.commission_rate_bps ?? fallback]),
+  );
+}

@@ -26,6 +26,8 @@ Plateforme de gestion : Supabase (Postgres, comptes, stockage privé, règles d'
 - Logo : `src/components/brand/` (composant) et `public/brand/` (fichiers SVG)
 - Plateforme : pages dans `src/app/admin`, `src/app/owner`, `src/app/staff` ; actions serveur à côté des pages (`actions.ts`, chacune commence par `adminContext()` / `ownerContext()` / `staffContext()`) ; kit d'interface dans `src/components/app` ; libellés des statuts dans `src/lib/labels.ts`
 - Logique serveur : `src/server` (synchronisation iCal, automatisations, notifications, relevés PDF, invitations, emails)
+- Logements publics (`/logements`) : lecture filtrée dans `src/server/public-listings.ts` (biens actifs, publiés, hors démo ; jamais d'adresse ni de propriétaire), demande de séjour dans `src/app/actions/stay-request.ts`
+- Page « Mon compte » des trois espaces : `src/components/app/AccountPage.tsx` et `src/app/account-actions.ts` ; mot de passe provisoire (`user_metadata.must_change_password`) imposé par `requireSession()`
 - Mise en service, usage et règles de calcul : `docs/plateforme-exploitation.md`
 
 ## Règles absolues

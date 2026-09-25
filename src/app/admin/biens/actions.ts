@@ -1,11 +1,12 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { dbErrorMessage, fail, ok, type ActionState } from "@/lib/action-state";
 import { adminContext } from "@/lib/auth/admin-context";
 import { FormReader } from "@/lib/form-data";
+import { PUBLIC_LISTINGS_TAG } from "@/server/public-listings";
 
 const propertyTypes = ["studio", "apartment", "house", "villa", "room", "other"] as const;
 const propertyStatuses = ["active", "inactive", "onboarding", "maintenance", "unavailable"] as const;
@@ -68,6 +69,7 @@ export async function createProperty(_prev: ActionState, formData: FormData): Pr
   if (error) return fail(dbErrorMessage(error));
 
   revalidatePath("/admin/biens");
+  updateTag(PUBLIC_LISTINGS_TAG);
   redirect(`/admin/biens/${data.id}`);
 }
 
@@ -81,6 +83,7 @@ export async function updateProperty(id: string, _prev: ActionState, formData: F
   if (error) return fail(dbErrorMessage(error));
 
   revalidatePath(`/admin/biens/${id}`, "layout");
+  updateTag(PUBLIC_LISTINGS_TAG);
   return ok("Modifications enregistrées.");
 }
 
@@ -95,6 +98,7 @@ export async function deleteProperty(id: string, _prev: ActionState): Promise<Ac
     );
   }
   revalidatePath("/admin/biens");
+  updateTag(PUBLIC_LISTINGS_TAG);
   redirect("/admin/biens");
 }
 

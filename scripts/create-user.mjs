@@ -6,7 +6,7 @@
  *   node --env-file=.env.local scripts/create-user.mjs --email prenom@exemple.fr --name "Prénom Nom" --role admin
  *
  * Variables : NEXT_PUBLIC_SUPABASE_URL et SUPABASE_SECRET_KEY (jamais committées).
- * Sans --password, le script affiche un lien d'invitation (valable 24 h) pour que
+ * Sans --password, le script affiche un lien d'invitation (durée : réglage « Email OTP expiration » de Supabase) pour que
  * la personne choisisse elle-même son mot de passe.
  */
 import { createClient } from "@supabase/supabase-js";
@@ -60,5 +60,5 @@ const { error: roleError } = await supabase.from("user_roles").upsert({ user_id:
 if (roleError) throw roleError;
 
 console.log(`Compte ${email} (${role}) prêt.`);
-if (link) console.log(`Lien d'invitation à ouvrir dans les 24 h :\n${link}`);
+if (link) console.log(`Lien d'invitation, à ouvrir rapidement (durée limitée) :\n${link}`);
 if (role === "admin") console.log("À la première connexion, la double authentification sera demandée.");

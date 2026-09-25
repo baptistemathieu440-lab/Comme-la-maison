@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Logo } from "@/components/brand/Logo";
-import { legalNav, mainNav, primaryCta } from "@/content/navigation";
+import { legalNav, mainNav, primaryCta, type NavItem } from "@/content/navigation";
 import { site } from "@/content/site";
 import { telHref } from "@/lib/format";
 
@@ -9,7 +9,7 @@ import { SocialIcon } from "./SocialIcon";
 
 const socialLabels = { instagram: "Instagram", linkedin: "LinkedIn", facebook: "Facebook" } as const;
 
-export function Footer() {
+export function Footer({ items = mainNav }: { items?: NavItem[] }) {
   const socials = (Object.keys(site.socials) as Array<keyof typeof site.socials>).filter(
     (key) => site.socials[key],
   );
@@ -30,7 +30,7 @@ export function Footer() {
           <nav aria-label="Plan du site" className="flex flex-col gap-4">
             <h2 className="text-caption text-olive-light">Navigation</h2>
             <ul className="flex flex-col gap-1">
-              {mainNav.map((item) => (
+              {items.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="inline-flex min-h-10 items-center text-cream/90 underline-offset-4 hover:text-cream hover:underline">
                     {item.label}

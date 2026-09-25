@@ -24,7 +24,13 @@ export default async function NewPasswordPage() {
 
   return (
     <>
-      <AuthHeading title="Choisir un mot de passe">
+      <AuthHeading title={session.mustChangePassword ? "Choisissez votre mot de passe" : "Choisir un mot de passe"}>
+        {session.mustChangePassword ? (
+          <>
+            Votre compte a été créé avec un mot de passe provisoire. Remplacez-le par un mot de passe personnel pour
+            accéder à votre espace.{" "}
+          </>
+        ) : null}
         Compte : <strong className="text-ink">{session.email}</strong>. Au moins 10 caractères, avec des lettres et
         des chiffres.
       </AuthHeading>

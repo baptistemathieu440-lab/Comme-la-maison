@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { fail, ok, type ActionState } from "@/lib/action-state";
+import { linkValidity } from "@/lib/auth/link-validity";
 import { homeFor, safeNext, type Role } from "@/lib/auth/session";
 import { createAdminClient, isAdminClientConfigured } from "@/lib/supabase/admin";
 import { createClient, type ServerClient } from "@/lib/supabase/server";
@@ -68,6 +69,9 @@ export async function signIn(_prev: ActionState, formData: FormData): Promise<Ac
     );
   }
 
+  // Compte créé avec un mot de passe provisoire : il est remplacé avant tout le reste.
+  if (data.user.user_metadata?.must_change_password === true) redirect("/connexion/nouveau-mot-de-passe");
+
   redirect(await destinationAfterSignIn(supabase, data.user.id, safeNext(field(formData, "suite"))));
 }
 
@@ -82,7 +86,7 @@ export async function sendMagicLink(_prev: ActionState, formData: FormData): Pro
   });
   if (error?.status === 429) return fail("Trop de demandes. Patientez quelques minutes avant de réessayer.");
   // Même réponse que le compte existe ou non : on ne révèle pas quelles adresses ont un compte.
-  return ok("Si un compte existe pour cette adresse, un lien de connexion vient de lui être envoyé. Il est valable 24 heures.");
+  return ok(`Si un compte existe pour cette adresse, un lien de connexion vient de lui être envoyé. Il est valable ${linkValidity}.`);
 }
 
 export async function requestPasswordReset(_prev: ActionState, formData: FormData): Promise<ActionState> {
@@ -112,7 +116,7 @@ export async function updatePassword(_prev: ActionState, formData: FormData): Pr
   const userId = claims?.claims?.sub;
   if (!userId) return fail("Votre lien a expiré. Demandez un nouveau lien pour choisir votre mot de passe.");
 
-  const { error } = await supabase.auth.updateUser({ password });
+  const { error } = await supabase.auth.updateUser({ password, data: { must_change_password: false } });
   if (error) {
     return fail(
       error.code === "same_password"
@@ -123,6 +127,9 @@ export async function updatePassword(_prev: ActionState, formData: FormData): Pr
       error.code === "same_password" || error.code === "weak_password" ? { password: "Choisissez un autre mot de passe." } : undefined,
     );
   }
+
+  // Nouveau jeton de session : il ne porte plus l'obligation de changer le mot de passe.
+  await supabase.auth.refreshSession();
 
   // L'invitation est acceptée dès que la personne a choisi son mot de passe.
   if (isAdminClientConfigured()) {

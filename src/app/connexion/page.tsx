@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ActionForm, Field, Input, SubmitButton } from "@/components/app/form";
 import { AuthHeading } from "@/components/app/AuthHeading";
 import { Notice, TextLink } from "@/components/app/ui";
+import { linkValidity } from "@/lib/auth/link-validity";
 import { getSession, homeFor, safeNext } from "@/lib/auth/session";
 import { isPlatformConfigured } from "@/lib/supabase/env";
 
@@ -66,7 +67,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/connexion"
       <details className="mt-7 border-t border-line pt-5">
         <summary className="cursor-pointer font-semibold text-maison">Recevoir un lien de connexion par email</summary>
         <ActionForm action={sendMagicLink} className="mt-4 flex flex-col gap-4">
-          <Field name="email" label="Adresse email" hint="Un lien valable 24 heures, sans mot de passe." required>
+          <Field name="email" label="Adresse email" hint={`Un lien valable ${linkValidity}, sans mot de passe.`} required>
             <Input type="email" autoComplete="email" inputMode="email" required />
           </Field>
           <div>

@@ -15,6 +15,7 @@ import {
 
 import { Button, type ButtonVariant } from "@/components/ui/Button";
 import { CopyField } from "@/components/app/CopyField";
+import { linkValidity } from "@/lib/auth/link-validity";
 import { cn } from "@/lib/cn";
 import type { ActionState } from "@/lib/action-state";
 
@@ -62,7 +63,7 @@ export function ActionForm({
           <FormMessage />
           {state.link ? (
             <div className="mt-4">
-              <CopyField label="Lien à transmettre" value={state.link} hint="Valable 24 heures, utilisable une seule fois." />
+              <CopyField label="Lien à transmettre" value={state.link} hint={`Valable ${linkValidity}, utilisable une seule fois.`} />
             </div>
           ) : null}
         </form>

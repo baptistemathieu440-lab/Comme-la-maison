@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 import { dbErrorMessage, fail, ok, type ActionState } from "@/lib/action-state";
 import { adminContext } from "@/lib/auth/admin-context";
+import { linkValidity } from "@/lib/auth/link-validity";
 import { encryptSecret, isEncryptionConfigured, normalizeIban } from "@/lib/crypto";
 import { FormReader } from "@/lib/form-data";
 import { inviteUser, passwordLink } from "@/server/invitations";
@@ -132,8 +133,8 @@ export async function inviteOwner(ownerId: string, _prev: InviteState, formData:
   return {
     ...ok(
       result.emailed
-        ? "Invitation envoyée par email. Le lien ci-dessous est valable 24 heures."
-        : "Accès créé. Aucun service d’email n’est configuré : transmettez ce lien (valable 24 heures) au propriétaire.",
+        ? `Invitation envoyée par email. Le lien ci-dessous est valable ${linkValidity}.`
+        : `Accès créé. Aucun service d’email n’est configuré : transmettez ce lien (valable ${linkValidity}) au propriétaire.`,
     ),
     link: result.link,
   };
@@ -149,7 +150,7 @@ export async function newPasswordLinkForOwner(ownerId: string, _prev: InviteStat
   const email = owner?.contact.profile?.email;
   if (!email) return fail("Ce propriétaire n’a pas encore de compte.");
   const link = await passwordLink(email);
-  return link ? { ...ok("Nouveau lien créé, valable 24 heures."), link } : fail("Le lien n’a pas pu être créé.");
+  return link ? { ...ok(`Nouveau lien créé, valable ${linkValidity}.`), link } : fail("Le lien n’a pas pu être créé.");
 }
 
 export async function revokeOwnerAccess(ownerId: string, _prev: ActionState): Promise<ActionState> {

@@ -1,5 +1,6 @@
 import "server-only";
 
+import { linkValidity } from "@/lib/auth/link-validity";
 import type { Role } from "@/lib/auth/session";
 import { roleLabel } from "@/lib/labels";
 import { publicOrigin } from "@/lib/site-url";
@@ -14,7 +15,7 @@ export type InvitationResult =
 /**
  * Donne accès à la plateforme : crée le compte si besoin (sans mot de passe),
  * attribue le rôle, relie le propriétaire à son compte, et produit un lien
- * valable 24 h pour choisir son mot de passe. Le lien est envoyé par email si un
+ * à durée limitée (voir link-validity.ts) pour choisir son mot de passe. Le lien est envoyé par email si un
  * service d'email est configuré ; sinon il est affiché pour être transmis à la main.
  * À n'appeler qu'après requireAdmin().
  */
@@ -91,7 +92,7 @@ export async function inviteUser({
         `Bonjour ${fullName || ""},`.trim(),
         "",
         `Baptiste et Simon vous ont ouvert un accès ${roleLabel[role].toLowerCase()} à la plateforme Comme à la Maison.`,
-        "Choisissez votre mot de passe avec ce lien, valable 24 heures :",
+        `Choisissez votre mot de passe avec ce lien, valable ${linkValidity} :`,
         link,
         "",
         "Comme à la Maison, conciergerie à Bordeaux",
@@ -103,7 +104,7 @@ export async function inviteUser({
   return { ok: true, link, emailed, existing: Boolean(existingProfile) };
 }
 
-/** Nouveau lien (24 h) pour choisir un mot de passe, pour un compte existant. */
+/** Nouveau lien (durée limitée) pour choisir un mot de passe, pour un compte existant. */
 export async function passwordLink(email: string) {
   const admin = createAdminClient();
   const { data, error } = await admin.auth.admin.generateLink({ type: "recovery", email: email.trim().toLowerCase() });

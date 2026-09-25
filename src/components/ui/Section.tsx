@@ -21,16 +21,27 @@ export function Container({ className, children }: { className?: string; childre
   );
 }
 
+/** Espacement vertical : standard, resserré (pages de détail), ou sans marge haute (suite d'une introduction). */
+type Spacing = "default" | "compact" | "flush-top";
+
+const spacings: Record<Spacing, string> = {
+  default: "py-[4.5rem] sm:py-24 lg:py-32",
+  compact: "py-14 sm:py-16 lg:py-20",
+  "flush-top": "pb-[4.5rem] sm:pb-24 lg:pb-32",
+};
+
 export function Section({
   id,
   labelledBy,
   tone = "cream",
+  spacing = "default",
   className,
   children,
 }: {
   id?: string;
   labelledBy?: string;
   tone?: Tone;
+  spacing?: Spacing;
   className?: string;
   children: ReactNode;
 }) {
@@ -38,7 +49,7 @@ export function Section({
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={cn("py-[4.5rem] sm:py-24 lg:py-32", tones[tone], className)}
+      className={cn(spacings[spacing], tones[tone], className)}
     >
       <Container>{children}</Container>
     </section>

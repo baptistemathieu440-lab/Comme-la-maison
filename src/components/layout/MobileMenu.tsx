@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { Logo } from "@/components/brand/Logo";
 import { ButtonLink } from "@/components/ui/Button";
-import { mainNav, primaryCta } from "@/content/navigation";
+import { primaryCta, type NavItem } from "@/content/navigation";
 import { site } from "@/content/site";
 import { telHref } from "@/lib/format";
 
@@ -15,7 +15,7 @@ import { telHref } from "@/lib/format";
  * Utilise <dialog> : focus piégé dans le menu, fermeture avec Échap,
  * reste de la page inactif pendant l'ouverture.
  */
-export function MobileMenu() {
+export function MobileMenu({ items }: { items: NavItem[] }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
 
@@ -63,7 +63,7 @@ export function MobileMenu() {
 
         <nav aria-label="Navigation principale" className="flex flex-1 flex-col overflow-y-auto px-5 py-8 sm:px-8">
           <ul className="flex flex-col">
-            {mainNav.map((item) => (
+            {items.map((item) => (
               <li key={item.href} className="border-b border-line">
                 <Link
                   href={item.href}

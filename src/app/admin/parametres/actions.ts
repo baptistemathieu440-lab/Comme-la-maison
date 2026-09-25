@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { dbErrorMessage, fail, ok, type ActionState } from "@/lib/action-state";
 import { adminContext } from "@/lib/auth/admin-context";
+import { linkValidity } from "@/lib/auth/link-validity";
 import { FormReader } from "@/lib/form-data";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { inviteUser, passwordLink } from "@/server/invitations";
@@ -68,7 +69,7 @@ export async function inviteMember(_prev: ActionState, formData: FormData): Prom
     ...ok(
       result.emailed
         ? "Invitation envoyée par email."
-        : "Compte créé. Aucun service d’email n’est configuré : transmettez ce lien (valable 24 heures).",
+        : `Compte créé. Aucun service d’email n’est configuré : transmettez ce lien (valable ${linkValidity}).`,
     ),
     link: result.link,
   };
@@ -96,7 +97,7 @@ export async function memberPasswordLink(userId: string, _prev: ActionState): Pr
   const { data: profile } = await supabase.from("profiles").select("email").eq("id", userId).single();
   if (!profile?.email) return fail("Compte introuvable.");
   const link = await passwordLink(profile.email);
-  return link ? { ...ok("Lien créé, valable 24 heures."), link } : fail("Le lien n’a pas pu être créé.");
+  return link ? { ...ok(`Lien créé, valable ${linkValidity}.`), link } : fail("Le lien n’a pas pu être créé.");
 }
 
 /** Déconnecte l'utilisateur partout et supprime ses facteurs de double authentification. */

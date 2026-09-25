@@ -10,6 +10,16 @@ export const mainNav: NavItem[] = [
   { label: "FAQ", href: "/#faq" },
 ];
 
+/** Lien vers les logements proposés en réservation directe : affiché seulement s'il y en a. */
+export const listingsNav: NavItem = { label: "Logements", href: "/logements" };
+
+/** Navigation principale, avec les logements quand au moins un bien est publié. */
+export function siteNav(withListings: boolean): NavItem[] {
+  if (!withListings) return mainNav;
+  const index = mainNav.findIndex((item) => item.href === "/transparence");
+  return [...mainNav.slice(0, index), listingsNav, ...mainNav.slice(index)];
+}
+
 export const primaryCta: NavItem = { label: "Estimer mon logement", href: "/#estimation" };
 
 export const legalNav: NavItem[] = [

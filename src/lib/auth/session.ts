@@ -16,6 +16,8 @@ export type Session = {
   /** Niveau d'authentification : aal2 après la double authentification. */
   aal: "aal1" | "aal2";
   roles: Role[];
+  /** Mot de passe provisoire (compte créé par un administrateur) : à remplacer avant tout accès. */
+  mustChangePassword: boolean;
 };
 
 const roleOrder: Role[] = ["admin", "staff", "owner"];
@@ -32,6 +34,7 @@ export const getSession = cache(async (): Promise<Session | null> => {
 
   const claims = data.claims;
   const userId = claims.sub;
+  const metadata = (claims.user_metadata ?? {}) as Record<string, unknown>;
   const [{ data: roleRows }, { data: profile }] = await Promise.all([
     supabase.from("user_roles").select("role").eq("user_id", userId),
     supabase.from("profiles").select("full_name, email").eq("id", userId).maybeSingle(),
@@ -48,6 +51,7 @@ export const getSession = cache(async (): Promise<Session | null> => {
     fullName: profile?.full_name ?? "",
     aal: claims.aal === "aal2" ? "aal2" : "aal1",
     roles,
+    mustChangePassword: metadata.must_change_password === true,
   };
 });
 
@@ -75,6 +79,7 @@ export async function requireSession() {
     const next = safeNext(await currentPath());
     redirect(next ? `/connexion?suite=${encodeURIComponent(next)}` : "/connexion");
   }
+  if (session.mustChangePassword) redirect("/connexion/nouveau-mot-de-passe");
   return session;
 }
 

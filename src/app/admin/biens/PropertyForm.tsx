@@ -129,7 +129,7 @@ export function PropertyForm({
           name="visible_on_site"
           defaultChecked={property?.visible_on_site ?? false}
           label="Afficher ce bien sur le site public"
-          hint="Seuls le titre, la description publique, la commune, la capacité et les photos marquées publiques sont affichés."
+          hint="Page « Nos logements » du site, avec les disponibilités et un formulaire de demande de séjour. Seuls le titre et la description publics, la commune, les caractéristiques, les horaires, le numéro d’enregistrement et les photos marquées publiques sont affichés (jamais l’adresse ni le propriétaire). Le bien doit être actif ; un bien de démonstration n’est jamais affiché."
         />
         <FormGrid>
           <Field name="slug" label="Adresse de la page" hint="Exemple : t2-chartrons">

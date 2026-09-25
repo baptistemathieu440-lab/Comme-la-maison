@@ -18,7 +18,7 @@ Site officiel de **Comme à la Maison**, conciergerie Airbnb et location courte 
 | `/mentions-legales` | Mentions légales, avec repères « À compléter » |
 | `/politique-confidentialite` | Politique de confidentialité |
 
-Les anciennes adresses `/logements` et `/confidentialite` redirigent (301) vers les nouvelles.
+Les anciennes adresses `/logements` et `/confidentialite` redirigent (redirection permanente) vers les nouvelles.
 | `/styleguide` | Design system (page interne, non indexée) |
 
 ## Démarrer

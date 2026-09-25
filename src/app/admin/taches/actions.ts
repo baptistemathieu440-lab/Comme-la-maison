@@ -11,7 +11,7 @@ import { removeObjects } from "@/lib/storage";
 import { processPendingEvents } from "@/server/automation/engine";
 
 const types = ["cleaning", "inspection", "check_in", "check_out", "maintenance", "linen", "other"] as const;
-const statuses = ["todo", "in_progress", "done", "validated", "cancelled"] as const;
+type TaskStatus = "todo" | "in_progress" | "done" | "validated" | "cancelled";
 
 function readTask(form: FormReader) {
   const checklist = (form.optional("checklist", 6000) ?? "")
@@ -85,7 +85,7 @@ export async function updateTask(id: string, _prev: ActionState, formData: FormD
   return ok("Tâche enregistrée.");
 }
 
-export async function setTaskStatus(id: string, status: (typeof statuses)[number], _prev: ActionState): Promise<ActionState> {
+export async function setTaskStatus(id: string, status: TaskStatus, _prev: ActionState): Promise<ActionState> {
   const { supabase } = await adminContext();
   const { error } = await supabase.from("tasks").update({ status }).eq("id", id);
   if (error) return fail(dbErrorMessage(error));

@@ -54,3 +54,6 @@ next-env.d.ts
 
 # Sessions des tests de la plateforme
 /playwright/.auth/
+
+# Scripts de vérification locaux
+*.tmp.mjs

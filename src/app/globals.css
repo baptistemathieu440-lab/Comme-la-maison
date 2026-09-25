@@ -258,3 +258,15 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- Espaces connectés ---------- */
+
+/* Tableaux : sur téléphone, chaque ligne devient une fiche et chaque cellule rappelle sa colonne. */
+@media (width < 48rem) {
+  .data-table td.data-cell[data-label]::before {
+    content: attr(data-label) " · ";
+    color: var(--color-ink-soft);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+}

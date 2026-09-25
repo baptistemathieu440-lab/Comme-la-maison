@@ -3,6 +3,8 @@ export type ActionState = {
   status: "idle" | "success" | "error";
   message?: string;
   errors?: Record<string, string>;
+  /** Lien à transmettre (invitation, nouveau mot de passe), affiché avec un bouton « Copier ». */
+  link?: string | null;
 };
 
 export const idle: ActionState = { status: "idle" };

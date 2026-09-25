@@ -14,6 +14,7 @@ import {
 } from "react";
 
 import { Button, type ButtonVariant } from "@/components/ui/Button";
+import { CopyField } from "@/components/app/CopyField";
 import { cn } from "@/lib/cn";
 import type { ActionState } from "@/lib/action-state";
 
@@ -59,6 +60,11 @@ export function ActionForm({
         <form ref={formRef} onSubmit={onSubmit} aria-busy={pending} noValidate className={className} {...props}>
           {children}
           <FormMessage />
+          {state.link ? (
+            <div className="mt-4">
+              <CopyField label="Lien à transmettre" value={state.link} hint="Valable 24 heures, utilisable une seule fois." />
+            </div>
+          ) : null}
         </form>
       </FormPendingContext.Provider>
     </FormStateContext.Provider>

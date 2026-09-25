@@ -20,8 +20,15 @@ export const faq: FaqItem[] = [
   {
     question: "Quel est votre tarif ?",
     answer: [
-      "Notre rémunération correspond à 20 % TTC des revenus générés par les locations de votre logement.",
-      "Les frais de ménage, réglés par les voyageurs, ne sont pas inclus dans cette base de calcul.",
+      "Notre rémunération correspond à 20 % TTC du prix des nuitées que vous percevez réellement, c’est-à-dire après déduction des frais prélevés par la plateforme (Airbnb, Booking.com, Abritel…).",
+      "Les frais de ménage, réglés par les voyageurs, et la taxe de séjour ne sont pas inclus dans cette base de calcul.",
+    ],
+  },
+  {
+    question: "Qui reçoit l’argent des réservations ?",
+    answer: [
+      "Vous. Les plateformes versent le prix des séjours directement sur votre compte bancaire : l’argent de vos locations ne transite pas par nous.",
+      "Chaque mois, nous vous adressons un relevé détaillé, réservation par réservation, avec la facture de notre commission.",
     ],
   },
   {

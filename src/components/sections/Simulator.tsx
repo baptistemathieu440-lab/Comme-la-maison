@@ -5,13 +5,15 @@ import { useEffect, useId, useRef, useState } from "react";
 import { DataBadge } from "@/components/ui/DataBadge";
 import { Eyebrow } from "@/components/ui/Section";
 import { site } from "@/content/site";
-import { formatEuro } from "@/lib/format";
+import { formatEuro, formatNumber } from "@/lib/format";
 
 const RATE = site.commission.rate / 100;
 
 const limits = {
   price: { min: 1, max: 5000, sliderMax: 600, initial: 100 },
   nights: { min: 0, max: 31, sliderMax: 31, initial: 20 },
+  /** Aucun taux n'est présumé : le visiteur saisit celui de sa plateforme. */
+  platformFee: { min: 0, max: 50, sliderMax: 30, initial: 0 },
 };
 
 /** Fait défiler un nombre vers sa nouvelle valeur (désactivé si l'animation est réduite). */
@@ -59,6 +61,7 @@ function NumberField({
   min,
   max,
   sliderMax,
+  step = 1,
   error,
 }: {
   id: string;
@@ -70,6 +73,7 @@ function NumberField({
   min: number;
   max: number;
   sliderMax: number;
+  step?: number;
   error: string | null;
 }) {
   const numeric = parse(value);
@@ -92,7 +96,7 @@ function NumberField({
           inputMode="decimal"
           min={min}
           max={max}
-          step={1}
+          step={step}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           aria-describedby={error ? `${hintId} ${errorId}` : hintId}
@@ -107,7 +111,7 @@ function NumberField({
         type="range"
         min={min}
         max={sliderMax}
-        step={1}
+        step={step}
         value={sliderValue}
         onChange={(e) => onChange(e.target.value)}
         aria-label={`${label} (curseur)`}
@@ -126,10 +130,12 @@ export function Simulator() {
   const uid = useId();
   const [price, setPrice] = useState(String(limits.price.initial));
   const [nights, setNights] = useState(String(limits.nights.initial));
+  const [platformFee, setPlatformFee] = useState(String(limits.platformFee.initial));
   const [announcement, setAnnouncement] = useState("");
 
   const p = parse(price);
   const n = parse(nights);
+  const f = parse(platformFee);
   const priceError =
     price.trim() === "" || Number.isNaN(p) || p < limits.price.min || p > limits.price.max
       ? `Indiquez un prix entre ${limits.price.min} € et ${formatEuro(limits.price.max)}.`
@@ -139,12 +145,26 @@ export function Simulator() {
       ? `Indiquez un nombre entier de nuits entre ${limits.nights.min} et ${limits.nights.max}.`
       : null;
 
-  const valid = !priceError && !nightsError;
-  const gross = valid ? p * n : 0;
-  const commission = gross * RATE;
-  const net = gross - commission;
+  const feeError =
+    platformFee.trim() === "" || Number.isNaN(f) || f < limits.platformFee.min || f > limits.platformFee.max
+      ? `Indiquez un pourcentage entre ${limits.platformFee.min} et ${limits.platformFee.max}.`
+      : null;
+
+  const valid = !priceError && !nightsError && !feeError;
+  // Calcul en centimes pour éviter les écarts d'arrondi.
+  const grossCents = valid ? Math.round(p * n * 100) : 0;
+  const feeCents = Math.round((grossCents * (valid ? f : 0)) / 100);
+  const perceivedCents = grossCents - feeCents;
+  const commissionCents = Math.round(perceivedCents * RATE);
+  const gross = grossCents / 100;
+  const fee = feeCents / 100;
+  const perceived = perceivedCents / 100;
+  const commission = commissionCents / 100;
+  const net = (perceivedCents - commissionCents) / 100;
 
   const shownGross = useAnimatedNumber(gross);
+  const shownFee = useAnimatedNumber(fee);
+  const shownPerceived = useAnimatedNumber(perceived);
   const shownCommission = useAnimatedNumber(commission);
   const shownNet = useAnimatedNumber(net);
 
@@ -153,12 +173,12 @@ export function Simulator() {
     const id = window.setTimeout(() => {
       setAnnouncement(
         valid
-          ? `Simulation : revenus locatifs bruts ${formatEuro(gross)}, commission ${formatEuro(commission)}, revenus après commission ${formatEuro(net)}.`
+          ? `Simulation : nuitées ${formatEuro(gross)}, frais de plateforme ${formatEuro(fee)}, revenus perçus ${formatEuro(perceived)}, commission ${formatEuro(commission)}, revenus après commission ${formatEuro(net)}.`
           : "Simulation impossible : vérifiez les valeurs saisies.",
       );
     }, 700);
     return () => window.clearTimeout(id);
-  }, [gross, commission, net, valid]);
+  }, [gross, fee, perceived, commission, net, valid]);
 
   return (
     <div className="reveal mt-12 overflow-hidden rounded-[var(--radius-panel)] border border-line bg-surface shadow-soft lg:mt-16">
@@ -192,6 +212,19 @@ export function Simulator() {
             sliderMax={limits.nights.sliderMax}
             error={nightsError}
           />
+          <NumberField
+            id={`${uid}-fee`}
+            label="Frais prélevés par la plateforme"
+            hint="Le pourcentage que la plateforme retient sur le prix des nuits. Il varie selon la plateforme et vos réglages : laissez 0 si vous ne le connaissez pas."
+            unit="%"
+            value={platformFee}
+            onChange={setPlatformFee}
+            min={limits.platformFee.min}
+            max={limits.platformFee.max}
+            sliderMax={limits.platformFee.sliderMax}
+            step={0.5}
+            error={feeError}
+          />
         </form>
 
         <div className="on-dark flex flex-col gap-6 bg-maison p-6 text-cream sm:p-10">
@@ -201,10 +234,28 @@ export function Simulator() {
           </div>
 
           <dl className="flex flex-col">
-            <div className="flex items-baseline justify-between gap-4 border-b border-cream/20 py-4">
-              <dt className="text-cream/90">Revenus locatifs bruts</dt>
-              <dd className="whitespace-nowrap font-display text-[1.5rem] font-medium tabular-nums [font-stretch:92%]">
+            <div className="flex items-baseline justify-between gap-4 border-b border-cream/20 py-3">
+              <dt className="text-cream/90">Prix des nuitées</dt>
+              <dd className="whitespace-nowrap font-display text-[1.25rem] font-medium tabular-nums [font-stretch:92%]">
                 {formatEuro(shownGross)}
+              </dd>
+            </div>
+            <div className="flex items-baseline justify-between gap-4 border-b border-cream/20 py-3">
+              <dt className="text-cream/90">
+                Frais de la plateforme
+                <span className="block text-small text-cream/75">{valid ? `${formatNumber(f)} %` : "—"}</span>
+              </dt>
+              <dd className="whitespace-nowrap font-display text-[1.25rem] font-medium tabular-nums [font-stretch:92%]">
+                −&nbsp;{formatEuro(shownFee)}
+              </dd>
+            </div>
+            <div className="flex items-baseline justify-between gap-4 border-b border-cream/20 py-4">
+              <dt className="font-semibold text-cream">
+                Revenus perçus
+                <span className="block text-small font-normal text-cream/75">Base de notre commission</span>
+              </dt>
+              <dd className="whitespace-nowrap font-display text-[1.5rem] font-medium tabular-nums [font-stretch:92%]">
+                {formatEuro(shownPerceived)}
               </dd>
             </div>
             <div className="flex items-baseline justify-between gap-4 border-b border-cream/20 py-4">
@@ -232,7 +283,7 @@ export function Simulator() {
               <span className="bg-terra-on-dark" style={{ width: `${site.commission.rate}%` }} />
             </div>
             <div className="flex justify-between text-small text-cream/80">
-              <span>Pour vous : {100 - site.commission.rate} %</span>
+              <span>Pour vous : {100 - site.commission.rate} % des revenus perçus</span>
               <span>Commission : {site.commission.rate} %</span>
             </div>
           </div>
@@ -240,6 +291,7 @@ export function Simulator() {
           {valid ? (
             <p className="text-small text-cream/80">
               Calcul : {formatEuro(p)} × {n} nuit{n > 1 ? "s" : ""} = {formatEuro(gross)}
+              {f > 0 ? `, moins ${formatNumber(f)} % de frais de plateforme = ${formatEuro(perceived)}` : ""}
             </p>
           ) : null}
         </div>
@@ -252,8 +304,8 @@ export function Simulator() {
           taux d’occupation.
         </p>
         <p className="mt-1.5 text-small text-ink-soft">
-          Montants TTC. Les frais de ménage, réglés par les voyageurs, ne sont pas pris en compte. Ce
-          calcul ne tient pas compte des frais de plateforme, des charges ni de la fiscalité.
+          Montants TTC. Les frais de ménage, réglés par les voyageurs, et la taxe de séjour ne sont pas
+          pris en compte. Ce calcul ne tient compte ni des charges ni de la fiscalité.
         </p>
       </div>
 

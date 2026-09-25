@@ -25,15 +25,17 @@ export function Pricing() {
             <span className="text-caption mb-3 text-ink">
               {site.commission.taxNote}
               <br />
-              des revenus locatifs
+              {site.commission.base}
             </span>
           </p>
 
           <div className="mt-8 flex max-w-[34rem] flex-col gap-4 text-ink">
             <p className="text-lead">
-              Notre rémunération correspond à {site.commission.rate} % des revenus générés par les
-              locations.
+              Notre rémunération correspond à {site.commission.rate} % {site.commission.taxNote} des
+              revenus locatifs que vous percevez.
             </p>
+            <p>{site.commission.baseDetail}</p>
+            <p>{site.commission.payment}</p>
             <p>
               Cette commission rémunère notre accompagnement et notre gestion, de l’estimation de
               votre logement à la préparation de chaque séjour.

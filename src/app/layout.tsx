@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, Instrument_Sans } from "next/font/google";
 
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
-import { StickyCta } from "@/components/layout/StickyCta";
 import { site } from "@/content/site";
 
 import "./globals.css";
@@ -69,6 +66,11 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
+/**
+ * Layout racine commun au site public et aux espaces connectés.
+ * Chaque groupe fournit sa propre structure et un élément #contenu
+ * (cible du lien d'évitement).
+ */
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="fr" className={`${instrument.variable} ${hanken.variable}`}>
@@ -79,12 +81,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Aller au contenu
         </a>
-        <Header />
-        <main id="contenu" tabIndex={-1} className="flex-1 outline-none">
-          {children}
-        </main>
-        <Footer />
-        <StickyCta />
+        {children}
       </body>
     </html>
   );

@@ -29,7 +29,7 @@ export const included = [
 export const pricingNotes = [
   {
     title: "Le ménage",
-    text: "Il est réglé par les voyageurs, via les frais de ménage de chaque réservation. Il n’entre pas dans le calcul de notre commission et n’est pas prélevé sur vos revenus.",
+    text: "Il est réglé par les voyageurs, via les frais de ménage de chaque réservation. Il n’entre pas dans le calcul de notre commission et n’est pas prélevé sur vos revenus : vous recevez ces frais avec le versement de la plateforme, et nous vous les refacturons à l’identique.",
   },
   {
     title: "Le linge",

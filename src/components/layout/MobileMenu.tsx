@@ -94,7 +94,7 @@ export function MobileMenu() {
               </ul>
             ) : null}
             <p className="text-small text-center text-ink-soft">
-              Conciergerie à {site.area.city} et dans sa métropole · {site.commission.label} {site.commission.taxNote} des revenus locatifs
+              Conciergerie à {site.area.city} et dans sa métropole · {site.commission.label} {site.commission.taxNote} {site.commission.base}
             </p>
           </div>
         </nav>

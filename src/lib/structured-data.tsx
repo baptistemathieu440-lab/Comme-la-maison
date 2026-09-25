@@ -51,7 +51,7 @@ export function organizationJsonLd(): Json {
     makesOffer: {
       "@type": "Offer",
       name: "Gestion complète de location courte durée",
-      description: `Conciergerie Airbnb à ${site.area.city} : commission de ${site.commission.rate} % ${site.commission.taxNote} des revenus locatifs.`,
+      description: `Conciergerie Airbnb à ${site.area.city} : commission de ${site.commission.rate} % ${site.commission.taxNote} ${site.commission.base}.`,
       areaServed: site.area.region,
     },
   };

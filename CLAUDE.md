@@ -5,12 +5,17 @@ Site officiel de Comme à la Maison, conciergerie Airbnb et location courte dur�
 @AGENTS.md
 
 ## Stack
-Next.js 16 (App Router, pages statiques) + TypeScript strict + Tailwind CSS v4 + Lucide. Pas de base de données ni de paiement pour l'instant (Supabase et Stripe restent la stack de référence si un produit en a besoin).
+Next.js 16 (App Router) + TypeScript strict + Tailwind CSS v4 + Lucide, hébergé sur Netlify.
+Plateforme de gestion : Supabase (Postgres, comptes, stockage privé, règles d'accès par ligne), région Paris.
+- Site public : groupe de routes `src/app/(site)`, pages statiques, fonctionne sans base.
+- Espaces connectés : `/admin` (Baptiste et Simon, double authentification obligatoire), `/owner` (propriétaires), `/staff` (agents).
+- Schéma versionné dans `supabase/migrations` (jamais de modification à la main) ; types générés dans `src/lib/supabase/database.types.ts`.
 
 ## Commandes
 - `npm run dev` : développement sur http://localhost:3000
 - `npm run lint` · `npm run typecheck` · `npm run build`
 - `npm run test:e2e` : tests Playwright (parcours, simulateur, formulaire, accessibilité axe WCAG 2.2 AA), sur desktop et mobile
+- `npm run db:start` · `npm run db:stop` : base Supabase locale (Docker) ; `npm run db:reset` réapplique toutes les migrations ; `npm run db:types` régénère les types
 
 ## Où modifier quoi
 - Textes, tarifs, FAQ, services, coordonnées : `src/content/*.ts` (jamais dans les composants)
@@ -24,7 +29,12 @@ Next.js 16 (App Router, pages statiques) + TypeScript strict + Tailwind CSS v4 +
 - Ne jamais inventer de données : clients, avis, chiffres, revenus, taux d'occupation, logements, partenaires, témoignages. Utiliser des emplacements vides.
 - Toute donnée publiée porte sa nature (réel, simulation, estimation, projection), sa source et sa période.
 - Aucune formulation qui garantit un niveau de revenu.
-- La commission est de 20 % TTC des revenus locatifs ; les frais de ménage sont payés par les voyageurs (hors base) ; le linge est à la charge du propriétaire.
+- La commission est de 20 % TTC du prix des nuitées réellement perçu par le propriétaire, c'est-à-dire après les frais prélevés par la plateforme. Frais de ménage (payés par les voyageurs, perçus par le propriétaire puis refacturés à l'identique) et taxe de séjour hors base. Le linge est à la charge du propriétaire.
+- Le propriétaire encaisse les versements des plateformes ; Comme à la Maison lui adresse chaque mois un relevé valant facture (commission, ménage refacturé, frais avancés). La conciergerie ne manie pas les fonds des propriétaires.
+- Montants en centimes (entiers), taux en points de base (2000 = 20 %). Le taux est figé sur chaque réservation ; un relevé finalisé ne se modifie plus.
+- Un propriétaire ne doit jamais voir les données d'un autre : toute nouvelle table a ses règles d'accès (RLS) et un test d'isolation. La clé de service Supabase reste côté serveur (`src/lib/supabase/admin.ts`, `server-only`).
+- Aucune intégration simulée : une synchronisation, un email ou un paiement non configuré s'affiche « non connecté » avec ce qu'il manque.
+- Données de démonstration : toujours `is_demo = true`, « Démo » dans les libellés, supprimables en un clic.
 - Orthographe de la marque dans les textes : « Comme à la Maison ». Le logo fourni écrit « maison » en minuscule.
 - Accessibilité WCAG 2.2 AA : contrastes documentés, jamais la couleur seule pour porter une information, `prefers-reduced-motion` respecté.
 - Tailwind : ne pas passer via `className` des classes qui entrent en conflit avec celles d'un composant (taille, affichage) ; utiliser les props prévues (`size`, `variant`).

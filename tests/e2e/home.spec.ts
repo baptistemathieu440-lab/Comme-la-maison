@@ -30,6 +30,8 @@ test.describe("Page d'accueil", () => {
     await expect(tarifs.getByText("Box de bienvenue")).toBeVisible();
     await expect(tarifs.getByText(/réglé par les voyageurs/)).toBeVisible();
     await expect(tarifs.getByText(/Il reste à votre charge/)).toBeVisible();
+    await expect(tarifs.getByText(/après déduction des frais prélevés par la plateforme/)).toBeVisible();
+    await expect(tarifs.getByText(/versent le prix des séjours directement sur votre compte/)).toBeVisible();
   });
 
   test("les accordéons de la FAQ s'ouvrent au clavier", async ({ page }) => {

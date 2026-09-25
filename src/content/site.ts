@@ -26,7 +26,7 @@ export const site = {
   seo: {
     title: "Conciergerie Airbnb à Bordeaux · Comme à la Maison",
     description:
-      "Conciergerie Airbnb et gestion de location courte durée à Bordeaux et dans sa métropole. De l'estimation à l'accueil des voyageurs : 20 % TTC des revenus locatifs.",
+      "Conciergerie Airbnb et gestion de location courte durée à Bordeaux et dans sa métropole. De l'estimation à l'accueil des voyageurs : 20 % TTC des revenus locatifs perçus.",
   },
 
   /** Phrase courte reprise dans le footer et les données structurées. */
@@ -37,6 +37,17 @@ export const site = {
     label: "20 %",
     /** La commission s'entend toutes taxes comprises. */
     taxNote: "TTC",
+    /** Base de calcul, en version courte (bandeaux, en-têtes). */
+    base: "des revenus locatifs perçus",
+    /**
+     * Base de calcul validée par Baptiste et Simon : le prix des nuitées réellement
+     * perçu par le propriétaire, après les frais prélevés par la plateforme.
+     */
+    baseDetail:
+      "Elle se calcule sur le prix des nuitées que vous percevez réellement, après déduction des frais prélevés par la plateforme. Les frais de ménage et la taxe de séjour n’entrent pas dans ce calcul.",
+    /** Le propriétaire encaisse ; Comme à la Maison facture sa commission. */
+    payment:
+      "Les plateformes versent le prix des séjours directement sur votre compte. Chaque mois, nous vous adressons un relevé détaillé, réservation par réservation, et la facture de notre commission.",
   },
 
   contact: {

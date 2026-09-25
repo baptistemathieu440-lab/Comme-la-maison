@@ -7,7 +7,7 @@ import { primaryCta } from "@/content/navigation";
 import { site } from "@/content/site";
 
 const trust = [
-  `${site.commission.label} ${site.commission.taxNote} des revenus locatifs`,
+  `${site.commission.label} ${site.commission.taxNote} ${site.commission.base}`,
   `${site.area.city} et sa métropole`,
   "Deux associés, un interlocuteur",
 ];
@@ -90,7 +90,7 @@ function HeroVisual() {
           {site.commission.label}
         </span>
         <span className="text-small text-ink">
-          {site.commission.taxNote} des revenus locatifs, pour une gestion complète
+          {site.commission.taxNote} {site.commission.base}, pour une gestion complète
         </span>
       </div>
     </div>

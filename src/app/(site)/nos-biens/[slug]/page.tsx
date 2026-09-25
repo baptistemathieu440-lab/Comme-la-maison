@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 
 const MONTHS_SHOWN = 3;
 
-export async function generateMetadata({ params }: PageProps<"/logements/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/nos-biens/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const listing = await getPublicListing(slug);
   if (!listing) return { title: "Logement introuvable", robots: { index: false } };
@@ -25,11 +25,11 @@ export async function generateMetadata({ params }: PageProps<"/logements/[slug]"
     description:
       listing.description?.slice(0, 155) ??
       `${listing.typeLabel} à ${listing.city} géré par Comme à la Maison : disponibilités et demande de séjour.`,
-    alternates: { canonical: `/logements/${listing.slug}` },
+    alternates: { canonical: `/nos-biens/${listing.slug}` },
   };
 }
 
-export default async function ListingPage({ params }: PageProps<"/logements/[slug]">) {
+export default async function ListingPage({ params }: PageProps<"/nos-biens/[slug]">) {
   const { slug } = await params;
   const listing = await getPublicListing(slug);
   if (!listing) notFound();
@@ -56,9 +56,9 @@ export default async function ListingPage({ params }: PageProps<"/logements/[slu
     <>
       <section aria-labelledby="logement-h1" className="bg-cream">
         <Container className="flex flex-col gap-6 pb-10 pt-10 sm:pt-14">
-          <Link href="/logements" className="inline-flex min-h-11 items-center gap-2 self-start font-semibold text-maison hover:underline">
+          <Link href="/nos-biens" className="inline-flex min-h-11 items-center gap-2 self-start font-semibold text-maison hover:underline">
             <ArrowLeft aria-hidden="true" className="size-4" />
-            Tous nos logements
+            Tous nos biens
           </Link>
           <Eyebrow>{listing.city}</Eyebrow>
           <h1 id="logement-h1" className="text-h1 max-w-[52rem] text-maison">

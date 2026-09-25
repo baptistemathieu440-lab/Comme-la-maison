@@ -106,27 +106,6 @@ async function publicPhotos(supabase: AdminClient, propertyIds: string[]) {
   return byProperty;
 }
 
-/** Au moins un logement publié ? (lien « Logements » de l'en-tête, mis en cache 10 minutes). */
-export const hasPublicListings = unstable_cache(
-  async () => {
-    if (!isAdminClientConfigured()) return false;
-    try {
-      const { count } = await createAdminClient()
-        .from("properties")
-        .select("id", { count: "exact", head: true })
-        .eq("visible_on_site", true)
-        .eq("is_demo", false)
-        .eq("status", "active")
-        .not("slug", "is", null);
-      return (count ?? 0) > 0;
-    } catch {
-      return false;
-    }
-  },
-  ["public-listings-exist"],
-  { tags: [PUBLIC_LISTINGS_TAG], revalidate: 600 },
-);
-
 export async function listPublicListings(): Promise<PublicListing[]> {
   if (!isAdminClientConfigured()) return [];
   const supabase = createAdminClient();
@@ -138,6 +117,22 @@ export async function listPublicListings(): Promise<PublicListing[]> {
   );
   return rows.map((row) => toListing(row, photos.get(row.id) ?? []));
 }
+
+/**
+ * Quelques logements pour l'accueil, mis en cache 10 minutes
+ * (et rafraîchis aussitôt qu'un bien est publié ou retiré depuis le back-office).
+ */
+export const featuredListings = unstable_cache(
+  async (count: number) => {
+    try {
+      return (await listPublicListings()).slice(0, count);
+    } catch {
+      return [];
+    }
+  },
+  ["public-listings-featured"],
+  { tags: [PUBLIC_LISTINGS_TAG], revalidate: 600 },
+);
 
 export async function getPublicListing(slug: string): Promise<PublicListing | null> {
   if (!isAdminClientConfigured() || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return null;

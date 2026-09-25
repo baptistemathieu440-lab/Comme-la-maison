@@ -6,6 +6,14 @@ const nextConfig: NextConfig = {
     // AVIF d'abord, WebP en repli : les photos pèsent 30 à 50 % de moins qu'en JPEG.
     formats: ["image/avif", "image/webp"],
   },
+  // Anciennes adresses : les liens déjà partagés ou indexés continuent de fonctionner.
+  async redirects() {
+    return [
+      { source: "/logements", destination: "/nos-biens", permanent: true },
+      { source: "/logements/:slug", destination: "/nos-biens/:slug", permanent: true },
+      { source: "/confidentialite", destination: "/politique-confidentialite", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

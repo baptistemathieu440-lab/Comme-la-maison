@@ -91,3 +91,27 @@ export function Button({
     </button>
   );
 }
+
+/** Lien discret avec flèche : « Découvrir… ». Pour les renvois secondaires, sans alourdir la page. */
+export function ArrowLink({
+  className,
+  children,
+  onDark = false,
+  ...props
+}: { children: ReactNode; onDark?: boolean } & ComponentProps<typeof Link>) {
+  return (
+    <Link
+      className={cn(
+        "group/btn inline-flex min-h-11 items-center gap-2.5 text-button",
+        onDark ? "text-cream" : "text-maison",
+        className,
+      )}
+      {...props}
+    >
+      <span className="border-b border-current/35 pb-1 transition-colors duration-200 group-hover/btn:border-current">
+        {children}
+      </span>
+      <Arrow />
+    </Link>
+  );
+}

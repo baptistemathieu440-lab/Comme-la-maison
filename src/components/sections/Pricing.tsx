@@ -1,17 +1,18 @@
 import { Check } from "lucide-react";
 
-import { ButtonLink } from "@/components/ui/Button";
+import { ArrowLink, ButtonLink } from "@/components/ui/Button";
 import { Eyebrow, Period, Section } from "@/components/ui/Section";
 import { included, pricingNotes } from "@/content/offer";
 import { primaryCta } from "@/content/navigation";
 import { site } from "@/content/site";
 
+/** Notre fonctionnement : la commission, ce qu'elle comprend, et ce qui n'y entre pas. */
 export function Pricing() {
   return (
-    <Section id="tarifs" tone="olive" labelledBy="tarifs-title">
-      <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
+    <Section id="fonctionnement" tone="olive-light" labelledBy="tarifs-title">
+      <div id="tarifs" className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
         <div className="flex flex-col">
-          <Eyebrow surface="olive">Tarification</Eyebrow>
+          <Eyebrow surface="olive">Notre fonctionnement</Eyebrow>
           <h2 id="tarifs-title" className="text-h2 mt-5 text-maison">
             Une commission simple. Une gestion complète
             <Period surface="olive" />
@@ -32,23 +33,18 @@ export function Pricing() {
           <div className="mt-8 flex max-w-[34rem] flex-col gap-4 text-ink">
             <p className="text-lead">
               Notre rémunération correspond à {site.commission.rate} % {site.commission.taxNote} des
-              revenus locatifs que vous percevez.
+              revenus locatifs que vous percevez. Elle comprend nos services de conciergerie et la box de
+              bienvenue offerte à vos voyageurs.
             </p>
             <p>{site.commission.baseDetail}</p>
             <p>{site.commission.payment}</p>
-            <p>
-              Cette commission rémunère notre accompagnement et notre gestion, de l’estimation de
-              votre logement à la préparation de chaque séjour.
-            </p>
           </div>
 
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <ButtonLink href="/#simulateur" arrow>
-              Simuler mes revenus
-            </ButtonLink>
-            <ButtonLink href={primaryCta.href} variant="ghost">
+          <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-8">
+            <ButtonLink href={primaryCta.href} arrow>
               {primaryCta.label}
             </ButtonLink>
+            <ArrowLink href="#simulateur">Simuler mes revenus</ArrowLink>
           </div>
         </div>
 

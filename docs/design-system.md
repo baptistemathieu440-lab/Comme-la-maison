@@ -62,24 +62,25 @@ Proportions indicatives sur une page : crème 45 %, olive 25 %, vert 18 %, pierr
 
 ## Typographie
 
-- **Titres** : Instrument Sans, graisse 500, largeur 92 %, interlettrage négatif.
-- **Texte et interface** : Hanken Grotesk.
+- **Titres du site public** : Playfair Display, graisse 400 (500 pour les H3), une serif élégante qui donne le ton « conciergerie haut de gamme ». Portée par la classe `.site-theme` (layout du site), qui redéfinit `--font-display`.
+- **Titres des espaces connectés** : Instrument Sans, graisse 500, largeur 92 %.
+- **Texte et interface** : Hanken Grotesk, partout.
 
-Les deux sont des grotesques, dans la lignée de l'Helvetica du logo. Elles sont auto-hébergées par `next/font`.
+Toutes sont auto-hébergées par `next/font`. (Cormorant Garamond a été écartée : sa version variable place mal les accents « ê », « é » dans Chromium.)
 
 | Style | Utilitaire | Taille (mobile → desktop) |
 |---|---|---|
-| H1 | `text-h1` | 42 → 72 px, interligne 1,04 |
-| H2 | `text-h2` | 32 → 52 px, interligne 1,08 |
-| H3 | `text-h3` | 21 → 26 px, interligne 1,2 |
-| Lead | `text-lead` | 18 → 21 px |
-| Body | `text-body` | 17 → 18 px, interligne 1,65 |
+| H1 | `text-h1` | 36 → 62 px, interligne 1,1 |
+| H2 | `text-h2` | 28 → 42 px, interligne 1,15 |
+| H3 | `text-h3` | 20 → 24 px, interligne 1,25 |
+| Lead | `text-lead` | 17 → 19 px |
+| Body | `text-body` | 16 → 17 px, interligne 1,65 |
 | Small | `text-small` | 15 px |
-| Button | `text-button` | 16 px, graisse 600 |
-| Caption | `text-caption` | 13 px, capitales, +14 % |
-| Chiffre clé | `text-display` | 88 → 152 px (tarif uniquement) |
+| Button | `text-button` | 15 px, graisse 600 |
+| Caption | `text-caption` | 12 px, capitales, +18 % |
+| Chiffre clé | `text-display` | 72 → 120 px (tarif uniquement) |
 
-« savoir‑faire » s'écrit avec un trait d'union insécable (U+2011) dans les titres.
+Principes : textes courts, beaucoup d'espace, une seule action principale (« Confier mon bien ») ; les renvois secondaires utilisent `ArrowLink` (lien souligné + flèche) plutôt qu'un bouton.
 
 ## Motifs
 

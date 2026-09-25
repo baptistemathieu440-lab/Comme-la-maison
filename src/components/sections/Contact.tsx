@@ -16,15 +16,16 @@ export function Contact() {
   const { phones, email, availability } = site.contact;
 
   return (
-    <Section id="estimation" tone="stone" labelledBy="estimation-title">
+    <Section id="estimation" spacing="flush-top" labelledBy="estimation-title">
       <div className="overflow-hidden rounded-[var(--radius-panel)] bg-surface shadow-soft lg:grid lg:grid-cols-[0.85fr_1.15fr]">
         <div className="on-dark flex flex-col gap-6 bg-maison p-6 text-cream sm:p-10 lg:p-12">
           <Eyebrow surface="dark">Estimation</Eyebrow>
           <h2 id="estimation-title" className="text-h2 text-cream">
-            Et si vous n’aviez plus rien à gérer ?
+            Présentez-nous votre logement
           </h2>
           <p className="text-lead text-cream/90">
-            Parlons de votre logement et de son potentiel en location courte durée.
+            Quelques informations suffisent : nous revenons vers vous pour parler de son potentiel en
+            location courte durée.
           </p>
 
           <ul className="mt-2 flex flex-col gap-3">

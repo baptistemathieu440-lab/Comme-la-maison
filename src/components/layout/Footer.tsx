@@ -1,7 +1,8 @@
 import Link from "next/link";
+import { Mail, MapPin, Phone } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
-import { legalNav, mainNav, primaryCta, type NavItem } from "@/content/navigation";
+import { footerNav, legalNav } from "@/content/navigation";
 import { site } from "@/content/site";
 import { telHref } from "@/lib/format";
 
@@ -9,61 +10,27 @@ import { SocialIcon } from "./SocialIcon";
 
 const socialLabels = { instagram: "Instagram", linkedin: "LinkedIn", facebook: "Facebook" } as const;
 
-export function Footer({ items = mainNav }: { items?: NavItem[] }) {
+const linkClass =
+  "inline-flex min-h-10 items-center text-cream/85 underline-offset-4 transition-colors hover:text-cream hover:underline";
+
+export function Footer() {
   const socials = (Object.keys(site.socials) as Array<keyof typeof site.socials>).filter(
     (key) => site.socials[key],
   );
-  const { phones, email } = site.contact;
+  const { phones, email, availability } = site.contact;
   const year = new Date().getFullYear();
 
   return (
     <footer className="on-dark bg-maison text-cream">
-      <div className="mx-auto w-full max-w-[76rem] px-5 pb-12 pt-16 sm:px-8 lg:px-12 lg:pt-20">
-        <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr_1fr_1fr] lg:gap-10">
+      <div className="mx-auto w-full max-w-[76rem] px-5 pb-10 pt-16 sm:px-8 lg:px-12 lg:pt-24">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.9fr_1.4fr_1fr] lg:gap-10">
           <div className="flex flex-col gap-5">
             <Link href="/" aria-label="Comme à la Maison, retour à l’accueil" className="-m-1 self-start rounded-lg p-1">
               <Logo layout="horizontal" tone="dark" className="h-12 w-auto" />
             </Link>
-            <p className="max-w-[22rem] text-cream/85">{site.summary}</p>
-          </div>
-
-          <nav aria-label="Plan du site" className="flex flex-col gap-4">
-            <h2 className="text-caption text-olive-light">Navigation</h2>
-            <ul className="flex flex-col gap-1">
-              {items.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="inline-flex min-h-10 items-center text-cream/90 underline-offset-4 hover:text-cream hover:underline">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div className="flex flex-col gap-4">
-            <h2 className="text-caption text-olive-light">Contact</h2>
-            <ul className="flex flex-col gap-1">
-              <li>
-                <Link href={primaryCta.href} className="inline-flex min-h-10 items-center text-cream/90 underline-offset-4 hover:text-cream hover:underline">
-                  {primaryCta.label}
-                </Link>
-              </li>
-              {phones.map((phone) => (
-                <li key={phone.number}>
-                  <a href={telHref(phone.number)} className="inline-flex min-h-10 items-center gap-1.5 text-cream/90 underline-offset-4 hover:text-cream hover:underline">
-                    <span className="text-cream/70">{phone.name}</span>
-                    <span className="whitespace-nowrap">{phone.number}</span>
-                  </a>
-                </li>
-              ))}
-              {email ? (
-                <li>
-                  <a href={`mailto:${email}`} className="inline-flex min-h-10 items-center break-all text-cream/90 underline-offset-4 hover:text-cream hover:underline">
-                    {email}
-                  </a>
-                </li>
-              ) : null}
-            </ul>
+            <p className="max-w-[20rem] text-cream/85">
+              Conciergerie à {site.area.city} et sa métropole.
+            </p>
             {socials.length > 0 ? (
               <ul className="flex gap-2">
                 {socials.map((key) => (
@@ -83,21 +50,68 @@ export function Footer({ items = mainNav }: { items?: NavItem[] }) {
             ) : null}
           </div>
 
-          <div className="flex flex-col gap-4">
-            <h2 className="text-caption text-olive-light">Informations</h2>
-            <ul className="flex flex-col gap-1">
-              {legalNav.map((item) => (
+          <nav aria-label="Plan du site" className="flex flex-col gap-4">
+            <h2 className="text-caption text-olive-light">Navigation</h2>
+            <ul className="flex flex-col">
+              {footerNav.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="inline-flex min-h-10 items-center text-cream/90 underline-offset-4 hover:text-cream hover:underline">
+                  <Link href={item.href} className={linkClass}>
                     {item.label}
                   </Link>
                 </li>
               ))}
             </ul>
+          </nav>
+
+          <div className="flex flex-col gap-4">
+            <h2 className="text-caption text-olive-light">Contact</h2>
+            <ul className="flex flex-col">
+              {phones.map((phone) => (
+                <li key={phone.number}>
+                  <a href={telHref(phone.number)} className={`${linkClass} gap-2.5`}>
+                    <Phone aria-hidden="true" className="size-4 shrink-0 text-olive-light" strokeWidth={1.75} />
+                    <span>
+                      {phone.name} <span className="whitespace-nowrap">{phone.number}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+              {email ? (
+                <li>
+                  <a href={`mailto:${email}`} className={`${linkClass} gap-2.5 break-words`}>
+                    <Mail aria-hidden="true" className="size-4 shrink-0 text-olive-light" strokeWidth={1.75} />
+                    {email}
+                  </a>
+                </li>
+              ) : null}
+              <li className="flex min-h-10 items-center gap-2.5 text-cream/85">
+                <MapPin aria-hidden="true" className="size-4 shrink-0 text-olive-light" strokeWidth={1.75} />
+                {site.area.city} et sa métropole
+              </li>
+            </ul>
+            {availability ? <p className="text-small text-cream/75">{availability}</p> : null}
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <h2 className="text-caption text-olive-light">Informations</h2>
+            <ul className="flex flex-col">
+              {legalNav.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className={linkClass}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link href="/connexion" className={linkClass}>
+                  Espace propriétaire
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-cream/20 pt-8 text-small text-cream/75 md:flex-row md:items-center md:justify-between">
+        <div className="mt-14 flex flex-col gap-2 border-t border-cream/15 pt-8 text-small text-cream/70 md:flex-row md:items-center md:justify-between">
           <p>
             Zone d’intervention : {site.area.city} et les {site.area.communes.length} communes de{" "}
             {site.area.region}.

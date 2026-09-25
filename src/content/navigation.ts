@@ -2,27 +2,31 @@ export type NavItem = { label: string; href: string };
 
 /** Navigation principale (en-tête et menu mobile). */
 export const mainNav: NavItem[] = [
-  { label: "Accompagnement", href: "/#accompagnement" },
-  { label: "Tarifs", href: "/#tarifs" },
-  { label: "Simulateur", href: "/#simulateur" },
-  { label: "Qui sommes-nous", href: "/#qui-sommes-nous" },
-  { label: "Transparence", href: "/transparence" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "Accueil", href: "/" },
+  { label: "Nos biens", href: "/nos-biens" },
+  { label: "Nos offres", href: "/nos-offres" },
+  { label: "À propos", href: "/a-propos" },
 ];
 
-/** Lien vers les logements proposés en réservation directe : affiché seulement s'il y en a. */
-export const listingsNav: NavItem = { label: "Logements", href: "/logements" };
+export const contactNav: NavItem = { label: "Contact", href: "/contact" };
 
-/** Navigation principale, avec les logements quand au moins un bien est publié. */
-export function siteNav(withListings: boolean): NavItem[] {
-  if (!withListings) return mainNav;
-  const index = mainNav.findIndex((item) => item.href === "/transparence");
-  return [...mainNav.slice(0, index), listingsNav, ...mainNav.slice(index)];
-}
+/** L'unique appel à l'action du site : confier son logement. */
+export const primaryCta: NavItem = { label: "Confier mon bien", href: "/contact" };
 
-export const primaryCta: NavItem = { label: "Estimer mon logement", href: "/#estimation" };
+/** Détail de la commission, sur la page Nos offres. */
+export const pricingHref = "/nos-offres#fonctionnement";
 
 export const legalNav: NavItem[] = [
   { label: "Mentions légales", href: "/mentions-legales" },
-  { label: "Politique de confidentialité", href: "/confidentialite" },
+  { label: "Politique de confidentialité", href: "/politique-confidentialite" },
+];
+
+/** Plan du site, dans le pied de page. */
+export const footerNav: NavItem[] = [
+  { label: "Accueil", href: "/" },
+  { label: "Nos biens", href: "/nos-biens" },
+  { label: "Nos offres", href: "/nos-offres" },
+  { label: "À propos de nous", href: "/a-propos" },
+  contactNav,
+  { label: "Transparence", href: "/transparence" },
 ];

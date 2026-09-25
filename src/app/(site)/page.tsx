@@ -1,35 +1,31 @@
-import { About } from "@/components/sections/About";
-import { Comparison } from "@/components/sections/Comparison";
-import { Contact } from "@/components/sections/Contact";
-import { Faq } from "@/components/sections/Faq";
+import { ContactCta } from "@/components/sections/ContactCta";
 import { Hero } from "@/components/sections/Hero";
-import { Journey } from "@/components/sections/Journey";
-import { OurPromise } from "@/components/sections/OurPromise";
-import { Pillars } from "@/components/sections/Pillars";
-import { Pricing } from "@/components/sections/Pricing";
-import { Services } from "@/components/sections/Services";
-import { SimulatorSection } from "@/components/sections/SimulatorSection";
-import { TransparencyTeaser } from "@/components/sections/TransparencyTeaser";
-import { WelcomeBox } from "@/components/sections/WelcomeBox";
+import { FeaturedListings } from "@/components/sections/home/FeaturedListings";
+import { OffersPreview } from "@/components/sections/home/OffersPreview";
+import { PricingTeaser } from "@/components/sections/home/PricingTeaser";
+import { OurPromise } from "@/components/sections/home/OurPromise";
+import { Reviews } from "@/components/sections/home/Reviews";
+import { WhyUs } from "@/components/sections/home/WhyUs";
+import { publishedReviews } from "@/content/reviews";
 import { JsonLd, homeJsonLd } from "@/lib/structured-data";
 
+/**
+ * Accueil : court et visuel. Qui, quoi, où, pourquoi, comment nous contacter ;
+ * le détail vit sur les pages Nos offres, Nos biens et À propos.
+ */
 export default function HomePage() {
+  const { items, examples } = publishedReviews();
   return (
     <>
       <JsonLd data={homeJsonLd()} />
       <Hero />
       <OurPromise />
-      <Comparison />
-      <Journey />
-      <Services />
-      <Pricing />
-      <SimulatorSection />
-      <WelcomeBox />
-      <Pillars />
-      <About />
-      <TransparencyTeaser />
-      <Faq />
-      <Contact />
+      <OffersPreview />
+      <PricingTeaser />
+      <FeaturedListings />
+      <WhyUs />
+      <Reviews items={items} examples={examples} />
+      <ContactCta />
     </>
   );
 }

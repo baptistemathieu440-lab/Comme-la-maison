@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Hanken_Grotesk, Instrument_Sans } from "next/font/google";
+import { Hanken_Grotesk, Instrument_Sans, Playfair_Display } from "next/font/google";
 
 import { site } from "@/content/site";
 
@@ -10,6 +10,13 @@ const instrument = Instrument_Sans({
   subsets: ["latin"],
   axes: ["wdth"],
   variable: "--font-instrument",
+  display: "swap",
+});
+
+// Titres du site public : une serif élégante, réservée au site (les espaces connectés gardent Instrument Sans).
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -73,7 +80,7 @@ export const viewport: Viewport = {
  */
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="fr" className={`${instrument.variable} ${hanken.variable}`}>
+    <html lang="fr" className={`${instrument.variable} ${playfair.variable} ${hanken.variable}`}>
       <body className="flex min-h-dvh flex-col">
         <a
           href="#contenu"

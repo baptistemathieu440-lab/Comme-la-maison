@@ -103,6 +103,7 @@ export function SectionHeader({
   titleId,
   intro,
   surface = "light",
+  align = "left",
   className,
 }: {
   eyebrow: string;
@@ -110,10 +111,17 @@ export function SectionHeader({
   titleId: string;
   intro?: ReactNode;
   surface?: Surface;
+  align?: "left" | "center";
   className?: string;
 }) {
   return (
-    <div className={cn("flex max-w-[46rem] flex-col gap-5", className)}>
+    <div
+      className={cn(
+        "flex max-w-[46rem] flex-col gap-5",
+        align === "center" && "mx-auto items-center text-center",
+        className,
+      )}
+    >
       <Eyebrow surface={surface}>{eyebrow}</Eyebrow>
       <h2 id={titleId} className={cn("text-h2", surface === "dark" ? "text-cream" : "text-maison")}>
         {title}
@@ -124,5 +132,46 @@ export function SectionHeader({
         </div>
       ) : null}
     </div>
+  );
+}
+
+/**
+ * En-tête des pages intérieures : sur-titre, titre, introduction courte et,
+ * si besoin, une grande photo en arche. Porte data-hero pour le bouton mobile.
+ */
+export function PageHero({
+  eyebrow,
+  title,
+  titleId,
+  intro,
+  image,
+  children,
+}: {
+  eyebrow: string;
+  title: ReactNode;
+  titleId: string;
+  intro?: ReactNode;
+  image?: ReactNode;
+  children?: ReactNode;
+}) {
+  return (
+    <section data-hero aria-labelledby={titleId} className="bg-cream">
+      <Container
+        className={cn(
+          "grid gap-10 pb-16 pt-12 sm:pb-20 sm:pt-16 lg:pb-24 lg:pt-20",
+          image ? "items-end lg:grid-cols-[1.1fr_0.9fr] lg:gap-16" : null,
+        )}
+      >
+        <div className="flex max-w-[44rem] flex-col gap-6">
+          <Eyebrow>{eyebrow}</Eyebrow>
+          <h1 id={titleId} className="text-h1 text-maison">
+            {title}
+          </h1>
+          {intro ? <div className="text-lead max-w-[36rem] text-ink-soft">{intro}</div> : null}
+          {children}
+        </div>
+        {image ? <div className="reveal">{image}</div> : null}
+      </Container>
+    </section>
   );
 }

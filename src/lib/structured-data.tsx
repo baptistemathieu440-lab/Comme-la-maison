@@ -22,7 +22,7 @@ export function organizationJsonLd(): Json {
     "@type": "ProfessionalService",
     "@id": `${site.url}/#organisation`,
     name: site.name,
-    slogan: "Votre logement, notre savoir-faire.",
+    slogan: "Votre logement, soigné comme à la maison.",
     description: site.seo.description,
     url: site.url,
     logo: `${site.url}/brand/logo-vertical.svg`,
@@ -68,17 +68,21 @@ export function homeJsonLd(): Json[] {
       publisher: { "@id": `${site.url}/#organisation` },
     },
     organizationJsonLd(),
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: faq.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: [item.answer[0], ...(item.list ?? []), ...item.answer.slice(1)].join(" "),
-        },
-      })),
-    },
   ];
+}
+
+/** Questions fréquentes (page Nos offres). */
+export function faqJsonLd(): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: [item.answer[0], ...(item.list ?? []), ...item.answer.slice(1)].join(" "),
+      },
+    })),
+  };
 }

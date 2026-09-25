@@ -8,7 +8,7 @@ import { primaryCta } from "@/content/navigation";
 import { cn } from "@/lib/cn";
 
 /**
- * Bouton « Estimer mon logement » fixé en bas de l'écran, sur mobile uniquement.
+ * Bouton « Confier mon bien » fixé en bas de l’écran, sur mobile uniquement.
  * Il apparaît une fois le premier écran passé et s'efface quand le formulaire
  * ou le pied de page sont visibles, pour ne jamais masquer de contenu utile.
  */

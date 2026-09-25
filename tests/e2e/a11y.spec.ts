@@ -1,13 +1,13 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const pages = ["/", "/transparence", "/mentions-legales", "/confidentialite"];
+const pages = ["/", "/nos-offres", "/nos-biens", "/a-propos", "/contact", "/transparence", "/mentions-legales", "/politique-confidentialite"];
 
 for (const path of pages) {
   test(`accessibilité (axe, WCAG 2.2 AA) : ${path}`, async ({ page }) => {
     await page.goto(path);
     // Neutralise les apparitions au défilement pour analyser l'état final.
-    await page.addStyleTag({ content: ".reveal{animation:none!important}" });
+    await page.addStyleTag({ content: ".reveal,.hero-in{animation:none!important}" });
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();
@@ -25,7 +25,8 @@ test("le menu mobile s'ouvre, piège le focus et se ferme avec Échap", async ({
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Menu" });
   await expect(dialog).toBeVisible();
-  await expect(dialog.getByRole("link", { name: "Tarifs" })).toBeVisible();
+  await expect(dialog.getByRole("link", { name: "Nos offres" })).toBeVisible();
+  await expect(dialog.getByRole("link", { name: "Contact" })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(dialog).toBeHidden();
   await expect(trigger).toBeFocused();

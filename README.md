@@ -2,17 +2,23 @@
 
 Site officiel de **Comme à la Maison**, conciergerie Airbnb et location courte durée à Bordeaux et dans sa métropole.
 
-> Votre logement, notre savoir-faire.
+> Votre logement, soigné comme à la maison.
 > 20 % TTC des revenus locatifs, pour une gestion complète de votre location courte durée.
 
 ## Pages
 
 | Adresse | Contenu |
 |---|---|
-| `/` | Page d'accueil : hero, promesse, sans / avec conciergerie, accompagnement (avant, pendant, après), 12 services, tarification, simulateur, box de bienvenue, 6 piliers, qui sommes-nous, transparence, FAQ, formulaire d'estimation |
+| `/` | Accueil, court et visuel : grande photo, promesse (4 avantages), aperçu des 4 offres, tarif en une ligne, 3 biens, pourquoi nous, avis, contact |
+| `/nos-biens` | Les logements publiés depuis le back-office, en cartes ; `/nos-biens/[slug]` : fiche, disponibilités, demande de séjour |
+| `/nos-offres` | Toutes les prestations (4 familles), avant / pendant / après, fonctionnement et commission (`#fonctionnement`), box de bienvenue, simulateur, FAQ |
+| `/a-propos` | Notre histoire, vision, manière de travailler, Bordeaux, Baptiste et Simon |
+| `/contact` | Formulaire d'estimation et coordonnées |
 | `/transparence` | Nos chiffres, en toute transparence (vides tant qu'aucune donnée vérifiable n'est publiée) |
 | `/mentions-legales` | Mentions légales, avec repères « À compléter » |
-| `/confidentialite` | Politique de confidentialité |
+| `/politique-confidentialite` | Politique de confidentialité |
+
+Les anciennes adresses `/logements` et `/confidentialite` redirigent (301) vers les nouvelles.
 | `/styleguide` | Design system (page interne, non indexée) |
 
 ## Démarrer
@@ -38,10 +44,12 @@ Tout le contenu se trouve dans `src/content/`. Aucun composant n'est à toucher 
 | Fichier | Contenu |
 |---|---|
 | `site.ts` | Nom, référencement, commission, **téléphone, email, réseaux sociaux**, communes |
-| `offer.ts` | Ce qui est inclus, précisions ménage / linge, piliers, étapes de la collaboration |
-| `services.ts` | Les 12 services et le parcours avant / pendant / après |
+| `navigation.ts` | Menu, bouton « Confier mon bien », liens du pied de page |
+| `offer.ts` | Ce qui est inclus, précisions ménage / linge, promesse, « Pourquoi nous », niveaux de box de bienvenue, étapes de la collaboration |
+| `services.ts` | Les 4 familles d'offres (photo, phrase d'accroche, services) et le parcours avant / pendant / après |
 | `faq.ts` | Questions fréquentes |
-| `about.ts` | Texte « Qui sommes-nous », Baptiste et Simon (photos à ajouter ici) |
+| `about.ts` | Page À propos : histoire, vision, Bordeaux, Baptiste et Simon (bios et photos à ajouter ici) |
+| `reviews.ts` | Avis clients (propriétaires, voyageurs, clients). Tant qu'il est vide, des exemples signalés « Exemple » s'affichent |
 | `images.ts` | Photographies et textes alternatifs |
 | `metrics.ts` | Chiffres de la page Transparence |
 | `legal.ts` | Informations légales (raison sociale, SIREN, hébergeur…) |
@@ -57,6 +65,11 @@ Les photos actuelles sont **provisoires** (domaine public, licence CC0). Pour me
 3. réécrire le texte `alt` (ce que montre la photo) et passer `placeholder` à `false`.
 
 Next.js génère automatiquement les versions AVIF et WebP à la bonne taille.
+
+### Ajouter un avis ou un logement
+
+- **Avis** : ajouter un bloc dans `reviews` (`src/content/reviews.ts`), avec l'accord de son auteur. Dès le premier vrai avis, les exemples disparaissent.
+- **Logement** : aucun code à toucher. Dans le back-office, fiche du bien > « Afficher ce bien sur le site public », titre public, photos publiques. Il apparaît aussitôt sur `/nos-biens` (et parmi les 3 premiers sur l'accueil).
 
 Pour les photos de Baptiste et Simon : même principe dans `src/content/about.ts` (champ `photo`). En attendant, une initiale s'affiche dans l'arche.
 

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description:
     "Comment Comme à la Maison traite les informations envoyées par le formulaire d’estimation, et comment exercer vos droits.",
-  alternates: { canonical: "/confidentialite" },
+  alternates: { canonical: "/politique-confidentialite" },
 };
 
 export default function ConfidentialitePage() {

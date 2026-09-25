@@ -40,6 +40,7 @@ Règles :
 | Border (champs) | — | `#7F8A83` | `line-strong` | contour des champs |
 | Accent | Terracotta (logo) | `#BB6C51` | `terra` | poignée, points, grands chiffres |
 | Accent Text | Terracotta foncé | `#9E5139` | `terra-text` | terracotta en petit texte |
+| Accent Deep | Terracotta profond | `#8F482F` | `terra-deep` | texte des badges « en attente » sur `terra-wash` (5,3:1) |
 | Error | Brique | `#A33A2B` | `error` | erreurs, toujours avec icône et texte |
 
 Proportions indicatives sur une page : crème 45 %, olive 25 %, vert 18 %, pierre 10 %, terracotta 2 %.

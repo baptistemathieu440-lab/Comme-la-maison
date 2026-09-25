@@ -51,3 +51,6 @@ next-env.d.ts
 
 # Netlify
 .netlify
+
+# Sessions des tests de la plateforme
+/playwright/.auth/

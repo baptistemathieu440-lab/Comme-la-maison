@@ -19,7 +19,7 @@ import type { Labelled, Tone } from "@/lib/labels";
 const toneStyles: Record<Tone, { className: string; icon: LucideIcon }> = {
   positive: { className: "bg-olive-light text-maison", icon: CheckCircle2 },
   info: { className: "border border-maison/35 bg-surface text-maison", icon: Info },
-  warning: { className: "bg-terra-wash text-terra-text", icon: Clock3 },
+  warning: { className: "bg-terra-wash text-terra-deep", icon: Clock3 },
   danger: { className: "bg-error-wash text-error", icon: AlertTriangle },
   neutral: { className: "bg-stone text-ink", icon: Circle },
   muted: { className: "border border-dashed border-line-strong text-ink-soft", icon: MinusCircle },

@@ -37,6 +37,7 @@
   /* Accent — terracotta (logo) : ponctuation, jamais en petit texte */
   --color-terra: #bb6c51;
   --color-terra-text: #9e5139; /* Terracotta lisible en petit texte (5:1) */
+  --color-terra-deep: #8f482f; /* Terracotta sur fond terracotta pâle (badges « en attente », 5,3:1) */
   --color-terra-on-dark: #d4896b;
   --color-terra-light: #e0a48a;
   --color-terra-wash: #f3e1d7;

@@ -1,0 +1,631 @@
+<title>Plateforme Comme à la Maison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..700;1,400&family=Instrument+Sans:wdth,wght@75..100,400..600&display=swap">
+<style>
+  :root {
+    --olive: #B4BE9C; --olive-light: #E4E8D8; --olive-strong: #A3AE8B;
+    --green: #354943; --cream: #F5F0E7; --stone: #EDE4D3; --surface: #FBF8F2;
+    --ink: #23302B; --ink-2: #56625C; --line: #DDD3C1; --line-strong: #7F8A83;
+    --terra: #BB6C51; --terra-text: #9E5139; --terra-wash: #F3E1D7;
+    --error: #A33A2B; --error-wash: #F2D9D4;
+    --display: 'Instrument Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --text: 'Hanken Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--cream); color: var(--ink); font: 400 16.5px/1.6 var(--text); padding-inline: clamp(16px, 4vw, 40px); padding-block: 0 72px; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  h1, h2, h3, h4 { font-family: var(--display); font-stretch: 92%; font-weight: 500; color: var(--green); text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(38px, 5.4vw, 62px); line-height: 1.04; letter-spacing: -0.02em; }
+  h2 { font-size: clamp(28px, 3.6vw, 42px); line-height: 1.1; letter-spacing: -0.016em; }
+  h3 { font-size: clamp(20px, 2vw, 23px); line-height: 1.25; letter-spacing: -0.01em; }
+  h4 { font-size: 18px; line-height: 1.3; }
+  p { margin: 0; }
+  a { color: var(--green); text-underline-offset: 3px; }
+  code { font-family: var(--mono); font-size: .86em; background: var(--olive-light); padding: .08em .38em; border-radius: 6px; color: var(--ink); }
+  .dot { color: var(--terra); }
+  .muted { color: var(--ink-2); }
+  .small { font-size: 14.5px; line-height: 1.5; }
+  .eyebrow { font: 600 12.5px/1.3 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); display: inline-flex; gap: 10px; align-items: center; }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--terra); flex: none; }
+  .lead { font-size: clamp(17.5px, 1.5vw, 19.5px); line-height: 1.55; max-width: 66ch; }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .brand { display: inline-flex; align-items: center; gap: 12px; }
+  .brand svg { width: 40px; height: 40px; }
+  .brand b { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 400; font-size: 18px; color: var(--green); display: block; line-height: 1.1; }
+  .brand span { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: var(--terra-text); font-size: 12px; display: block; }
+  .status { font: 600 13px/1 var(--text); color: var(--green); background: var(--olive-light); border-radius: 999px; padding: 9px 14px; }
+
+  header.intro { padding-block: clamp(44px, 7vw, 84px) 36px; display: grid; gap: 22px; }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a { font: 500 14.5px/1 var(--text); color: var(--green); text-decoration: none; border: 1px solid var(--line-strong); border-radius: 999px; padding: 11px 15px; min-height: 42px; display: inline-flex; align-items: center; }
+  .toc a:hover { background: var(--olive-light); }
+
+  section.block { padding-block: clamp(52px, 7vw, 92px); border-top: 1px solid var(--line); display: grid; gap: clamp(24px, 3.5vw, 40px); }
+  section.block > *, .grid-2 > *, .grid-3 > * { min-width: 0; }
+  .sec-head { display: grid; gap: 12px; max-width: 800px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px; align-items: start; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 14px; align-items: start; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: clamp(18px, 2.6vw, 28px); display: grid; gap: 12px; align-content: start; }
+  .panel.olive { background: var(--olive); border-color: transparent; }
+  .panel.dark { background: var(--green); border-color: transparent; color: var(--cream); }
+  .panel.dark h3, .panel.dark h4 { color: var(--cream); }
+  .panel.warn { background: var(--terra-wash); border-color: #E7C4B2; }
+  ul.list { margin: 0; padding-left: 20px; display: grid; gap: 7px; }
+  ul.list li::marker { color: var(--olive-strong); }
+  .panel.dark ul.list li::marker { color: var(--olive); }
+
+  /* Décisions */
+  .decisions { display: grid; gap: 12px; counter-reset: d; }
+  .decision { counter-increment: d; display: grid; grid-template-columns: 44px 1fr; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px 20px; }
+  .decision::before { content: counter(d); width: 36px; height: 36px; border-radius: 50%; background: var(--green); color: var(--cream); font: 600 15px/36px var(--text); text-align: center; }
+  .decision h3 { font-size: 19px; }
+  .decision p { margin-top: 6px; }
+  .decision .why { margin-top: 8px; font-size: 14.5px; color: var(--ink-2); }
+  .tag { display: inline-block; font: 600 11.5px/1 var(--text); letter-spacing: .08em; text-transform: uppercase; padding: 6px 9px; border-radius: 999px; margin-left: 8px; vertical-align: 3px; white-space: nowrap; }
+  .tag.block { background: var(--terra-wash); color: var(--terra-text); }
+  .tag.later { background: var(--olive-light); color: var(--green); }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+  table { width: 100%; border-collapse: collapse; font-size: 14.8px; }
+  table.min { min-width: 720px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font: 600 12px/1.3 var(--text); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); background: var(--stone); }
+  tr:last-child td { border-bottom: 0; }
+  td b { color: var(--green); font-weight: 600; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font: 600 12px/1 var(--text); padding: 6px 9px; border-radius: 999px; white-space: nowrap; }
+  .pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .pill.ok { background: var(--olive-light); color: var(--green); }
+  .pill.evo { background: #F1E6C9; color: #6E5418; }
+  .pill.no { background: var(--error-wash); color: var(--error); }
+  .yes { color: var(--green); font-weight: 600; }
+  .no { color: var(--ink-2); }
+  td.c { text-align: center; }
+
+  /* Diagrammes */
+  .diagram { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+  .diagram pre.mermaid { margin: 0; background: transparent; font-family: var(--text); min-width: 640px; }
+  .caption { font-size: 14px; color: var(--ink-2); }
+
+  /* Phases */
+  .milestones { display: grid; gap: 14px; }
+  .ms { display: grid; grid-template-columns: minmax(0, 250px) 1fr; gap: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 20px 22px; }
+  @media (max-width: 760px) { .ms { grid-template-columns: 1fr; gap: 10px; } }
+  .ms .k { display: grid; gap: 6px; align-content: start; }
+  .ms .k small { font: 600 12px/1.2 var(--text); letter-spacing: .12em; text-transform: uppercase; color: var(--terra-text); }
+  .ms .k .phases { font-size: 14px; color: var(--ink-2); }
+  .ms .body { display: grid; gap: 10px; }
+  .ms .req { font-size: 14.5px; background: var(--stone); border-radius: 12px; padding: 10px 12px; }
+  .ms .check { font-size: 14.5px; background: var(--olive-light); border-radius: 12px; padding: 10px 12px; }
+
+  .foot { padding-top: 36px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-2); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+</style>
+
+<div class="wrap">
+  <div class="topbar">
+    <span class="brand" aria-label="Comme à la Maison">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="50" fill="#354943"/><path d="M32 80.8V50a18 18 0 0 1 36 0v30.8z" fill="#F5F0E7"/><circle cx="61.2" cy="66.8" r="3.4" fill="#BB6C51"/></svg>
+      <span><b>Comme à la maison</b><span>Votre conciergerie</span></span>
+    </span>
+    <span class="status">Étape 0 · audit et architecture · à valider</span>
+  </div>
+
+  <header class="intro">
+    <p class="eyebrow">Plateforme de gestion</p>
+    <h1>Du site vitrine à la plateforme de conciergerie<span class="dot">.</span></h1>
+    <p class="lead">Audit du projet actuel, architecture cible, base de données, services externes et plan de développement. Aucun code n’a été modifié : ce document sert à décider avant d’implémenter.</p>
+    <nav class="toc" aria-label="Sommaire">
+      <a href="#decisions">Décisions</a><a href="#audit">1 · Audit</a><a href="#actuelle">2 · Architecture actuelle</a><a href="#cible">3 · Architecture cible</a><a href="#bdd">4 · Base de données</a><a href="#services">5 · Services externes</a><a href="#schema">6 · Schéma de données</a><a href="#plan">7 · Plan par phases</a>
+    </nav>
+  </header>
+
+  <!-- DÉCISIONS -->
+  <section class="block" id="decisions" aria-labelledby="t-dec">
+    <div class="sec-head">
+      <p class="eyebrow">À décider maintenant</p>
+      <h2 id="t-dec">Ce qu’il me faut pour commencer<span class="dot">.</span></h2>
+      <p class="lead">Les points 1 et 2 bloquent le démarrage. Les autres peuvent attendre la phase concernée, mais ils changent la façon de calculer l’argent : mieux vaut les trancher tôt.</p>
+    </div>
+    <div class="decisions">
+      <div class="decision"><div>
+        <h3>Valider l’architecture et la base de données Supabase <span class="tag block">Bloquant</span></h3>
+        <p>Next.js reste sur Netlify, la base centrale est Supabase (Postgres, comptes, fichiers), hébergée à Paris. Démarrage gratuit.</p>
+        <p class="why">Section 3 et 4. Alternative étudiée : Netlify DB (Neon) + une bibliothèque d’authentification, écartée car la séparation des données propriétaires serait moins robuste.</p>
+      </div></div>
+      <div class="decision"><div>
+        <h3>Créer un compte Supabase et connecter le connecteur Supabase à Claude <span class="tag block">Bloquant</span></h3>
+        <p>Comme pour Netlify : claude.ai → Paramètres → Connecteurs → Supabase. Je crée ensuite le projet (région Paris), j’applique le schéma et je renseigne les variables sur Netlify.</p>
+        <p class="why">Le plan gratuit met la base en pause après 7 jours sans activité. Il suffit pour construire et tester ; il faudra passer au plan Pro (25 $ par mois) avant le premier vrai client.</p>
+      </div></div>
+      <div class="decision"><div>
+        <h3>Qui encaisse l’argent des plateformes ? <span class="tag block">Avant la phase 8</span></h3>
+        <p><b>Option A</b> : le propriétaire reçoit les versements Airbnb ou Booking, et Comme à la Maison lui facture sa commission. <b>Option B</b> : Comme à la Maison encaisse puis reverse au propriétaire (c’est ce que suggère « montant reversé » dans le brief).</p>
+        <p class="why">L’option B revient à manier des fonds pour le compte de tiers : elle relève en principe de la loi Hoguet (carte professionnelle, garantie financière, compte dédié). À vérifier avec un conseil juridique ou la CCI. La plateforme saura gérer les deux, mais les relevés diffèrent.</p>
+      </div></div>
+      <div class="decision"><div>
+        <h3>Sur quel montant se calculent les 20 % ? <span class="tag block">Avant la phase 8</span></h3>
+        <p>Frais de ménage exclus, c’est acquis. Reste à trancher : avant ou après les frais prélevés par la plateforme ? Et êtes-vous assujettis à la TVA ? Si oui, le relevé affichera la commission HT, la TVA et le TTC.</p>
+        <p class="why">Exemple sur 1 000 € de nuitées avec 150 € de frais Booking : 200 € de commission dans un cas, 170 € dans l’autre.</p>
+      </div></div>
+      <div class="decision"><div>
+        <h3>Choisir un channel manager quand le premier logement arrive <span class="tag later">Phase 13</span></h3>
+        <p>Airbnb, Booking et Abritel ne donnent pas d’accès direct à leur API à une conciergerie de notre taille. La synchronisation fiable passe par un channel manager agréé (Beds24, Smoobu, ou équivalent), sur abonnement. D’ici là, la synchronisation iCal gratuite fonctionne, avec un délai.</p>
+      </div></div>
+      <div class="decision"><div>
+        <h3>Réserver un nom de domaine <span class="tag later">Phase 14</span></h3>
+        <p>Nécessaire pour envoyer des emails (relevés, notifications) depuis une adresse professionnelle et non depuis Gmail. Environ 10 € par an.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 1 AUDIT -->
+  <section class="block" id="audit" aria-labelledby="t-audit">
+    <div class="sec-head">
+      <p class="eyebrow">1 · Audit du projet actuel</p>
+      <h2 id="t-audit">Un site vitrine solide, sans back-end<span class="dot">.</span></h2>
+      <p class="lead">Audit réalisé sur le dépôt GitHub (branche <code>claude/comme-maison-website-qtt1wd</code>, 4 450 lignes de code) et sur le projet Netlify <code>comme-a-la-maison</code>.</p>
+    </div>
+
+    <h3>A · Ce qui existe</h3>
+    <div class="table-wrap">
+      <table class="min">
+        <thead><tr><th>Domaine</th><th>État</th><th>Constat</th></tr></thead>
+        <tbody>
+          <tr><td><b>Framework</b></td><td><span class="pill ok">Solide</span></td><td>Next.js 16.3 (App Router), React 19, TypeScript strict. Prêt pour du rendu serveur, des actions serveur et des routes d’API.</td></tr>
+          <tr><td><b>Frontend et UI</b></td><td><span class="pill ok">Solide</span></td><td>Design system en tokens Tailwind v4, composants réutilisables : Button (5 variantes, 2 tailles), Section, Eyebrow, DataBadge, Logo, graphiques SVG. Icônes Lucide.</td></tr>
+          <tr><td><b>Pages et routing</b></td><td><span class="pill ok">Solide</span></td><td>5 pages statiques (<code>/</code>, <code>/transparence</code>, <code>/mentions-legales</code>, <code>/confidentialite</code>, <code>/styleguide</code>), sitemap, robots, manifest, page 404.</td></tr>
+          <tr><td><b>Contenu</b></td><td><span class="pill evo">À faire évoluer</span></td><td>Centralisé dans <code>src/content/*.ts</code>. Parfait pour le texte éditorial ; les données métier (biens, chiffres) devront venir de la base.</td></tr>
+          <tr><td><b>Backend et API</b></td><td><span class="pill no">Absent</span></td><td>Une seule action serveur (formulaire, envoi Resend non configuré). Aucune route d’API, aucune fonction serverless dédiée.</td></tr>
+          <tr><td><b>Base de données</b></td><td><span class="pill no">Absente</span></td><td>Aucune. Les indicateurs de la page Transparence sont dans un fichier, vides.</td></tr>
+          <tr><td><b>Authentification et utilisateurs</b></td><td><span class="pill no">Absente</span></td><td>Aucun compte, aucune session, aucun rôle.</td></tr>
+          <tr><td><b>Formulaires</b></td><td><span class="pill ok">Fonctionnel</span></td><td>Formulaire d’estimation validé côté navigateur et serveur, reçu par Netlify Forms (champ anti-robots). Les demandes restent dans Netlify, hors de tout CRM.</td></tr>
+          <tr><td><b>Stockage fichiers</b></td><td><span class="pill no">Absent</span></td><td>Seules les photos du site, dans le code. Aucun stockage pour documents, factures ou photos terrain.</td></tr>
+          <tr><td><b>Hébergement</b></td><td><span class="pill evo">À faire évoluer</span></td><td>Netlify (plan gratuit), adaptateur Next.js, formulaires activés, prévisualisations protégées. Déploiements manuels : le dépôt GitHub n’est pas relié.</td></tr>
+          <tr><td><b>Variables d’environnement</b></td><td><span class="pill ok">Sain</span></td><td>Aucun secret dans le code ni sur Netlify. Seules variables publiques : <code>NEXT_PUBLIC_FORM_BACKEND</code>, <code>NODE_VERSION</code>.</td></tr>
+          <tr><td><b>Dépendances</b></td><td><span class="pill ok">Sain</span></td><td>4 dépendances de production (next, react, react-dom, lucide-react). Outillage : ESLint, Playwright, axe, adaptateur Netlify.</td></tr>
+          <tr><td><b>Responsive et accessibilité</b></td><td><span class="pill ok">Solide</span></td><td>Mobile first, testé de 360 à 1 920 px, WCAG 2.2 AA vérifié par axe, clavier, animations réduites.</td></tr>
+          <tr><td><b>Performance</b></td><td><span class="pill ok">Solide</span></td><td>Lighthouse desktop 100 partout ; mobile 94 à 97 en performance. Pages statiques, images AVIF.</td></tr>
+          <tr><td><b>SEO</b></td><td><span class="pill ok">Solide</span></td><td>Métadonnées, Open Graph, sitemap, données structurées (ProfessionalService, FAQPage).</td></tr>
+          <tr><td><b>Sécurité</b></td><td><span class="pill ok">Sain</span></td><td>En-têtes de sécurité, JSON-LD échappé, validation serveur. Rien à protéger pour l’instant.</td></tr>
+          <tr><td><b>Tests</b></td><td><span class="pill ok">Solide</span></td><td>38 tests Playwright (desktop et mobile), exécutables en local et sur le site en ligne.</td></tr>
+          <tr><td><b>Branches Git</b></td><td><span class="pill evo">À faire évoluer</span></td><td>La branche par défaut s’appelle <code>claude/plugin-4aef2b</code> et ne contient pas le site. À renommer en <code>main</code> et fusionner.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <h3>B · Ce qu’il faut conserver</h3>
+        <ul class="list">
+          <li>Tout le site public, ses adresses, son design system et ses composants.</li>
+          <li>Next.js 16, TypeScript, Tailwind v4, Lucide : ils conviennent à un back-office.</li>
+          <li>Netlify comme hébergeur : compatible rendu serveur, routes d’API, tâches planifiées et longues.</li>
+          <li>Le simulateur et sa logique de commission, à brancher sur les paramètres en base.</li>
+          <li>La page Transparence et ses 4 natures de données : elle sera alimentée par les vrais chiffres.</li>
+          <li>Les tests Playwright et axe, étendus à chaque rôle.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>C · Ce qu’il faut modifier</h3>
+        <ul class="list">
+          <li>Ranger le site public dans un groupe de routes <code>(site)</code>, avec son en-tête et son pied de page. Les adresses ne changent pas.</li>
+          <li>Faire écrire le formulaire d’estimation dans le CRM (prospects), en plus ou à la place de Netlify Forms.</li>
+          <li>Déplacer la commission par défaut et les coordonnées vers les paramètres en base.</li>
+          <li>Relier le dépôt GitHub à Netlify pour des déploiements automatiques et des prévisualisations par branche.</li>
+          <li>Passer la branche principale à <code>main</code>.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>D · Ce qu’il faut ajouter</h3>
+        <ul class="list">
+          <li>Base de données relationnelle, comptes, rôles, stockage de fichiers.</li>
+          <li>Trois espaces protégés : <code>/admin</code>, <code>/owner</code>, <code>/staff</code>, et une page de connexion.</li>
+          <li>Couche métier (réservations, finances, tâches) séparée de l’interface.</li>
+          <li>Moteur d’automatisation, tâches planifiées, génération PDF, notifications.</li>
+          <li>Connecteurs de synchronisation : iCal d’abord, channel manager ensuite.</li>
+          <li>Journal d’activité, recherche globale, données de démonstration.</li>
+        </ul>
+      </div>
+      <div class="panel warn">
+        <h3>E · Risques</h3>
+        <ul class="list">
+          <li><b>Casser le site public</b> : le restructurer en premier, sans changer d’adresse, avec les 38 tests comme filet.</li>
+          <li><b>Fuite entre propriétaires</b> : règles d’accès dans la base elle-même (Row Level Security), testées automatiquement.</li>
+          <li><b>Double réservation</b> : iCal a 1 à 3 h de retard, parfois jusqu’à 24 h. Contrainte anti-chevauchement en base et alertes, mais seul un channel manager réduit vraiment le risque.</li>
+          <li><b>Réglementation</b> : encaissement pour compte de tiers (loi Hoguet), RGPD (IBAN, données voyageurs), taxe de séjour.</li>
+          <li><b>Coûts récurrents</b> : Supabase Pro, channel manager, domaine. Voir section 5.</li>
+          <li><b>Ampleur</b> : 16 phases. Livrer par jalons validés, pas d’un bloc.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 ARCHITECTURE ACTUELLE -->
+  <section class="block" id="actuelle" aria-labelledby="t-now">
+    <div class="sec-head">
+      <p class="eyebrow">2 · Architecture actuelle</p>
+      <h2 id="t-now">Des pages statiques et un formulaire<span class="dot">.</span></h2>
+    </div>
+    <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  V[Visiteur] -->|HTTPS| N[Netlify<br/>pages statiques Next.js]
+  V -->|"formulaire d’estimation"| F[Netlify Forms]
+  F --> D[Tableau de bord Netlify]
+  G[Dépôt GitHub] -. envoi manuel .-> N
+  C["src/content<br/>textes, tarifs, FAQ"] --> N
+</pre>
+    </div>
+  </section>
+
+  <!-- 3 ARCHITECTURE CIBLE -->
+  <section class="block" id="cible" aria-labelledby="t-target">
+    <div class="sec-head">
+      <p class="eyebrow">3 · Architecture recommandée</p>
+      <h2 id="t-target">Une seule application, une seule base<span class="dot">.</span></h2>
+      <p class="lead">Le site public, le back-office et les espaces propriétaire et agent vivent dans la même application Next.js, sur Netlify. Toutes les données viennent d’une base Postgres unique. Chaque rôle ne voit que ce que la base l’autorise à voir.</p>
+    </div>
+    <div class="diagram">
+<pre class="mermaid">
+flowchart TB
+  subgraph U[Utilisateurs]
+    V[Visiteurs]
+    A[Baptiste et Simon<br/>admin]
+    O[Propriétaires<br/>owner]
+    S[Agents et intervenants<br/>staff]
+  end
+  subgraph NF[Netlify]
+    SITE["Site public (site)<br/>pages statiques + biens visibles"]
+    ADM["/admin"]
+    OWN["/owner"]
+    STF["/staff (mobile)"]
+    API["Routes API et webhooks<br/>/api/..."]
+    CRON["Tâches planifiées<br/>sync iCal, relevés, rappels"]
+    BG["Tâches longues<br/>PDF en lot, imports"]
+  end
+  subgraph SB["Supabase · Paris"]
+    AUTH[Comptes et sessions]
+    DB[("Postgres<br/>règles d'accès par ligne")]
+    ST[Stockage privé<br/>documents, photos]
+  end
+  CM[Channel manager<br/>API + webhooks]
+  OTA[Airbnb · Booking · Abritel]
+  ICAL[Flux iCal]
+  MAIL[Emails transactionnels]
+  V --> SITE
+  A --> ADM
+  O --> OWN
+  S --> STF
+  SITE & ADM & OWN & STF --> AUTH
+  SITE & ADM & OWN & STF --> DB
+  ADM & OWN & STF --> ST
+  API --> DB
+  CRON --> DB
+  BG --> DB
+  CM <--> OTA
+  CM -- webhooks --> API
+  API -- disponibilités --> CM
+  CRON <-- import / export --> ICAL
+  ICAL <--> OTA
+  CRON --> MAIL
+</pre>
+    </div>
+
+    <div class="grid-3">
+      <div class="panel">
+        <h4>Une information, une saisie</h4>
+        <p class="small">Les revenus, taux d’occupation et statistiques ne sont jamais recopiés : ce sont des vues calculées à partir des réservations et des dépenses. Seuls les relevés mensuels sont figés, pour garder une trace exacte de ce qui a été envoyé.</p>
+      </div>
+      <div class="panel">
+        <h4>Sécurité dans la base</h4>
+        <p class="small">Chaque table a ses règles d’accès (Row Level Security). Même si une adresse ou une requête est modifiée, un propriétaire ne reçoit que ses lignes. La clé de service, qui contourne ces règles, reste côté serveur, dans les tâches de fond uniquement.</p>
+      </div>
+      <div class="panel">
+        <h4>Automatisations par événements</h4>
+        <p class="small">Chaque action importante écrit un événement (réservation confirmée, check-out, incident). Le moteur d’automatisation les traite une seule fois, dans l’ordre, avec un historique consultable. Une règle peut être désactivée dans les paramètres.</p>
+      </div>
+      <div class="panel">
+        <h4>Connecteurs interchangeables</h4>
+        <p class="small">La synchronisation passe par une interface commune avec deux implémentations : iCal (gratuit, immédiat) et le channel manager choisi. Changer de fournisseur ne touche pas au reste.</p>
+      </div>
+      <div class="panel">
+        <h4>Le site public reste rapide</h4>
+        <p class="small">Les pages du site restent statiques. Quand un bien est publié ou masqué dans le back-office, seules les pages concernées sont régénérées. Les espaces connectés sont rendus côté serveur et jamais mis en cache public.</p>
+      </div>
+      <div class="panel">
+        <h4>Un seul design system</h4>
+        <p class="small">Le back-office reprend les tokens, polices, boutons et cartes du site, avec une mise en page d’application : barre latérale sur ordinateur, barre d’onglets en bas sur téléphone.</p>
+      </div>
+    </div>
+
+    <h3>Exemple : une réservation arrive</h3>
+    <div class="diagram">
+<pre class="mermaid">
+sequenceDiagram
+  participant P as Airbnb
+  participant CM as Channel manager
+  participant API as Webhook /api
+  participant DB as Base Postgres
+  participant M as Moteur d'automatisation
+  P->>CM: nouvelle réservation
+  CM->>CM: bloque les dates sur Booking et Abritel
+  CM->>API: notification signée
+  API->>DB: enregistre le message brut (une seule fois)
+  API->>DB: crée la réservation (refusée si chevauchement)
+  DB-->>M: événement « réservation confirmée »
+  M->>DB: montants : brut, frais, commission, part propriétaire
+  M->>DB: tâche de ménage au check-out, contrôle si prévu
+  M->>DB: notifications admin et agent
+  Note over DB: calendrier, fiche du bien, finances,<br/>espace propriétaire et statistiques lisent ces mêmes lignes
+</pre>
+    </div>
+    <p class="caption">Le blocage des dates sur les autres plateformes est fait par le channel manager, qui est agréé par Airbnb, Booking et Vrbo. Nous ne pouvons pas le faire nous-mêmes sans accès partenaire.</p>
+  </section>
+
+  <!-- 4 BDD -->
+  <section class="block" id="bdd" aria-labelledby="t-db">
+    <div class="sec-head">
+      <p class="eyebrow">4 · Base de données</p>
+      <h2 id="t-db">Postgres sur Supabase, hébergé à Paris<span class="dot">.</span></h2>
+      <p class="lead">Supabase réunit dans un seul service la base relationnelle, les comptes utilisateurs, le stockage de fichiers et les règles d’accès par ligne. Les données restent dans l’Union européenne (région Paris).</p>
+    </div>
+    <div class="table-wrap">
+      <table class="min">
+        <thead><tr><th>Critère</th><th>Supabase (recommandé)</th><th>Netlify DB (Neon) + Auth.js + Netlify Blobs</th><th>Firebase</th></tr></thead>
+        <tbody>
+          <tr><td><b>Base relationnelle</b></td><td class="yes">Postgres complet</td><td class="yes">Postgres</td><td class="no">Documents, pas de jointures</td></tr>
+          <tr><td><b>Séparation des propriétaires</b></td><td class="yes">Règles dans la base (RLS) liées au compte connecté</td><td class="no">Uniquement dans le code de l’application</td><td>Règles de sécurité, moins adaptées aux calculs financiers</td></tr>
+          <tr><td><b>Comptes et rôles</b></td><td class="yes">Intégrés : mot de passe, lien magique, double authentification</td><td class="no">Bibliothèque à ajouter et maintenir</td><td class="yes">Intégrés</td></tr>
+          <tr><td><b>Fichiers privés</b></td><td class="yes">Stockage avec les mêmes règles d’accès</td><td>Blobs, droits à coder</td><td class="yes">Intégré</td></tr>
+          <tr><td><b>Anti double réservation</b></td><td class="yes">Contrainte d’exclusion Postgres</td><td class="yes">Idem</td><td class="no">À coder</td></tr>
+          <tr><td><b>Coût de départ</b></td><td>Gratuit, puis Pro à 25 $ par mois</td><td>Gratuit au départ</td><td>Gratuit au départ</td></tr>
+          <tr><td><b>Réversibilité</b></td><td class="yes">Postgres standard, exportable</td><td class="yes">Postgres standard</td><td class="no">Format propriétaire</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid-2">
+      <div class="panel">
+        <h3>Règles de conception</h3>
+        <ul class="list">
+          <li>Montants en centimes (entiers) : aucune erreur d’arrondi.</li>
+          <li>Chaque réservation garde une photo de ses paramètres (taux de commission, frais) au moment de sa confirmation. Changer la commission par défaut ne réécrit pas le passé.</li>
+          <li>Une réservation confirmée ne peut pas chevaucher une autre sur le même bien : la base la refuse.</li>
+          <li>Toutes les lignes créées pour la démonstration portent <code>is_demo = true</code> et se suppriment en un clic.</li>
+          <li>Journal d’activité alimenté par la base elle-même, en écriture seule : il ne peut pas être contourné par l’application.</li>
+          <li>Index sur toutes les clés et les dates, recherche plein texte sans accents, pagination par curseur : prévu pour 500 biens et des milliers de réservations.</li>
+          <li>Évolutions du schéma versionnées dans <code>supabase/migrations</code>, jamais faites à la main.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Données sensibles</h3>
+        <ul class="list">
+          <li><b>IBAN</b> : chiffré avant d’entrer en base, clé stockée uniquement sur le serveur. Seuls les 4 derniers chiffres sont affichés.</li>
+          <li><b>Codes d’accès aux logements</b> : table séparée, visible par les admins et par l’agent affecté le jour de sa tâche.</li>
+          <li><b>Coordonnées des voyageurs</b> : admins uniquement. Le propriétaire voit le prénom, les dates et le nombre de voyageurs ; l’agent voit ce qui est utile au ménage.</li>
+          <li><b>Fichiers</b> : stockage privé, liens temporaires signés, jamais d’adresse publique pour un document.</li>
+          <li><b>Administrateurs</b> : double authentification obligatoire.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 SERVICES -->
+  <section class="block" id="services" aria-labelledby="t-srv">
+    <div class="sec-head">
+      <p class="eyebrow">5 · Services externes</p>
+      <h2 id="t-srv">Ce qui existe vraiment, et ce que ça coûte<span class="dot">.</span></h2>
+      <p class="lead">Tarifs indicatifs relevés en septembre 2026, à confirmer sur les sites des fournisseurs au moment de s’abonner.</p>
+    </div>
+
+    <h3>Les API des plateformes</h3>
+    <div class="table-wrap">
+      <table class="min">
+        <thead><tr><th>Plateforme</th><th>Accès direct pour Comme à la Maison ?</th><th>Réalité</th></tr></thead>
+        <tbody>
+          <tr><td><b>Airbnb</b></td><td><span class="pill no">Non</span></td><td>API réservée aux éditeurs de logiciels agréés (programme partenaire, revue de sécurité, accord de confidentialité). Pas ouverte aux hôtes ni aux conciergeries.</td></tr>
+          <tr><td><b>Booking.com</b></td><td><span class="pill no">Non</span></td><td>Pas d’API publique. Accès via le programme Connectivity Partner, qui n’accepte actuellement plus de nouveaux partenaires.</td></tr>
+          <tr><td><b>Abritel / Vrbo</b></td><td><span class="pill no">Non</span></td><td>Accès via des fournisseurs de connectivité certifiés par Expedia Group. Un développement direct passe par une demande commerciale auprès d’Expedia.</td></tr>
+          <tr><td><b>iCal (toutes)</b></td><td><span class="pill ok">Oui, gratuit</span></td><td>Import et export de calendriers. Ne transporte que des dates bloquées (pas de montants, peu d’informations voyageur). Actualisation toutes les 1 à 3 h, jusqu’à 24 h : risque de double réservation.</td></tr>
+          <tr><td><b>Channel manager</b></td><td><span class="pill ok">Oui, abonnement</span></td><td>Éditeurs agréés par Airbnb, Booking et Vrbo, avec leur propre API et des webhooks : réservations, montants, voyageurs, blocage instantané des dates.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Services proposés</h3>
+    <div class="table-wrap">
+      <table class="min">
+        <thead><tr><th>Service</th><th>Rôle</th><th>Quand</th><th>Coût indicatif</th><th>Action de votre part</th></tr></thead>
+        <tbody>
+          <tr><td><b>Supabase</b></td><td>Base, comptes, fichiers</td><td>Phase 2</td><td>Gratuit, puis Pro 25 $ par mois avant le premier client (pas de mise en pause, sauvegardes quotidiennes)</td><td>Créer le compte, connecter le connecteur</td></tr>
+          <tr><td><b>Netlify</b></td><td>Hébergement, API, tâches planifiées et longues (jusqu’à 15 min)</td><td>Déjà en place</td><td>Plan gratuit actuel ; à surveiller avec l’usage</td><td>Relier le dépôt GitHub (recommandé)</td></tr>
+          <tr><td><b>Channel manager</b></td><td>Synchronisation Airbnb, Booking, Abritel</td><td>Phase 13, au premier logement</td><td>Beds24 à partir d’environ 15,50 € par mois selon options ; Smoobu à partir d’environ 29 € par logement et par mois</td><td>Choisir et souscrire, me donner une clé d’API</td></tr>
+          <tr><td><b>Email transactionnel</b> (Resend ou Brevo)</td><td>Relevés, notifications, invitations</td><td>Phase 14</td><td>Offre gratuite avec quota mensuel</td><td>Nom de domaine + compte</td></tr>
+          <tr><td><b>Nom de domaine</b></td><td>Adresse du site et des emails</td><td>Avant la phase 14</td><td>Environ 10 € par an</td><td>Le réserver</td></tr>
+          <tr><td><b>Stripe</b></td><td>Paiement des réservations directes sur le site</td><td>Plus tard, en option</td><td>Commission par paiement</td><td>Compte professionnel</td></tr>
+          <tr><td><b>SMS / WhatsApp</b></td><td>Notifications terrain</td><td>Plus tard, en option</td><td>Au message</td><td>Compte fournisseur</td></tr>
+          <tr><td><b>PDF</b></td><td>Relevés propriétaires</td><td>Phase 8</td><td>Gratuit, généré par l’application</td><td>Aucune</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption">Sources : documentation Airbnb, Booking.com Connectivity et Vrbo sur l’accès partenaire ; pages tarifs de Supabase, Beds24 et Smoobu ; documentation Netlify sur les fonctions. Liens dans le message de présentation.</p>
+  </section>
+
+  <!-- 6 SCHÉMA -->
+  <section class="block" id="schema" aria-labelledby="t-schema">
+    <div class="sec-head">
+      <p class="eyebrow">6 · Schéma de données</p>
+      <h2 id="t-schema">37 tables, organisées en 9 domaines<span class="dot">.</span></h2>
+      <p class="lead">Une personne n’existe qu’une fois (table <code>contacts</code>) : un prospect qui signe devient propriétaire sans ressaisie. Revenus, calendriers et statistiques sont des vues calculées, pas des copies.</p>
+    </div>
+    <div class="diagram">
+<pre class="mermaid">
+erDiagram
+  PROFILES ||--o{ USER_ROLES : "a"
+  ROLES ||--o{ USER_ROLES : "donne"
+  CONTACTS ||--o| OWNERS : "est"
+  CONTACTS ||--o| GUESTS : "est"
+  CONTACTS ||--o| PROSPECTS : "est"
+  CONTACTS ||--o| PROVIDERS : "est"
+  PROFILES |o--o| CONTACTS : "compte de"
+  PROSPECTS ||--o{ PROSPECT_ACTIVITIES : "historique"
+  OWNERS ||--o{ PROPERTIES : "possède"
+  OWNERS ||--o{ CONTRACTS : "signe"
+  PROPERTIES ||--o{ CONTRACTS : "couvre"
+  PROPERTIES ||--o{ PROPERTY_PHOTOS : "illustre"
+  PROPERTIES ||--o| PROPERTY_ACCESS : "accès"
+  PROPERTIES ||--o{ LISTINGS : "publiée sur"
+  PLATFORMS ||--o{ LISTINGS : "héberge"
+  PROPERTIES ||--o{ BOOKINGS : "reçoit"
+  LISTINGS ||--o{ BOOKINGS : "provient de"
+  GUESTS ||--o{ BOOKINGS : "voyage"
+  PROPERTIES ||--o{ CALENDAR_BLOCKS : "bloque"
+  LISTINGS ||--o{ SYNC_RUNS : "synchronise"
+  BOOKINGS ||--o{ TASKS : "génère"
+  PROPERTIES ||--o{ TASKS : "concerne"
+  PROFILES ||--o{ TASKS : "assignée à"
+  TASKS ||--o{ TASK_PHOTOS : "preuves"
+  TASKS ||--o{ INCIDENTS : "signale"
+  INCIDENTS ||--o| MAINTENANCE_JOBS : "devient"
+  PROVIDERS ||--o{ MAINTENANCE_JOBS : "intervient"
+  PROPERTIES ||--o{ EXPENSES : "coûte"
+  BOOKINGS ||--o{ EXPENSES : "liée à"
+  OWNERS ||--o{ OWNER_STATEMENTS : "reçoit"
+  OWNER_STATEMENTS ||--o{ STATEMENT_LINES : "détaille"
+  OWNER_STATEMENTS ||--o| PAYOUTS : "règle"
+  DOCUMENTS }o--o| OWNERS : "rattaché"
+  DOCUMENTS }o--o| PROPERTIES : "rattaché"
+  PROFILES ||--o{ NOTIFICATIONS : "reçoit"
+  DOMAIN_EVENTS ||--o{ AUTOMATION_RUNS : "déclenche"
+  PROFILES ||--o{ AUDIT_LOGS : "agit"
+</pre>
+    </div>
+
+    <div class="table-wrap">
+      <table class="min">
+        <thead><tr><th>Domaine</th><th>Tables</th><th>Points clés</th></tr></thead>
+        <tbody>
+          <tr><td><b>Accès</b></td><td><code>profiles</code>, <code>roles</code>, <code>user_roles</code>, <code>invitations</code></td><td>Rôles admin, staff, owner ; d’autres rôles peuvent être ajoutés sans migration de structure. Comptes créés sur invitation uniquement.</td></tr>
+          <tr><td><b>Personnes et CRM</b></td><td><code>contacts</code>, <code>owners</code>, <code>guests</code>, <code>providers</code>, <code>prospects</code>, <code>prospect_activities</code></td><td>Pipeline : nouveau, contacté, rendez-vous, proposition envoyée, en réflexion, signé, refusé. Le formulaire du site crée un prospect.</td></tr>
+          <tr><td><b>Biens</b></td><td><code>properties</code>, <code>property_photos</code>, <code>property_access</code>, <code>contracts</code></td><td>Statuts : actif, inactif, en préparation, maintenance, indisponible. Case « visible sur le site ». Commission propre au bien ou par défaut.</td></tr>
+          <tr><td><b>Distribution</b></td><td><code>platforms</code>, <code>listings</code>, <code>calendar_blocks</code>, <code>sync_runs</code>, <code>channel_inbox</code></td><td>Un bien a une annonce par plateforme, avec ses identifiants et flux iCal. Chaque synchronisation est journalisée ; chaque message reçu est conservé brut.</td></tr>
+          <tr><td><b>Réservations</b></td><td><code>bookings</code></td><td>Statuts : demande, confirmée, en cours, terminée, annulée. Montant brut, frais de plateforme, frais de ménage, taxe de séjour, commission, part propriétaire, part Comme à la Maison, figés à la confirmation.</td></tr>
+          <tr><td><b>Opérations</b></td><td><code>tasks</code>, <code>task_photos</code>, <code>incidents</code>, <code>maintenance_jobs</code></td><td>Une table de tâches typée (ménage, contrôle, check-in, maintenance) avec liste de contrôle, photos et validation. Un incident peut devenir une intervention.</td></tr>
+          <tr><td><b>Finances</b></td><td><code>expenses</code>, <code>owner_statements</code>, <code>statement_lines</code>, <code>payouts</code></td><td>Catégories : ménage, maintenance, réparation, consommables, plateforme, équipement, autre. Relevé mensuel figé avec son PDF ; paiement suivi jusqu’au versement.</td></tr>
+          <tr><td><b>Documents et messages</b></td><td><code>documents</code>, <code>messages</code>, <code>notifications</code>, <code>notification_deliveries</code></td><td>Un document est rattaché à un propriétaire, un bien, une réservation, une dépense ou une intervention, avec sa visibilité. Chaque notification garde son canal (application, email, plus tard SMS ou WhatsApp).</td></tr>
+          <tr><td><b>Système</b></td><td><code>settings</code>, <code>domain_events</code>, <code>automation_rules</code>, <code>automation_runs</code>, <code>audit_logs</code></td><td>Paramètres société, commission par défaut, frais par défaut. Événements traités une seule fois. Journal en écriture seule.</td></tr>
+          <tr><td><b>Vues calculées</b></td><td><code>v_calendar</code>, <code>v_booking_nights</code>, <code>v_property_month</code>, <code>v_owner_month</code></td><td>Répondent aux besoins « calendars » et « revenues » du brief sans dupliquer : calendrier unifié, nuits par mois, chiffre d’affaires et occupation par bien et par propriétaire.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Qui voit quoi</h3>
+    <div class="table-wrap">
+      <table class="min">
+        <thead><tr><th>Données</th><th>Admin</th><th>Propriétaire</th><th>Agent</th></tr></thead>
+        <tbody>
+          <tr><td><b>Biens</b></td><td>Tous</td><td>Les siens</td><td>Ceux de ses tâches (adresse, instructions ; codes d’accès le jour de la tâche)</td></tr>
+          <tr><td><b>Réservations</b></td><td>Toutes</td><td>Celles de ses biens, avec les montants</td><td>Dates et nombre de voyageurs des réservations liées à ses tâches, sans montant</td></tr>
+          <tr><td><b>Coordonnées voyageurs</b></td><td>Oui</td><td>Prénom uniquement</td><td>Prénom uniquement</td></tr>
+          <tr><td><b>Finances et relevés</b></td><td>Tout</td><td>Les siens</td><td>Non</td></tr>
+          <tr><td><b>Tâches et ménages</b></td><td>Toutes</td><td>Statut des ménages de ses biens</td><td>Les siennes</td></tr>
+          <tr><td><b>Incidents et maintenance</b></td><td>Tous</td><td>Ceux de ses biens</td><td>Ceux qu’il a signalés</td></tr>
+          <tr><td><b>Documents</b></td><td>Tous</td><td>Ceux marqués visibles pour lui</td><td>Photos de ses tâches</td></tr>
+          <tr><td><b>CRM, paramètres, utilisateurs, journal</b></td><td>Oui</td><td>Non</td><td>Non</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 7 PLAN -->
+  <section class="block" id="plan" aria-labelledby="t-plan">
+    <div class="sec-head">
+      <p class="eyebrow">7 · Plan de développement</p>
+      <h2 id="t-plan">Les 16 phases, livrées en 6 jalons<span class="dot">.</span></h2>
+      <p class="lead">Chaque jalon se termine par une version de test sur Netlify, protégée par connexion, avec les données de démonstration. Le site public en ligne ne change qu’après votre validation.</p>
+    </div>
+    <div class="milestones">
+      <div class="ms">
+        <div class="k"><small>Jalon 1</small><h3>Fondations</h3><span class="phases">Phases 2 et 3</span></div>
+        <div class="body">
+          <ul class="list">
+            <li>Site public rangé dans <code>(site)</code>, sans changement d’adresse ; les 38 tests repassent.</li>
+            <li>Projet Supabase à Paris, schéma complet, règles d’accès, journal d’activité, vues calculées.</li>
+            <li>Connexion par mot de passe ou lien magique, invitations, double authentification admin, redirection selon le rôle.</li>
+            <li>Données de démonstration (propriétaires, biens, réservations, tâches, incidents) et bouton pour les supprimer.</li>
+          </ul>
+          <p class="req"><b>Prérequis</b> : compte Supabase et connecteur (décisions 1 et 2).</p>
+          <p class="check"><b>Vérification</b> : tests automatiques qui tentent de lire les données d’un autre propriétaire, avec chaque rôle.</p>
+        </div>
+      </div>
+      <div class="ms">
+        <div class="k"><small>Jalon 2</small><h3>Back-office cœur</h3><span class="phases">Phases 4, 5 et 6</span></div>
+        <div class="body">
+          <ul class="list">
+            <li>Structure du back-office (ordinateur et téléphone), tableau de bord avec filtres de période, recherche globale.</li>
+            <li>Biens : fiche complète, photos, annonces par plateforme, statuts, visibilité sur le site.</li>
+            <li>Propriétaires et CRM : fiches, pipeline des prospects, formulaire du site branché sur le CRM, parcours d’ajout d’un propriétaire et de son bien.</li>
+            <li>Paramètres : société, commission et frais par défaut, utilisateurs et rôles.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ms">
+        <div class="k"><small>Jalon 3</small><h3>Réservations et terrain</h3><span class="phases">Phases 7 et 9</span></div>
+        <div class="body">
+          <ul class="list">
+            <li>Réservations : saisie, statuts, historique, calcul automatique des montants.</li>
+            <li>Calendrier central (jour, semaine, mois, année) et calendrier par bien, avec filtres.</li>
+            <li>Synchronisation iCal réelle : export par bien, import par plateforme, détection des chevauchements.</li>
+            <li>Tâches de ménage, contrôle, maintenance ; incidents avec photos ; liste de contrôle du ménage.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ms">
+        <div class="k"><small>Jalon 4</small><h3>Finances et espaces</h3><span class="phases">Phases 8, 10 et 11</span></div>
+        <div class="body">
+          <ul class="list">
+            <li>Finances : chiffre d’affaires, commissions, frais, dépenses, paiements, statistiques et filtres.</li>
+            <li>Relevés mensuels : calcul, PDF, historique, téléchargement.</li>
+            <li>Espace propriétaire : « Bonjour Jean », ses biens, calendrier, réservations, revenus, relevés, documents.</li>
+            <li>Espace agent, pensé pour le téléphone : mes tâches du jour, démarrer, photos, signaler un problème, valider.</li>
+          </ul>
+          <p class="req"><b>Prérequis</b> : réponses aux décisions 3 et 4 (qui encaisse, base de la commission, TVA).</p>
+        </div>
+      </div>
+      <div class="ms">
+        <div class="k"><small>Jalon 5</small><h3>Automatisations et intégrations</h3><span class="phases">Phases 12, 13 et 14</span></div>
+        <div class="body">
+          <ul class="list">
+            <li>Moteur d’automatisation : nouvelle réservation, check-out, incident, fin de mois ; règles activables.</li>
+            <li>Connecteur du channel manager choisi (webhooks signés, envoi des disponibilités).</li>
+            <li>Site public : biens publiés depuis le back-office, disponibilités, demande de réservation.</li>
+            <li>Notifications dans l’application, puis par email.</li>
+          </ul>
+          <p class="req"><b>Prérequis</b> : abonnement au channel manager (décision 5) ; domaine et service d’email (décision 6).</p>
+        </div>
+      </div>
+      <div class="ms">
+        <div class="k"><small>Jalon 6</small><h3>Tests et déploiement</h3><span class="phases">Phases 15 et 16</span></div>
+        <div class="body">
+          <ul class="list">
+            <li>Tests de bout en bout pour chaque rôle, tests des règles d’accès, accessibilité, performance mobile.</li>
+            <li>Déploiements automatiques depuis GitHub, environnement de préproduction, sauvegardes, documentation d’exploitation.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="panel olive">
+      <h3>Ce que je ne ferai pas semblant de faire</h3>
+      <p>Aucune synchronisation Airbnb, Booking ou Abritel ne sera présentée comme active sans le channel manager configuré : l’écran indiquera « non connecté » et ce qu’il manque. Aucun email ne partira sans service d’email configuré. Aucun chiffre réel ne sera inventé : les données de démonstration seront signalées partout où elles apparaissent.</p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Comme à la Maison · Bordeaux &amp; Bordeaux Métropole</span>
+    <span>Étape 0 · aucune modification du code</span>
+  </footer>
+</div>

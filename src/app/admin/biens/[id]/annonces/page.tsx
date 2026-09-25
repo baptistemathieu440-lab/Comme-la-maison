@@ -53,7 +53,7 @@ function ListingFields({ listing, platforms }: { listing?: Listing; platforms: A
       <Field
         name="ical_import_url"
         label="Calendrier iCal de la plateforme (à importer)"
-        hint="Sur Airbnb : Calendrier › Disponibilités › Synchroniser les calendriers › Exporter. Sur Booking.com : Tarifs et disponibilités › Synchronisation des calendriers."
+        hint="Dans la rubrique de synchronisation des calendriers de la plateforme (Airbnb : Calendrier › Disponibilités ; Booking.com : Tarifs et disponibilités). Cherchez « iCal » si le menu a changé."
       >
         <Input type="url" defaultValue={listing?.ical_import_url ?? ""} placeholder="https://" />
       </Field>

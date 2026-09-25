@@ -14,7 +14,7 @@ Plateforme de gestion : Supabase (Postgres, comptes, stockage privé, règles d'
 ## Commandes
 - `npm run dev` : développement sur http://localhost:3000
 - `npm run lint` · `npm run typecheck` · `npm run build`
-- `npm run test:e2e` : tests Playwright (parcours, simulateur, formulaire, accessibilité axe WCAG 2.2 AA), sur desktop et mobile
+- `npm run test:e2e` : tests Playwright du site public (desktop et mobile) et, si la base locale tourne, de la plateforme (`tests/platform` : isolation des données par rôle, accès, parcours, accessibilité axe WCAG 2.2 AA)
 - `npm run db:start` · `npm run db:stop` : base Supabase locale (Docker) ; `npm run db:reset` réapplique toutes les migrations ; `npm run db:types` régénère les types
 
 ## Où modifier quoi
@@ -24,6 +24,9 @@ Plateforme de gestion : Supabase (Postgres, comptes, stockage privé, règles d'
 - Informations légales : `src/content/legal.ts` (null = « À compléter » affiché)
 - Design system (couleurs, typographie, motifs) : `src/app/globals.css`, documenté dans `docs/design-system.md`
 - Logo : `src/components/brand/` (composant) et `public/brand/` (fichiers SVG)
+- Plateforme : pages dans `src/app/admin`, `src/app/owner`, `src/app/staff` ; actions serveur à côté des pages (`actions.ts`, chacune commence par `adminContext()` / `ownerContext()` / `staffContext()`) ; kit d'interface dans `src/components/app` ; libellés des statuts dans `src/lib/labels.ts`
+- Logique serveur : `src/server` (synchronisation iCal, automatisations, notifications, relevés PDF, invitations, emails)
+- Mise en service, usage et règles de calcul : `docs/plateforme-exploitation.md`
 
 ## Règles absolues
 - Ne jamais inventer de données : clients, avis, chiffres, revenus, taux d'occupation, logements, partenaires, témoignages. Utiliser des emplacements vides.

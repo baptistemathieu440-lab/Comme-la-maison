@@ -292,3 +292,120 @@
     font-weight: 600;
   }
 }
+
+/* ---------- Guide voyageurs : carte interactive ---------- */
+
+/* Marqueur : le disque du logo (vert maison), terracotta pour les coups de cœur. */
+.guide-marker-wrap {
+  background: none;
+  border: 0;
+}
+
+.guide-marker {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: var(--color-maison);
+  border: 3px solid var(--color-cream);
+  box-shadow: var(--shadow-float);
+}
+
+.guide-marker::after {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  margin: 8px auto 0;
+  border-radius: 9999px;
+  background: var(--color-terra-on-dark);
+}
+
+.guide-marker--favorite {
+  background: var(--color-terra-text);
+}
+
+.guide-marker--favorite::after {
+  background: var(--color-cream);
+}
+
+.leaflet-container {
+  font-family: var(--font-sans);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-float);
+}
+
+.leaflet-popup-tip {
+  background: var(--color-surface);
+}
+
+.leaflet-popup-content {
+  margin: 1rem 1.125rem;
+}
+
+.guide-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.leaflet-popup-content .guide-popup p {
+  margin: 0;
+}
+
+.guide-popup__category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.guide-popup__name {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  line-height: 1.25;
+  color: var(--color-maison);
+}
+
+.guide-popup__meta {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.guide-popup__budget {
+  border-radius: 9999px;
+  background: var(--color-stone);
+  padding: 0.15rem 0.55rem;
+}
+
+.leaflet-container a.guide-popup__link {
+  margin-top: 0.35rem;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--color-maison);
+  color: var(--color-cream);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.leaflet-container a.guide-popup__link:hover {
+  background: var(--color-maison-hover);
+}
+
+.leaflet-control-zoom a {
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  line-height: 2.75rem !important;
+}

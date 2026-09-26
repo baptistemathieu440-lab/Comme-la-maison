@@ -17,7 +17,7 @@ test("accessibilité : page de connexion", async ({ page }) => {
 
 test.describe("accessibilité : back-office", () => {
   test.use({ storageState: `${AUTH_DIR}/admin.json` });
-  for (const path of ["/admin", "/admin/calendrier", "/admin/reservations", "/admin/reservations/nouvelle", "/admin/biens", "/admin/prospects", "/admin/finances", "/admin/releves", "/admin/taches", "/admin/parametres", "/admin/compte"]) {
+  for (const path of ["/admin", "/admin/calendrier", "/admin/reservations", "/admin/reservations/nouvelle", "/admin/biens", "/admin/prospects", "/admin/finances", "/admin/releves", "/admin/taches", "/admin/parametres", "/admin/compte", "/admin/guide", "/admin/guide/nouveau", "/admin/guide/qr-code"]) {
     test(path, async ({ page }) => {
       await page.goto(path);
       expect(await audit(page)).toEqual([]);

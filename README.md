@@ -17,6 +17,7 @@ Site officiel de **Comme à la Maison**, conciergerie Airbnb et location courte 
 | `/transparence` | Nos chiffres, en toute transparence (vides tant qu'aucune donnée vérifiable n'est publiée) |
 | `/mentions-legales` | Mentions légales, avec repères « À compléter » |
 | `/politique-confidentialite` | Politique de confidentialité |
+| `/guide` | Guide voyageurs (QR code des logements) : bonnes adresses, rubriques, explorateur filtrable, carte, favoris, itinéraires 24/48/72 h. Voir `docs/guide-voyageurs.md` |
 
 Les anciennes adresses `/logements` et `/confidentialite` redirigent (redirection permanente) vers les nouvelles.
 | `/styleguide` | Design system (page interne, non indexée) |

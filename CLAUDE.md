@@ -30,6 +30,7 @@ Plateforme de gestion : Supabase (Postgres, comptes, stockage privé, règles d'
 - Logements publics (`/nos-biens`) : lecture filtrée dans `src/server/public-listings.ts` (biens actifs, publiés, hors démo ; jamais d'adresse ni de propriétaire), demande de séjour dans `src/app/actions/stay-request.ts`
 - Page « Mon compte » des trois espaces : `src/components/app/AccountPage.tsx` et `src/app/account-actions.ts` ; mot de passe provisoire (`user_metadata.must_change_password`) imposé par `requireSession()`
 - Mise en service, usage et règles de calcul : `docs/plateforme-exploitation.md`
+- Guide voyageurs (`/guide`, QR code des logements) : pages dans `src/app/(guide)/guide`, composants dans `src/components/guide`, vocabulaire et types dans `src/lib/guide`, lecture des adresses dans `src/server/guide.ts` (table `guide_places`, sinon sélection initiale `src/content/guide/places.ts`), rubriques dans `src/content/guide/themes.ts`, itinéraires dans `src/content/guide/itineraries.ts`, back-office dans `src/app/admin/guide`. Documentation : `docs/guide-voyageurs.md`. Jamais de note, de prix ou d'horaire sans source vérifiée ; jamais d'image générée pour représenter un lieu réel.
 
 ## Règles absolues
 - Ne jamais inventer de données : clients, avis, chiffres, revenus, taux d'occupation, logements, partenaires, témoignages. Utiliser des emplacements vides.

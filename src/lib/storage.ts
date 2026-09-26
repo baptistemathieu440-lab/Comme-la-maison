@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto";
 
 import { createAdminClient } from "@/lib/supabase/admin";
 
-export type Bucket = "property-photos" | "field-photos" | "documents" | "statements";
+export type Bucket = "property-photos" | "field-photos" | "documents" | "statements" | "guide-photos";
 
 export const imageTypes = ["image/jpeg", "image/png", "image/webp"] as const;
 export const documentTypes = [
@@ -34,6 +34,7 @@ export const limits: Record<Bucket, number> = {
   "field-photos": 10 * 1024 * 1024,
   documents: 20 * 1024 * 1024,
   statements: 5 * 1024 * 1024,
+  "guide-photos": 10 * 1024 * 1024,
 };
 
 export type UploadTicket = { ok: true; bucket: Bucket; path: string; token: string } | { ok: false; message: string };

@@ -17,7 +17,7 @@ export function Faq() {
             Vous ne trouvez pas votre réponse ? Posez-nous directement votre question, nous vous
             répondons personnellement.
           </p>
-          <ButtonLink href="/#estimation" variant="ghost" className="self-start">
+          <ButtonLink href="/contact" variant="ghost" className="self-start">
             Nous écrire
           </ButtonLink>
         </div>

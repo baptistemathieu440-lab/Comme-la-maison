@@ -1,10 +1,14 @@
 import {
+  Clock,
   Eye,
   HeartHandshake,
+  House,
+  KeyRound,
   MapPin,
-  MessageCircle,
-  ShieldCheck,
-  SlidersHorizontal,
+  Route,
+  Sparkles,
+  Sun,
+  UsersRound,
   type LucideIcon,
 } from "lucide-react";
 
@@ -39,52 +43,76 @@ export const pricingNotes = [
 
 export type Pillar = { title: string; text: string; icon: LucideIcon };
 
-/** Pourquoi Comme à la Maison : les 6 piliers. */
-export const pillars: Pillar[] = [
+/** Notre promesse : quatre avantages, sur l'accueil. */
+export const promise: Pillar[] = [
   {
-    title: "Proximité",
-    text: "Une présence locale à Bordeaux et dans sa métropole.",
-    icon: MapPin,
+    title: "Gestion complète",
+    text: "De l’annonce au ménage, chaque étape est prise en charge.",
+    icon: Sparkles,
   },
   {
-    title: "Transparence",
-    text: "Une commission clairement affichée à 20 %.",
-    icon: Eye,
+    title: "Voyageurs accompagnés",
+    text: "Un accueil soigné et une réponse à chaque question.",
+    icon: KeyRound,
   },
   {
-    title: "Simplicité",
-    text: "Un interlocuteur pour l’ensemble de la gestion.",
-    icon: MessageCircle,
+    title: "Logement valorisé",
+    text: "Des photos, une annonce et des tarifs à la hauteur de votre bien.",
+    icon: House,
   },
   {
-    title: "Soin",
-    text: "Une attention portée au logement et à l’expérience voyageur.",
-    icon: HeartHandshake,
-  },
-  {
-    title: "Personnalisation",
-    text: "Une stratégie adaptée à chaque logement.",
-    icon: SlidersHorizontal,
-  },
-  {
-    title: "Confiance",
-    text: "Une relation directe avec deux associés impliqués.",
-    icon: ShieldCheck,
+    title: "Esprit libéré",
+    text: "Vous profitez de votre logement, sans ses contraintes.",
+    icon: Sun,
   },
 ];
 
-/** Ce qu'un propriétaire gère seul, et que nous prenons en charge. */
-export const ownerTasks = [
-  "Messages",
-  "Réservations",
-  "Calendrier",
-  "Tarifs",
-  "Arrivées",
-  "Départs",
-  "Ménage",
-  "Linge",
-  "Voyageurs",
-  "Imprévus",
+/** Pourquoi Comme à la Maison : ce qui nous distingue. */
+export const pillars: Pillar[] = [
+  {
+    title: "Un accompagnement humain",
+    text: "Deux associés, joignables directement, qui connaissent votre logement.",
+    icon: HeartHandshake,
+  },
+  {
+    title: "Disponibles",
+    text: "Une réponse rapide pour vous comme pour vos voyageurs.",
+    icon: Clock,
+  },
+  {
+    title: "Ancrés à Bordeaux",
+    text: "Une présence locale, dans la ville et ses 27 communes voisines.",
+    icon: MapPin,
+  },
+  {
+    title: "Attentifs aux voyageurs",
+    text: "Un séjour réussi fait les bons avis, et les prochaines réservations.",
+    icon: UsersRound,
+  },
+  {
+    title: "Transparents",
+    text: "Une commission affichée, un relevé détaillé chaque mois.",
+    icon: Eye,
+  },
+  {
+    title: "À vos côtés, de A à Z",
+    text: "De l’estimation au suivi, un seul interlocuteur pour tout.",
+    icon: Route,
+  },
+];
+
+/** La box de bienvenue évolue avec le standing et les revenus du logement. */
+export const welcomeBoxTiers = [
+  {
+    title: "Box essentielle",
+    audience: "Logement aux revenus locatifs plus modérés",
+    text: "Une attention simple et chaleureuse pour bien commencer le séjour.",
+  },
+  {
+    title: "Box premium",
+    audience: "Logement aux revenus locatifs plus importants",
+    text: "Une sélection plus travaillée, à la hauteur du standing du logement.",
+  },
 ];
 
 /** Types de logements accompagnés. */

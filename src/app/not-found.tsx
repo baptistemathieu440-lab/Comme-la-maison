@@ -6,7 +6,7 @@ import { Container, Period } from "@/components/ui/Section";
 
 export default function NotFound() {
   return (
-    <>
+    <div className="site-theme flex flex-1 flex-col">
       <Header />
       <main id="contenu" tabIndex={-1} className="flex-1 bg-cream outline-none">
         <Container className="flex flex-col items-center gap-6 py-24 text-center sm:py-32">
@@ -25,6 +25,6 @@ export default function NotFound() {
         </Container>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

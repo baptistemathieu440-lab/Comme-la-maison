@@ -99,18 +99,18 @@ test.describe("Logements publiés sur le site", () => {
   test("un bien publié depuis le back-office a sa page, ses disponibilités et reçoit des demandes", async ({ page }) => {
     await setPublished(page, propertyId, true);
 
-    // L'en-tête du site propose alors « Logements ».
+    // L'accueil le présente parmi « Nos biens ».
     await page.goto("/");
-    await expect(page.getByRole("navigation", { name: "Navigation principale" }).getByRole("link", { name: "Logements", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: TITLE })).toBeVisible();
 
-    await page.goto("/logements");
+    await page.goto("/nos-biens");
     await expect(page.getByRole("link", { name: TITLE })).toBeVisible();
     await expect(page.getByText(INTERNAL)).toHaveCount(0);
     await expect(page.getByText("Démo · T2 Chartrons")).toHaveCount(0);
     expect(await seriousViolations(page)).toEqual([]);
 
     await page.getByRole("link", { name: TITLE }).click();
-    await expect(page).toHaveURL(new RegExp(`/logements/${SLUG}$`));
+    await expect(page).toHaveURL(new RegExp(`/nos-biens/${SLUG}$`));
     await expect(page.getByRole("heading", { level: 1 })).toContainText(TITLE);
     await expect(page.getByText("TEST-0001")).toBeVisible();
     // Ni adresse, ni propriétaire.
@@ -157,11 +157,13 @@ test.describe("Logements publiés sur le site", () => {
     const { data: notes } = await service.from("notifications").select("link").eq("kind", "booking.inquiry");
     expect(notes?.some((n) => n.link === `/admin/reservations/${inquiry!.id}`)).toBe(true);
 
-    // Retiré du site : la page n'existe plus et le lien d'en-tête disparaît.
+    // Retiré du site : la page n'existe plus et le bien disparaît de l'accueil et de Nos biens.
     await setPublished(page, propertyId, false);
-    expect((await page.goto(`/logements/${SLUG}`))?.status()).toBe(404);
+    expect((await page.goto(`/nos-biens/${SLUG}`))?.status()).toBe(404);
     await page.goto("/");
-    await expect(page.getByRole("navigation", { name: "Navigation principale" }).getByRole("link", { name: "Logements", exact: true })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: TITLE })).toHaveCount(0);
+    await page.goto("/nos-biens");
+    await expect(page.getByRole("link", { name: TITLE })).toHaveCount(0);
   });
 
   test("une photo non publique ou inconnue n'est pas servie", async ({ request }) => {

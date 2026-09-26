@@ -792,6 +792,167 @@ export type Database = {
           },
         ]
       }
+      guide_places: {
+        Row: {
+          address: string | null
+          area: string
+          audiences: string[]
+          best_period: string | null
+          booking: string
+          booking_url: string | null
+          budget: number
+          car_needed: boolean | null
+          created_at: string
+          created_by: string | null
+          duration: string | null
+          good_to_know: string | null
+          highlights: string | null
+          hours: string | null
+          id: string
+          internal_notes: string | null
+          is_demo: boolean
+          is_favorite: boolean
+          is_published: boolean
+          kind: string
+          lat: number | null
+          lng: number | null
+          maps_url: string | null
+          name: string
+          photo_alt: string | null
+          photo_credit: string | null
+          photo_path: string | null
+          position: number
+          price_note: string | null
+          rating: number | null
+          rating_count: number | null
+          rating_source: string | null
+          setting: string
+          slug: string
+          sources: string[]
+          status: string
+          subcategory: string | null
+          summary: string
+          tags: string[]
+          tip: string | null
+          transport: string | null
+          travel_time: string | null
+          updated_at: string
+          verified_on: string | null
+          website_url: string | null
+          where_to_eat: string | null
+          wine_region: string | null
+          zone: string
+        }
+        Insert: {
+          address?: string | null
+          area?: string
+          audiences?: string[]
+          best_period?: string | null
+          booking?: string
+          booking_url?: string | null
+          budget?: number
+          car_needed?: boolean | null
+          created_at?: string
+          created_by?: string | null
+          duration?: string | null
+          good_to_know?: string | null
+          highlights?: string | null
+          hours?: string | null
+          id?: string
+          internal_notes?: string | null
+          is_demo?: boolean
+          is_favorite?: boolean
+          is_published?: boolean
+          kind: string
+          lat?: number | null
+          lng?: number | null
+          maps_url?: string | null
+          name: string
+          photo_alt?: string | null
+          photo_credit?: string | null
+          photo_path?: string | null
+          position?: number
+          price_note?: string | null
+          rating?: number | null
+          rating_count?: number | null
+          rating_source?: string | null
+          setting?: string
+          slug: string
+          sources?: string[]
+          status?: string
+          subcategory?: string | null
+          summary?: string
+          tags?: string[]
+          tip?: string | null
+          transport?: string | null
+          travel_time?: string | null
+          updated_at?: string
+          verified_on?: string | null
+          website_url?: string | null
+          where_to_eat?: string | null
+          wine_region?: string | null
+          zone?: string
+        }
+        Update: {
+          address?: string | null
+          area?: string
+          audiences?: string[]
+          best_period?: string | null
+          booking?: string
+          booking_url?: string | null
+          budget?: number
+          car_needed?: boolean | null
+          created_at?: string
+          created_by?: string | null
+          duration?: string | null
+          good_to_know?: string | null
+          highlights?: string | null
+          hours?: string | null
+          id?: string
+          internal_notes?: string | null
+          is_demo?: boolean
+          is_favorite?: boolean
+          is_published?: boolean
+          kind?: string
+          lat?: number | null
+          lng?: number | null
+          maps_url?: string | null
+          name?: string
+          photo_alt?: string | null
+          photo_credit?: string | null
+          photo_path?: string | null
+          position?: number
+          price_note?: string | null
+          rating?: number | null
+          rating_count?: number | null
+          rating_source?: string | null
+          setting?: string
+          slug?: string
+          sources?: string[]
+          status?: string
+          subcategory?: string | null
+          summary?: string
+          tags?: string[]
+          tip?: string | null
+          transport?: string | null
+          travel_time?: string | null
+          updated_at?: string
+          verified_on?: string | null
+          website_url?: string | null
+          where_to_eat?: string | null
+          wine_region?: string | null
+          zone?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "guide_places_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       guests: {
         Row: {
           contact_id: string

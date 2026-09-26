@@ -4,7 +4,7 @@ import { Simulator } from "./Simulator";
 
 export function SimulatorSection() {
   return (
-    <Section id="simulateur" labelledBy="simulateur-title">
+    <Section id="simulateur" tone="stone" labelledBy="simulateur-title">
       <SectionHeader
         eyebrow="Simulateur"
         titleId="simulateur-title"

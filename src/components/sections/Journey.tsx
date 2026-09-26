@@ -1,11 +1,10 @@
-import { Check, RefreshCw } from "lucide-react";
-
 import { Period, Section, SectionHeader } from "@/components/ui/Section";
 import { journey } from "@/content/services";
 
+/** Avant, pendant, après : le cycle de chaque séjour. */
 export function Journey() {
   return (
-    <Section id="accompagnement" labelledBy="accompagnement-title">
+    <Section id="accompagnement" tone="surface" labelledBy="accompagnement-title" className="border-y border-line/50">
       <SectionHeader
         eyebrow="Notre accompagnement"
         titleId="accompagnement-title"
@@ -15,41 +14,32 @@ export function Journey() {
             <Period />
           </>
         }
-        intro="De l’estimation de votre logement à la préparation du séjour suivant, nous nous occupons de chaque étape de sa location courte durée."
+        intro="Chaque départ prépare la prochaine arrivée : le cycle recommence à chaque séjour."
       />
 
-      <ol className="mt-14 grid gap-0 lg:mt-20 lg:grid-cols-3 lg:gap-6">
+      <ol className="mt-14 grid gap-12 lg:mt-20 lg:grid-cols-3 lg:gap-10">
         {journey.map((phase, index) => (
-          <li key={phase.step} className="reveal relative flex gap-5 pb-10 lg:flex-col lg:gap-0 lg:pb-0">
-            {/* Frise : un point terracotta par étape, relié au suivant */}
-            <div aria-hidden="true" className="relative flex flex-col items-center lg:mb-8 lg:flex-row">
-              <span className="relative z-10 grid size-11 shrink-0 place-items-center rounded-full bg-maison font-display text-[1.05rem] font-medium text-cream [font-stretch:92%]">
+          <li key={phase.step} className="reveal flex flex-col gap-5 border-t border-maison/25 pt-7">
+            <div className="flex items-baseline gap-4">
+              <span className="font-display text-[2.5rem] leading-none text-terra-text" aria-hidden="true">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <span className="w-px flex-1 bg-line-strong/50 lg:h-px lg:w-auto lg:flex-1 lg:ml-3" />
-              <span className="absolute left-1/2 top-[calc(100%-0.25rem)] hidden size-2 -translate-x-1/2 rounded-full bg-terra lg:static lg:block lg:translate-x-0" />
+              <div className="flex flex-col gap-1">
+                <p className="text-caption text-terra-text">{phase.step}</p>
+                <h3 className="text-h3 text-maison">{phase.title}</h3>
+              </div>
             </div>
-
-            <div className="flex-1 rounded-[var(--radius-card)] border border-line bg-surface p-6 sm:p-7">
-              <p className="text-caption text-terra-text">{phase.step}</p>
-              <h3 className="text-h3 mt-2 text-maison">{phase.title}</h3>
-              <ul className="mt-5 flex flex-col gap-2.5">
-                {phase.items.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <Check aria-hidden="true" className="mt-1 size-4 shrink-0 text-maison" strokeWidth={2.25} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ul className="flex flex-col gap-2 text-ink">
+              {phase.items.map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <span aria-hidden="true" className="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-olive-deep" />
+                  {item}
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </ol>
-
-      <p className="mt-2 flex items-center gap-3 rounded-full bg-olive-light px-5 py-3.5 text-ink sm:inline-flex lg:mt-8">
-        <RefreshCw aria-hidden="true" className="size-5 shrink-0 text-maison" strokeWidth={1.75} />
-        Chaque départ prépare la prochaine arrivée : le cycle recommence à chaque séjour.
-      </p>
     </Section>
   );
 }

@@ -336,7 +336,7 @@ export function ContactForm() {
         <p className="text-small text-ink-soft">
           Vos informations servent uniquement à vous recontacter au sujet de votre logement. Pour en
           savoir plus, consultez notre{" "}
-          <Link href="/confidentialite" className="text-maison underline underline-offset-2">
+          <Link href="/politique-confidentialite" className="text-maison underline underline-offset-2">
             politique de confidentialité
           </Link>
           .

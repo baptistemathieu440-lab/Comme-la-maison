@@ -110,7 +110,7 @@ test.describe("Parcours du back-office", () => {
 
   test("le formulaire du site crée un prospect dans le CRM", async ({ page }) => {
     const email = `prospect.${Date.now()}@example.com`;
-    await page.goto("/#estimation");
+    await page.goto("/contact#estimation");
     await page.getByRole("textbox", { name: "Prénom", exact: true }).fill("Camille");
     await page.getByRole("textbox", { name: "Nom", exact: true }).fill("Test");
     await page.getByRole("textbox", { name: "Téléphone", exact: true }).fill("06 12 34 56 78");

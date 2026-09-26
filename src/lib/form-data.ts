@@ -131,6 +131,12 @@ export class FormReader {
     return value;
   }
 
+  /** Cases à cocher multiples : seules les valeurs autorisées sont gardées. */
+  list<T extends string>(name: string, allowed: readonly T[]): T[] {
+    const values = this.data.getAll(name).filter((value): value is string => typeof value === "string");
+    return allowed.filter((value) => values.includes(value));
+  }
+
   bool(name: string) {
     const value = this.data.get(name);
     return value === "on" || value === "true" || value === "1";

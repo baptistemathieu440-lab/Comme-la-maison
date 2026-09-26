@@ -1,6 +1,7 @@
 import {
   AlertTriangle,
   Bell,
+  BookHeart,
   BookOpen,
   Building2,
   CalendarDays,
@@ -58,6 +59,10 @@ export const navigation: Record<Space, NavGroup[]> = {
         { href: "/admin/prospects", label: "Prospects", icon: Handshake },
         { href: "/admin/prestataires", label: "Prestataires", icon: UserRound },
       ],
+    },
+    {
+      label: "Voyageurs",
+      items: [{ href: "/admin/guide", label: "Guide voyageurs", icon: BookHeart }],
     },
     {
       label: "Finances",

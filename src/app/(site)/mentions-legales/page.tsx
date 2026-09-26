@@ -105,7 +105,7 @@ export default function MentionsLegalesPage() {
       <LegalSection title="Données personnelles">
         <p>
           Le traitement des informations envoyées par le formulaire est décrit dans notre{" "}
-          <Link href="/confidentialite">politique de confidentialité</Link>.
+          <Link href="/politique-confidentialite">politique de confidentialité</Link>.
         </p>
       </LegalSection>
     </LegalPage>

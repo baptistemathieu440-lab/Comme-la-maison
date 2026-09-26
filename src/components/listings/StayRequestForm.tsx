@@ -72,7 +72,7 @@ export function StayRequestForm({
         <p className="text-small text-ink-soft">
           Rien n’est réservé ni payé à ce stade : nous vous recontactons pour confirmer la disponibilité et le tarif. Vos
           informations servent uniquement à répondre à votre demande (
-          <Link href="/confidentialite" className="text-maison underline underline-offset-2">
+          <Link href="/politique-confidentialite" className="text-maison underline underline-offset-2">
             politique de confidentialité
           </Link>
           ).

@@ -22,6 +22,9 @@ export function siteNav(withListings: boolean): NavItem[] {
 
 export const primaryCta: NavItem = { label: "Estimer mon logement", href: "/#estimation" };
 
+/** Accès aux espaces connectés (back-office, propriétaires, agents) : lien discret du pied de page. */
+export const loginNav: NavItem = { label: "Connexion à votre espace", href: "/connexion" };
+
 export const legalNav: NavItem[] = [
   { label: "Mentions légales", href: "/mentions-legales" },
   { label: "Politique de confidentialité", href: "/confidentialite" },

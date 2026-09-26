@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Logo } from "@/components/brand/Logo";
-import { legalNav, mainNav, primaryCta, type NavItem } from "@/content/navigation";
+import { legalNav, loginNav, mainNav, primaryCta, type NavItem } from "@/content/navigation";
 import { site } from "@/content/site";
 import { telHref } from "@/lib/format";
 
@@ -86,7 +86,7 @@ export function Footer({ items = mainNav }: { items?: NavItem[] }) {
           <div className="flex flex-col gap-4">
             <h2 className="text-caption text-olive-light">Informations</h2>
             <ul className="flex flex-col gap-1">
-              {legalNav.map((item) => (
+              {[...legalNav, loginNav].map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="inline-flex min-h-10 items-center text-cream/90 underline-offset-4 hover:text-cream hover:underline">
                     {item.label}

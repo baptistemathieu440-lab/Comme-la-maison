@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bell, Search } from "lucide-react";
+import { Bell, Globe, Search } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Logo } from "@/components/brand/Logo";
@@ -89,6 +89,19 @@ export async function AppShell({ space, session, children }: { space: Space; ses
             ) : null}
 
             <div className="ml-auto flex items-center gap-1">
+              {space === "admin" ? (
+                // Accès au site public (front office), dans un nouvel onglet pour garder le back-office ouvert.
+                <a
+                  href="/"
+                  target="_blank"
+                  rel="noopener"
+                  className="mr-1 inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full border border-maison/25 bg-surface px-0 text-[0.9375rem] font-semibold text-maison transition-colors hover:border-maison/60 hover:bg-olive-light sm:px-4"
+                >
+                  <Globe aria-hidden="true" className="size-[1.125rem] shrink-0" strokeWidth={1.75} />
+                  <span className="max-sm:sr-only">Voir le site</span>
+                  <span className="sr-only"> (nouvel onglet)</span>
+                </a>
+              ) : null}
               {space === "admin" ? (
                 <Link
                   href="/admin/recherche"

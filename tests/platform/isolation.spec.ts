@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { anonymousClient, readIds, userClient } from "./support";
+import { anonymousClient, readIds, serviceClient, userClient } from "./support";
 
 /**
  * Règle absolue : un propriétaire ne voit jamais les données d'un autre, même en
@@ -64,6 +64,7 @@ test.describe("Isolation des données (règles d'accès de la base)", () => {
       owner.rpc("purge_demo_data"),
       owner.rpc("generate_statement", { p_owner: ids.ownerB, p_month: "2026-08-01" }),
       owner.rpc("finalize_statement", { p_statement: ids.statementB! }),
+      owner.rpc("roll_booking_statuses"),
     ]) {
       const { error } = await call;
       expect(error?.code).toBe("42501");
@@ -113,5 +114,15 @@ test.describe("Isolation des données (règles d'accès de la base)", () => {
     }
     const { data: view } = await anon.from("owner_bookings").select("id").limit(1);
     expect(view ?? []).toEqual([]);
+  });
+});
+
+test.describe("Tâches planifiées (règles d'accès de la base)", () => {
+  test("seul le serveur peut lancer la mise à jour des statuts de réservation", async () => {
+    const admin = await userClient("admin");
+    const { error: adminError } = await admin.rpc("roll_booking_statuses");
+    expect(adminError?.code).toBe("42501");
+    const { error: serviceError } = await serviceClient().rpc("roll_booking_statuses");
+    expect(serviceError).toBeNull();
   });
 });

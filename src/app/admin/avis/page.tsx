@@ -119,7 +119,7 @@ export default async function ReviewsAdminPage({ searchParams }: PageProps<"/adm
               </span>
             ),
           },
-          { header: "Note", cell: (row) => `${row.rating} / 5` },
+          { header: "Note", cell: (row) => <span className="whitespace-nowrap">{row.rating} / 5</span> },
           { header: "Auteur", cell: (row) => reviewCategories[row.category as ReviewCategory]?.label ?? row.category },
           {
             header: "Source",

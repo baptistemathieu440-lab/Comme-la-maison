@@ -48,11 +48,17 @@ export default async function ReviewAdminPage({ params }: PageProps<"/admin/avis
 
         <div className="flex flex-col gap-4">
           <Panel title="Publication" id="publication">
-            <ActionForm action={setReviewPublished.bind(null, id, !review.is_published)}>
-              <SubmitButton variant={review.is_published ? "ghost" : "secondary"} pendingLabel="Enregistrement…">
-                {review.is_published ? "Retirer de l’accueil" : "Publier sur l’accueil"}
-              </SubmitButton>
-            </ActionForm>
+            {review.is_published || review.consent_confirmed ? (
+              <ActionForm action={setReviewPublished.bind(null, id, !review.is_published)}>
+                <SubmitButton variant={review.is_published ? "ghost" : "secondary"} pendingLabel="Enregistrement…">
+                  {review.is_published ? "Retirer de l’accueil" : "Publier sur l’accueil"}
+                </SubmitButton>
+              </ActionForm>
+            ) : (
+              <p className="text-small text-ink-soft">
+                Cochez « L’auteur a accepté que son avis soit publié sur le site » dans la fiche, enregistrez, puis publiez.
+              </p>
+            )}
           </Panel>
 
           <Panel title="Supprimer" id="supprimer" description="Préférez « Retirer de l’accueil » si l’avis peut revenir.">

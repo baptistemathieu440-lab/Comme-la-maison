@@ -792,6 +792,44 @@ export type Database = {
           },
         ]
       }
+      guests: {
+        Row: {
+          contact_id: string
+          created_at: string
+          id: string
+          is_demo: boolean
+          language: string | null
+          notes: string | null
+          updated_at: string
+        }
+        Insert: {
+          contact_id: string
+          created_at?: string
+          id?: string
+          is_demo?: boolean
+          language?: string | null
+          notes?: string | null
+          updated_at?: string
+        }
+        Update: {
+          contact_id?: string
+          created_at?: string
+          id?: string
+          is_demo?: boolean
+          language?: string | null
+          notes?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "guests_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: true
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       guide_places: {
         Row: {
           address: string | null
@@ -949,44 +987,6 @@ export type Database = {
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      guests: {
-        Row: {
-          contact_id: string
-          created_at: string
-          id: string
-          is_demo: boolean
-          language: string | null
-          notes: string | null
-          updated_at: string
-        }
-        Insert: {
-          contact_id: string
-          created_at?: string
-          id?: string
-          is_demo?: boolean
-          language?: string | null
-          notes?: string | null
-          updated_at?: string
-        }
-        Update: {
-          contact_id?: string
-          created_at?: string
-          id?: string
-          is_demo?: boolean
-          language?: string | null
-          notes?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "guests_contact_id_fkey"
-            columns: ["contact_id"]
-            isOneToOne: true
-            referencedRelation: "contacts"
             referencedColumns: ["id"]
           },
         ]

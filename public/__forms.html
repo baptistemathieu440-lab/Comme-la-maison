@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Formulaire d’estimation</title>
+  </head>
+  <body>
+    <!--
+      Déclaration du formulaire pour Netlify Forms (détecté au déploiement).
+      Le vrai formulaire est dans src/components/sections/ContactForm.tsx ;
+      les noms des champs doivent rester identiques à src/lib/contact.ts.
+    -->
+    <form name="estimation" data-netlify="true" netlify-honeypot="website" hidden>
+      <input type="hidden" name="form-name" value="estimation" />
+      <input type="text" name="firstName" />
+      <input type="text" name="lastName" />
+      <input type="tel" name="phone" />
+      <input type="email" name="email" />
+      <input type="text" name="city" />
+      <input type="text" name="propertyType" />
+      <input type="text" name="bedrooms" />
+      <input type="number" name="capacity" />
+      <textarea name="message"></textarea>
+      <input type="text" name="website" />
+    </form>
+  </body>
+</html>

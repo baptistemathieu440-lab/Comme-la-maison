@@ -2,6 +2,7 @@ import {
   AlertTriangle,
   Bell,
   BookHeart,
+  MessageSquareQuote,
   BookOpen,
   Building2,
   CalendarDays,
@@ -61,8 +62,11 @@ export const navigation: Record<Space, NavGroup[]> = {
       ],
     },
     {
-      label: "Voyageurs",
-      items: [{ href: "/admin/guide", label: "Guide voyageurs", icon: BookHeart }],
+      label: "Site public",
+      items: [
+        { href: "/admin/guide", label: "Guide voyageurs", icon: BookHeart },
+        { href: "/admin/avis", label: "Avis clients", icon: MessageSquareQuote },
+      ],
     },
     {
       label: "Finances",

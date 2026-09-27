@@ -6,15 +6,15 @@ import { PricingTeaser } from "@/components/sections/home/PricingTeaser";
 import { OurPromise } from "@/components/sections/home/OurPromise";
 import { Reviews } from "@/components/sections/home/Reviews";
 import { WhyUs } from "@/components/sections/home/WhyUs";
-import { publishedReviews } from "@/content/reviews";
 import { JsonLd, homeJsonLd } from "@/lib/structured-data";
+import { getPublishedReviews } from "@/server/reviews";
 
 /**
  * Accueil : court et visuel. Qui, quoi, où, pourquoi, comment nous contacter ;
  * le détail vit sur les pages Nos offres, Nos biens et À propos.
  */
-export default function HomePage() {
-  const reviews = publishedReviews();
+export default async function HomePage() {
+  const reviews = await getPublishedReviews();
   return (
     <>
       <JsonLd data={homeJsonLd()} />

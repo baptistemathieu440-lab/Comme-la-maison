@@ -2301,6 +2301,71 @@ export type Database = {
           },
         ]
       }
+      site_reviews: {
+        Row: {
+          author_name: string
+          body: string
+          category: string
+          city: string | null
+          consent_confirmed: boolean
+          created_at: string
+          created_by: string | null
+          id: string
+          internal_notes: string | null
+          is_demo: boolean
+          is_published: boolean
+          position: number
+          rating: number
+          received_on: string | null
+          source: string | null
+          updated_at: string
+        }
+        Insert: {
+          author_name: string
+          body: string
+          category?: string
+          city?: string | null
+          consent_confirmed?: boolean
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          internal_notes?: string | null
+          is_demo?: boolean
+          is_published?: boolean
+          position?: number
+          rating: number
+          received_on?: string | null
+          source?: string | null
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string
+          body?: string
+          category?: string
+          city?: string | null
+          consent_confirmed?: boolean
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          internal_notes?: string | null
+          is_demo?: boolean
+          is_published?: boolean
+          position?: number
+          rating?: number
+          received_on?: string | null
+          source?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "site_reviews_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       statement_lines: {
         Row: {
           amount_cents: number

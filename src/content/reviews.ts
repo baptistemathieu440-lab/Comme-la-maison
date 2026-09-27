@@ -5,7 +5,10 @@
  * (message, plateforme de réservation, email…) sont publiés, avec l'accord
  * de leur auteur.
  *
- * Pour ajouter un avis, copier un bloc dans `reviews` et le compléter :
+ * Le plus simple : les saisir dans le back-office (Avis clients), où chaque avis
+ * se publie ou se masque en un clic. Ce fichier reste possible en complément.
+ *
+ * Pour ajouter un avis ici, copier un bloc dans `reviews` et le compléter :
  *
  *   {
  *     name: "Sophie",
@@ -17,7 +20,7 @@
  *     date: "septembre 2026",    // facultatif
  *   },
  *
- * Tant que `reviews` est vide, la section « Avis clients » n'apparaît pas
+ * Tant qu'aucun avis n'est publié (back-office ou ci-dessous), la section « Avis clients » n'apparaît pas
  * sur l'accueil : aucun avis d'exemple n'est jamais montré aux visiteurs.
  */
 
@@ -33,6 +36,8 @@ export type Review = {
   source?: string | null;
   date?: string | null;
 };
+
+export const reviewCategoryKeys = ["proprietaire", "voyageur", "client"] as const satisfies readonly ReviewCategory[];
 
 export const reviewCategories: Record<ReviewCategory, { label: string; plural: string }> = {
   proprietaire: { label: "Propriétaire", plural: "Propriétaires" },

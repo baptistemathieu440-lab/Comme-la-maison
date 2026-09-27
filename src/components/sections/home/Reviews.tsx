@@ -93,7 +93,7 @@ export function Reviews({ items }: { items: Review[] }) {
     "grid size-12 place-items-center rounded-full border border-maison/40 text-maison transition-colors hover:bg-maison hover:text-cream disabled:pointer-events-none disabled:opacity-35";
 
   return (
-    <section id="avis" aria-labelledby="avis-title" className="bg-stone py-[4.5rem] text-ink sm:py-24 lg:py-32">
+    <section id="avis" aria-labelledby="avis-title" className="bg-stone py-16 text-ink sm:py-20 lg:py-24">
       <div className="mx-auto w-full max-w-[76rem] px-5 sm:px-8 lg:px-12">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div className="flex max-w-[40rem] flex-col gap-5">

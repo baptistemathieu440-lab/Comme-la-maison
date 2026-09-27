@@ -70,7 +70,8 @@ export const serviceGroups: ServiceGroup[] = [
     id: "accueil-voyageurs",
     title: "Accueil & voyageurs",
     summary: "Des voyageurs accueillis, accompagnés et écoutés, de la réservation au départ.",
-    image: images.welcomeBox,
+    // La photo de la box est réservée à la section Box de bienvenue, sur la même page.
+    image: images.bordeaux,
     services: [
       {
         title: "Accueil des voyageurs",

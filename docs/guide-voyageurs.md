@@ -83,7 +83,7 @@ Règles d'accès : administrateurs uniquement (double authentification). Aucun a
 
 ## 4. Composants
 
-- Public (`src/components/guide/`) : `GuideNav` (onglets bas + en-tête), `PlaceCard` (ligne compacte ou tuile), `PlaceVisual` (photo ou illustration de marque), `badges` (budget, note avec source), `FavoriteButton`, `ExplorerView` + `filters.ts`, `GuideMap` (Leaflet), `FavoritesView`, `ContactBlock`, `layout.tsx` (conteneur, en-têtes de section, « vérifié le »).
+- Public (`src/components/guide/`) : `GuideNav` (onglets bas + en-tête), `PlaceCard` (carte photo 3:2 en grille, ou tuile à faire défiler), `PlaceVisual` (photo ou emplacement aux couleurs de la marque), `badges` (budget, note avec source), `FavoriteButton`, `ExplorerView` + `filters.ts`, `GuideMap` (Leaflet), `FavoritesView`, `ContactBlock`, `layout.tsx` (conteneur, en-têtes de section, « vérifié le »).
 - Données : `src/lib/guide/taxonomy.ts` (vocabulaire), `place.ts` (types, conversion, lien Maps), `summary.ts` (version allégée envoyée au téléphone), `favorites.ts` (localStorage).
 - Back-office (`src/app/admin/guide/`) : liste avec compteurs et filtres (catégorie, visibilité, « à revérifier » au-delà de 180 jours, « budget à confirmer »), fiche complète, actions rapides (marquer vérifiée aujourd'hui, masquer/afficher), photo, suppression, import de la sélection initiale, page QR code (SVG et PNG).
 
@@ -106,7 +106,7 @@ Vérification du 26 septembre 2026, pour chaque adresse :
 
 **Budgets** : fixés à partir d'une source quand elle existait (prix d'entrée, menu, fourchette). Les adresses marquées * dans la liste ci-dessous ont un budget estimé : l'import les annote « Budget estimé, à confirmer » (filtre dédié dans le back-office).
 
-**Photos** : aucune photo d'établissement n'est publiée pour l'instant. Sans photo, chaque carte affiche une illustration aux couleurs de la marque (l'arche du logo et l'icône de la catégorie). Ajouter uniquement des photos dont Comme à la Maison a les droits (photos maison, photos officielles avec autorisation écrite, banques d'images libres), jamais d'image générée pour représenter un lieu réel ; renseigner le crédit.
+**Photos** : 76 adresses sur 114 ont une photo du lieu réel, choisie à la main sur Wikimedia Commons sous licence libre (CC0, domaine public, CC BY, CC BY-SA) : fichiers dans `public/guide/lieux/` (3:2, 1050 × 700 px, WebP), auteur, licence et lien d'origine dans `src/content/guide/photos.ts`, crédit affiché sous la photo de la fiche. Une photo ajoutée depuis le back-office prime sur celle-ci. Les adresses sans photo libre (surtout restaurants et bars) affichent, au même format, un emplacement aux couleurs de la marque (l'arche du logo et l'icône de la catégorie). Ajouter uniquement des photos dont Comme à la Maison a les droits (photos maison, photos officielles avec autorisation écrite, banques d'images libres), jamais d'image générée pour représenter un lieu réel ; renseigner le crédit.
 
 ## 7. Sélection initiale
 

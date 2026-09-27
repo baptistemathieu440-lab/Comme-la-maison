@@ -24,8 +24,8 @@ export function listingFeatures(listing: PublicListing) {
 }
 
 /**
- * Carte d'un logement (accueil et page Nos biens).
- * Toute la carte est cliquable : le lien du titre la recouvre.
+ * Carte d'un logement (accueil et page Nos biens) : photo, identité du bien,
+ * caractéristiques essentielles et action. Toute la carte est cliquable : le lien du titre la recouvre.
  */
 export function ListingCard({
   listing,
@@ -43,8 +43,13 @@ export function ListingCard({
   const features = listingFeatures(listing);
 
   return (
-    <article className={cn("group relative flex flex-col gap-5", className)}>
-      <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-stone">
+    <article
+      className={cn(
+        "group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-line/80 bg-surface transition-[border-color,box-shadow] duration-300 ease-soft hover:border-olive-deep/60 hover:shadow-soft",
+        className,
+      )}
+    >
+      <div className="relative aspect-[4/3] overflow-hidden bg-stone">
         {cover ? (
           <Image
             src={`/api/logements/photos/${cover.id}`}
@@ -56,14 +61,19 @@ export function ListingCard({
             className="object-cover transition-transform duration-700 ease-soft group-hover:scale-[1.03]"
           />
         ) : null}
-        <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-cream/92 px-3 py-1.5 text-[0.8125rem] font-semibold text-maison backdrop-blur-sm">
+        <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-cream/92 px-3 py-1.5 text-[0.8125rem] font-semibold text-maison backdrop-blur-sm">
           <MapPin aria-hidden="true" className="size-3.5" strokeWidth={2} />
           {listing.city}
         </span>
+        {listing.photos.length > 1 ? (
+          <span className="absolute bottom-3 right-3 rounded-full bg-ink/70 px-2.5 py-1 text-[0.75rem] font-semibold text-cream">
+            {listing.photos.length} photos
+          </span>
+        ) : null}
       </div>
 
-      <div className="flex flex-col gap-3 px-1">
-        <p className="text-caption text-ink-soft">{listing.typeLabel}</p>
+      <div className="flex flex-1 flex-col gap-2.5 p-5 sm:p-6">
+        <p className="text-caption text-terra-text">{listing.typeLabel}</p>
         <Heading className="text-h3 text-maison">
           <Link
             href={`/nos-biens/${listing.slug}`}
@@ -72,8 +82,9 @@ export function ListingCard({
             {listing.title}
           </Link>
         </Heading>
+        {listing.description ? <p className="line-clamp-2 text-small text-ink-soft">{listing.description}</p> : null}
         {features.length > 0 ? (
-          <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-small text-ink-soft">
+          <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-1.5 text-small text-ink">
             {features.map(({ icon: Icon, label }) => (
               <li key={label} className="flex items-center gap-1.5">
                 <Icon aria-hidden="true" className="size-4 text-olive-deep" strokeWidth={1.75} />
@@ -82,10 +93,13 @@ export function ListingCard({
             ))}
           </ul>
         ) : null}
-        <span aria-hidden="true" className="mt-1 inline-flex items-center gap-2 text-button text-maison">
-          En savoir plus
-          <ArrowRight className="size-4 transition-transform duration-300 ease-soft group-hover:translate-x-1" strokeWidth={1.75} />
-        </span>
+        <div className="mt-auto flex items-center justify-between gap-3 border-t border-line pt-4">
+          <span aria-hidden="true" className="inline-flex items-center gap-2 text-button text-maison">
+            Voir le logement
+            <ArrowRight className="size-4 transition-transform duration-300 ease-soft group-hover:translate-x-1" strokeWidth={1.75} />
+          </span>
+          <span className="text-[0.8125rem] text-ink-soft">Réservation en direct</span>
+        </div>
       </div>
     </article>
   );

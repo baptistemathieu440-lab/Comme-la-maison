@@ -36,7 +36,7 @@ export function FavoritesView({ places }: { places: PlaceSummary[] }) {
       <p role="status" className="font-semibold text-ink">
         {saved.length} adresse{saved.length > 1 ? "s" : ""} enregistrée{saved.length > 1 ? "s" : ""}
       </p>
-      <ul className="grid grid-cols-[minmax(0,1fr)] gap-3 md:grid-cols-2">
+      <ul className="grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
         {saved.map((place) => (
           <li key={place.slug}>
             <PlaceCard place={place} headingLevel="h2" />

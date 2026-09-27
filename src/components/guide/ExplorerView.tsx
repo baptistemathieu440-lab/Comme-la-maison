@@ -173,7 +173,7 @@ export function ExplorerView({ places }: { places: PlaceSummary[] }) {
           Aucune adresse ne correspond à tous ces critères. Retirez un filtre, ou écrivez-nous : on trouvera ensemble.
         </p>
       ) : (
-        <ul className="grid grid-cols-[minmax(0,1fr)] gap-3 md:grid-cols-2">
+        <ul className="grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {results.map((place) => (
             <li key={place.slug}>
               <PlaceCard place={place} headingLevel="h2" />

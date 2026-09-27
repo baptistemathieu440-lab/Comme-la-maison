@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Hanken_Grotesk, Instrument_Sans, Playfair_Display } from "next/font/google";
+import { EB_Garamond, Hanken_Grotesk, Instrument_Sans, Source_Sans_3 } from "next/font/google";
 
 import { site } from "@/content/site";
 
@@ -13,10 +13,17 @@ const instrument = Instrument_Sans({
   display: "swap",
 });
 
-// Titres du site public : une serif élégante, réservée au site (les espaces connectés gardent Instrument Sans).
-const playfair = Playfair_Display({
+// Site public et guide voyageurs : titres en EB Garamond (serif classique, accents bien dessinés),
+// texte en Source Sans 3 (humaniste, très lisible). Les espaces connectés gardent Instrument Sans et Hanken Grotesk.
+const garamond = EB_Garamond({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-garamond",
+  display: "swap",
+});
+
+const sourceSans = Source_Sans_3({
+  subsets: ["latin"],
+  variable: "--font-source-sans",
   display: "swap",
 });
 
@@ -80,7 +87,7 @@ export const viewport: Viewport = {
  */
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="fr" className={`${instrument.variable} ${playfair.variable} ${hanken.variable}`}>
+    <html lang="fr" className={`${instrument.variable} ${garamond.variable} ${sourceSans.variable} ${hanken.variable}`}>
       <body className="flex min-h-dvh flex-col">
         <a
           href="#contenu"

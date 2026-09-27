@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, UserRound, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { Logo } from "@/components/brand/Logo";
 import { ButtonLink } from "@/components/ui/Button";
-import { contactNav, mainNav, primaryCta } from "@/content/navigation";
+import { contactNav, loginNav, mainNav, primaryCta } from "@/content/navigation";
 import { site } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { telHref } from "@/lib/format";
@@ -46,7 +46,7 @@ export function MobileMenu() {
         className="inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full px-3 text-button text-maison transition-colors hover:bg-olive-light lg:hidden"
       >
         <Menu aria-hidden="true" className="size-6" strokeWidth={1.5} />
-        <span className="max-xs:sr-only">Menu</span>
+        <span className="max-[23.5rem]:sr-only">Menu</span>
       </button>
 
       <dialog
@@ -68,7 +68,7 @@ export function MobileMenu() {
           </button>
         </div>
 
-        <nav aria-label="Navigation principale" className="flex flex-1 flex-col overflow-y-auto px-5 py-8 sm:px-8">
+        <nav aria-label="Navigation principale" className="flex flex-1 flex-col overflow-y-auto px-5 py-6 sm:px-8">
           <ul className="flex flex-col">
             {items.map((item) => {
               const current = isCurrent(pathname, item.href);
@@ -78,7 +78,7 @@ export function MobileMenu() {
                     href={item.href}
                     onClick={close}
                     aria-current={current ? "page" : undefined}
-                    className="flex min-h-16 items-center justify-between py-3 font-display text-[1.75rem] leading-none text-maison"
+                    className="flex min-h-14 items-center justify-between py-2.5 font-display text-[1.625rem] font-medium leading-none text-maison"
                   >
                     {item.label}
                     <span
@@ -91,9 +91,13 @@ export function MobileMenu() {
             })}
           </ul>
 
-          <div className="mt-auto flex flex-col gap-4 pt-10">
+          <div className="mt-auto flex flex-col gap-3 pt-8">
             <ButtonLink href={primaryCta.href} onClick={close} arrow className="w-full">
               {primaryCta.label}
+            </ButtonLink>
+            <ButtonLink href={loginNav.href} onClick={close} variant="ghost" className="w-full">
+              <UserRound aria-hidden="true" className="size-[1.125rem] shrink-0" strokeWidth={1.75} />
+              {loginNav.label}
             </ButtonLink>
             {site.contact.phones.length > 0 ? (
               <ul className="flex flex-wrap justify-center gap-x-5 gap-y-1">

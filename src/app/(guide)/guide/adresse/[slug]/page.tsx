@@ -147,7 +147,7 @@ export default async function PlacePage({ params }: PageProps<"/guide/adresse/[s
             ? { geo: { "@type": "GeoCoordinates", latitude: place.lat, longitude: place.lng } }
             : {}),
           ...(place.websiteUrl ? { sameAs: place.websiteUrl } : {}),
-          ...(place.photo ? { image: place.photo.url } : {}),
+          ...(place.photo ? { image: place.photo.url.startsWith("/") ? `${site.url}${place.photo.url}` : place.photo.url } : {}),
           ...(place.kind === "restaurant" || place.kind === "bar" ? { priceRange: budgets[place.budget].symbol } : {}),
           isAccessibleForFree: place.budget === 0,
         }}
@@ -167,7 +167,16 @@ export default async function PlacePage({ params }: PageProps<"/guide/adresse/[s
           <div className="relative">
             <PlaceVisual place={place} sizes="(min-width: 1024px) 50vw, 100vw" priority className="aspect-[16/10] rounded-[var(--radius-panel)]" iconClassName="size-10" />
             {place.photo?.credit ? (
-              <p className="mt-2 text-[0.75rem] text-ink-soft">Photo : {place.photo.credit}</p>
+              <p className="mt-2 text-[0.75rem] text-ink-soft">
+                Photo :{" "}
+                {place.photo.sourceUrl ? (
+                  <a href={place.photo.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline">
+                    {place.photo.credit}
+                  </a>
+                ) : (
+                  place.photo.credit
+                )}
+              </p>
             ) : null}
           </div>
 
@@ -331,7 +340,7 @@ export default async function PlacePage({ params }: PageProps<"/guide/adresse/[s
             <h2 id="dans-le-meme-esprit" className="text-h2 text-maison">
               Dans le même esprit
             </h2>
-            <ul className="grid grid-cols-[minmax(0,1fr)] gap-3 md:grid-cols-2">
+            <ul className="grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
               {nearby.map((other) => (
                 <li key={other.slug}>
                   <PlaceCard place={toSummary(other)} />

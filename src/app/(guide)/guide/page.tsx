@@ -123,7 +123,7 @@ export default async function GuideHomePage() {
         <div className="mx-auto w-full max-w-[76rem]">
           <ul className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 pt-6 [scrollbar-width:none] sm:px-8 lg:px-12">
             {essentials.map((place) => (
-              <li key={place.slug} className="snap-start">
+              <li key={place.slug} className="flex snap-start">
                 <PlaceCard place={toSummary(place)} variant="tile" />
               </li>
             ))}
@@ -193,7 +193,7 @@ export default async function GuideHomePage() {
           <div className="mx-auto w-full max-w-[76rem]">
             <ul className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 pt-6 [scrollbar-width:none] sm:px-8 lg:px-12">
               {favorites.map((place) => (
-                <li key={place.slug} className="snap-start">
+                <li key={place.slug} className="flex snap-start">
                   <PlaceCard place={toSummary(place)} variant="tile" />
                 </li>
               ))}

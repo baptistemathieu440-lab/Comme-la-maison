@@ -71,7 +71,7 @@ export function homeJsonLd(): Json[] {
   ];
 }
 
-/** Questions fréquentes (page Nos offres). */
+/** Questions fréquentes (page FAQ). */
 export function faqJsonLd(): Json {
   return {
     "@context": "https://schema.org",

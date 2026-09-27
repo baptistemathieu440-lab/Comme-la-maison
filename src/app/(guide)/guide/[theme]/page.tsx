@@ -40,7 +40,14 @@ export default async function ThemePage({ params }: PageProps<"/guide/[theme]">)
   if (!theme) notFound();
 
   const { places } = await getGuidePlaces();
-  const groups = groupPlaces(theme, places).filter((group) => group.places.length > 0);
+  const grouped = groupPlaces(theme, places).filter((group) => group.places.length > 0);
+  // Des sous-groupes d'une seule adresse laisseraient la grille à moitié vide :
+  // dans ce cas, une seule grille (la catégorie reste écrite sur chaque carte).
+  const mostlySingles = grouped.filter((group) => group.places.length === 1).length > grouped.length / 2;
+  const groups =
+    mostlySingles && grouped.length > 1
+      ? [{ key: "tout", label: "", places: grouped.flatMap((group) => group.places) }]
+      : grouped;
   const total = groups.reduce((sum, group) => sum + group.places.length, 0);
   const verifiedOn = latestVerification(groups.flatMap((group) => group.places));
   const Icon = theme.icon;
@@ -103,7 +110,7 @@ export default async function ThemePage({ params }: PageProps<"/guide/[theme]">)
                   <span className="ml-2 font-sans text-[0.9375rem] font-normal text-ink-soft">({group.places.length})</span>
                 </h2>
               ) : null}
-              <ul className="grid grid-cols-[minmax(0,1fr)] gap-3 md:grid-cols-2">
+              <ul className="grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
                 {group.places.map((place) => (
                   <li key={place.slug}>
                     <PlaceCard place={toSummary(place)} headingLevel={group.label ? "h3" : "h2"} />

@@ -16,7 +16,7 @@ export function isCurrent(pathname: string, href: string) {
 export function NavLinks({ items }: { items: NavItem[] }) {
   const pathname = usePathname();
   return (
-    <ul className="flex items-center gap-1 xl:gap-3">
+    <ul className="flex items-center xl:gap-1">
       {items.map((item) => {
         const current = isCurrent(pathname, item.href);
         return (
@@ -25,8 +25,8 @@ export function NavLinks({ items }: { items: NavItem[] }) {
               href={item.href}
               aria-current={current ? "page" : undefined}
               className={cn(
-                "relative inline-flex min-h-11 items-center whitespace-nowrap px-3 text-[0.9375rem] font-medium text-ink transition-colors duration-200 hover:text-maison",
-                "after:absolute after:inset-x-3 after:bottom-1.5 after:h-px after:origin-left after:scale-x-0 after:bg-terra after:transition-transform after:duration-300 after:ease-soft hover:after:scale-x-100",
+                "relative inline-flex min-h-11 items-center whitespace-nowrap px-2.5 text-[0.9375rem] font-medium text-ink transition-colors duration-200 hover:text-maison xl:px-3.5 xl:text-base",
+                "after:absolute after:inset-x-2.5 after:bottom-1.5 xl:after:inset-x-3.5 after:h-px after:origin-left after:scale-x-0 after:bg-terra after:transition-transform after:duration-300 after:ease-soft hover:after:scale-x-100",
                 current && "text-maison after:scale-x-100",
               )}
             >

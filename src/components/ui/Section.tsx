@@ -25,9 +25,9 @@ export function Container({ className, children }: { className?: string; childre
 type Spacing = "default" | "compact" | "flush-top";
 
 const spacings: Record<Spacing, string> = {
-  default: "py-[4.5rem] sm:py-24 lg:py-32",
-  compact: "py-14 sm:py-16 lg:py-20",
-  "flush-top": "pb-[4.5rem] sm:pb-24 lg:pb-32",
+  default: "py-16 sm:py-20 lg:py-24",
+  compact: "py-12 sm:py-14 lg:py-16",
+  "flush-top": "pb-16 sm:pb-20 lg:pb-24",
 };
 
 export function Section({
@@ -137,7 +137,8 @@ export function SectionHeader({
 
 /**
  * En-tête des pages intérieures : sur-titre, titre, introduction courte et,
- * si besoin, une grande photo en arche. Porte data-hero pour le bouton mobile.
+ * si besoin, une photo. Avec une photo, le texte est centré verticalement sur elle
+ * (jamais « tombé » en bas). Porte data-hero pour le bouton mobile.
  */
 export function PageHero({
   eyebrow,
@@ -158,11 +159,11 @@ export function PageHero({
     <section data-hero aria-labelledby={titleId} className="bg-cream">
       <Container
         className={cn(
-          "grid gap-10 pb-16 pt-12 sm:pb-20 sm:pt-16 lg:pb-24 lg:pt-20",
-          image ? "items-end lg:grid-cols-[1.1fr_0.9fr] lg:gap-16" : null,
+          "grid gap-8 pb-10 pt-10 sm:pb-12 sm:pt-14 lg:pb-16 lg:pt-16",
+          image ? "items-center lg:grid-cols-[1.15fr_0.85fr] lg:gap-16" : null,
         )}
       >
-        <div className="flex max-w-[44rem] flex-col gap-6">
+        <div className="flex max-w-[44rem] flex-col gap-5">
           <Eyebrow>{eyebrow}</Eyebrow>
           <h1 id={titleId} className="text-h1 text-maison">
             {title}

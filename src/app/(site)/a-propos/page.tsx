@@ -3,10 +3,11 @@ import Image from "next/image";
 import { Phone } from "lucide-react";
 
 import { ContactCta } from "@/components/sections/ContactCta";
-import { ArrowLink } from "@/components/ui/Button";
+import { ArrowLink, ButtonLink } from "@/components/ui/Button";
 import { Eyebrow, PageHero, Period, Section, SectionHeader } from "@/components/ui/Section";
 import { aboutText, founders, story, territory, values } from "@/content/about";
 import { images } from "@/content/images";
+import { primaryCta } from "@/content/navigation";
 import { site } from "@/content/site";
 import { telHref } from "@/lib/format";
 
@@ -32,19 +33,26 @@ export default function AboutPage() {
         }
         intro={aboutText[0]}
         image={
-          <div className="arch relative mx-auto aspect-[3/4] w-full max-w-[22rem] lg:max-w-[26rem]">
+          <div className="relative mx-auto aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-panel)] sm:aspect-[16/10] lg:arch lg:aspect-[3/4] lg:max-w-[24rem]">
             <Image
               src={images.promise.src}
               alt={images.promise.alt}
               fill
               priority
               placeholder="blur"
-              sizes="(min-width: 1024px) 26rem, 80vw"
+              sizes="(min-width: 1024px) 24rem, 100vw"
               className="object-cover"
             />
           </div>
         }
-      />
+      >
+        <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-7">
+          <ButtonLink href={primaryCta.href} arrow>
+            Faisons connaissance
+          </ButtonLink>
+          <ArrowLink href="#fondateurs">Rencontrer Baptiste et Simon</ArrowLink>
+        </div>
+      </PageHero>
 
       {/* Notre histoire */}
       <Section tone="surface" labelledBy="histoire-title" className="border-y border-line/50">
@@ -123,7 +131,7 @@ export default function AboutPage() {
       </section>
 
       {/* Baptiste et Simon */}
-      <Section labelledBy="fondateurs-title">
+      <Section id="fondateurs" labelledBy="fondateurs-title">
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div className="flex flex-col gap-6">
             <Eyebrow>Les fondateurs</Eyebrow>

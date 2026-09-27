@@ -1,3 +1,5 @@
+import { placePhotos } from "@/content/guide/photos";
+
 import {
   audienceKeys,
   bookingKeys,
@@ -61,7 +63,8 @@ export type GuidePlace = {
   rating: number | null;
   ratingCount: number | null;
   ratingSource: string | null;
-  photo: { url: string; alt: string; credit: string | null } | null;
+  /** sourceUrl : page d'origine de la photo (licence libre), quand elle est connue. */
+  photo: { url: string; alt: string; credit: string | null; sourceUrl?: string | null } | null;
   status: Status;
   isFavorite: boolean;
   position: number;
@@ -72,6 +75,12 @@ export type GuidePlace = {
 /** Données de départ : les champs facultatifs peuvent être omis. */
 export type GuidePlaceSeed = Pick<GuidePlace, "slug" | "name" | "kind" | "budget" | "zone" | "setting" | "summary" | "area"> &
   Partial<Omit<GuidePlace, "slug" | "name" | "kind" | "budget" | "zone" | "setting" | "summary" | "area" | "photo">>;
+
+/** Photo du lieu livrée avec le site (src/content/guide/photos.ts), s'il y en a une. */
+export function bundledPhoto(slug: string): GuidePlace["photo"] {
+  const photo = placePhotos[slug];
+  return photo ? { url: photo.src, alt: photo.alt, credit: photo.credit, sourceUrl: photo.sourceUrl } : null;
+}
 
 export function fromSeed(seed: GuidePlaceSeed, position: number): GuidePlace {
   return {
@@ -100,7 +109,7 @@ export function fromSeed(seed: GuidePlaceSeed, position: number): GuidePlace {
     rating: null,
     ratingCount: null,
     ratingSource: null,
-    photo: null,
+    photo: bundledPhoto(seed.slug),
     status: "ouvert",
     isFavorite: false,
     verifiedOn: null,
@@ -196,9 +205,10 @@ export function fromRow(row: GuidePlaceRow, photoUrl: (path: string) => string):
     rating: num(row.rating),
     ratingCount: row.rating_count,
     ratingSource: row.rating_source,
+    // La photo ajoutée depuis le back-office prime ; sinon, celle livrée avec le site.
     photo: row.photo_path
       ? { url: photoUrl(row.photo_path), alt: row.photo_alt?.trim() || row.name, credit: row.photo_credit }
-      : null,
+      : bundledPhoto(row.slug),
     status: isKey(statusKeys, row.status) ? row.status : "ouvert",
     isFavorite: row.is_favorite,
     position: row.position,

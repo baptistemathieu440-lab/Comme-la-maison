@@ -2,15 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ContactCta } from "@/components/sections/ContactCta";
-import { Faq } from "@/components/sections/Faq";
 import { Journey } from "@/components/sections/Journey";
-import { Pricing } from "@/components/sections/Pricing";
-import { SimulatorSection } from "@/components/sections/SimulatorSection";
 import { WelcomeBox } from "@/components/sections/WelcomeBox";
+import { PricingTeaser } from "@/components/sections/home/PricingTeaser";
 import { ServiceGroups } from "@/components/sections/offers/ServiceGroups";
 import { PageHero, Period } from "@/components/ui/Section";
+import { images } from "@/content/images";
 import { site } from "@/content/site";
-import { JsonLd, faqJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Nos offres · Conciergerie à Bordeaux",
@@ -21,16 +19,14 @@ export const metadata: Metadata = {
 const sections = [
   { label: "Nos services", href: "#services" },
   { label: "Accompagnement", href: "#accompagnement" },
-  { label: "Fonctionnement", href: "#fonctionnement" },
   { label: "Box de bienvenue", href: "#box-de-bienvenue" },
-  { label: "Simulateur", href: "#simulateur" },
-  { label: "Questions", href: "#faq" },
+  { label: "Tarifs et simulateur", href: "/tarifs" },
+  { label: "Questions", href: "/faq" },
 ];
 
 export default function OffersPage() {
   return (
     <>
-      <JsonLd data={faqJsonLd()} />
       <PageHero
         eyebrow="Nos offres"
         titleId="offres-h1"
@@ -59,11 +55,9 @@ export default function OffersPage() {
       </PageHero>
       <ServiceGroups />
       <Journey />
-      <Pricing />
       <WelcomeBox />
-      <SimulatorSection />
-      <Faq />
-      <ContactCta />
+      <PricingTeaser />
+      <ContactCta image={images.hero.src} />
     </>
   );
 }

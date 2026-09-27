@@ -17,6 +17,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages = [
     { path: "", priority: 1 },
     { path: "/nos-offres", priority: 0.9 },
+    { path: "/tarifs", priority: 0.9 },
+    { path: "/faq", priority: 0.7 },
     { path: "/nos-biens", priority: 0.8 },
     ...listings.map((listing) => ({ path: `/nos-biens/${listing.slug}`, priority: 0.6 })),
     { path: "/a-propos", priority: 0.7 },

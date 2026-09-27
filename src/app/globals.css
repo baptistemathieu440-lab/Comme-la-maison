@@ -125,11 +125,28 @@
 /* ---------- Typographie ---------- */
 
 /*
-   Site public : titres en Playfair Display (serif élégante), texte en Hanken Grotesk.
-   La classe est posée par le layout du site ; les espaces connectés gardent Instrument Sans.
+   Site public et guide voyageurs : titres en EB Garamond (serif classique), texte en Source Sans 3.
+   La classe est posée par les layouts du site et du guide ; les espaces connectés gardent
+   Instrument Sans (titres) et Hanken Grotesk (texte).
 */
 .site-theme {
-  --font-display: var(--font-playfair), "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-display: var(--font-garamond), "EB Garamond", Garamond, Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-source-sans), "Source Sans 3", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  /* Chiffres alignés partout (tarifs, simulateur, dates) : Garamond dessine sinon des chiffres elzéviriens. */
+  font-feature-settings: "lnum" 1;
+}
+
+/* Garamond : des titres un peu plus présents (graisse 500) pour rester lisibles à toutes les tailles. */
+.site-theme .text-h1,
+.site-theme .text-h2,
+.site-theme .text-display {
+  font-weight: 500;
+}
+
+.site-theme .text-h3 {
+  font-weight: 600;
 }
 
 /* Titres de page : présents sans être écrasants, même sur mobile. */

@@ -19,12 +19,12 @@ test.describe("Page d'accueil", () => {
     expect(titles.length).toBeLessThanOrEqual(8);
     await expect(page.getByRole("link", { name: "Découvrir toutes nos offres" })).toHaveAttribute("href", "/nos-offres");
     await expect(page.getByRole("link", { name: "Découvrir nos biens" })).toHaveAttribute("href", "/nos-biens");
-    await expect(page.getByRole("link", { name: "Comprendre notre fonctionnement" })).toHaveAttribute("href", "/nos-offres#fonctionnement");
+    await expect(page.getByRole("link", { name: "Comprendre notre fonctionnement" })).toHaveAttribute("href", "/tarifs");
     await expect(page.getByText("20 %").first()).toBeVisible();
   });
 
   test("n'a qu'un seul H1 et une hiérarchie de titres continue", async ({ page }) => {
-    for (const path of ["/", "/nos-offres", "/nos-biens", "/a-propos", "/contact"]) {
+    for (const path of ["/", "/nos-offres", "/tarifs", "/faq", "/nos-biens", "/a-propos", "/contact"]) {
       await page.goto(path);
       await expect(page.locator("h1"), path).toHaveCount(1);
       const levels = await page.locator("main h1, main h2, main h3, main h4").evaluateAll((els) =>
@@ -54,19 +54,38 @@ test.describe("Page d'accueil", () => {
 });
 
 test.describe("Pages du site", () => {
-  test("la navigation principale mène aux quatre pages", async ({ page, isMobile }) => {
+  test("la navigation principale mène aux six rubriques, dans l'ordre", async ({ page, isMobile }) => {
     test.skip(isMobile, "navigation du bureau");
     await page.goto("/");
     const nav = page.getByRole("navigation", { name: "Navigation principale" });
-    for (const [label, path] of [["Nos biens", "/nos-biens"], ["Nos offres", "/nos-offres"], ["À propos", "/a-propos"], ["Accueil", "/"]] as const) {
+    await expect(nav.getByRole("link")).toHaveText(["Accueil", "Nos biens", "Nos offres", "Tarifs", "À propos", "FAQ"]);
+    for (const [label, path] of [["Nos biens", "/nos-biens"], ["Nos offres", "/nos-offres"], ["Tarifs", "/tarifs"], ["À propos", "/a-propos"], ["FAQ", "/faq"], ["Accueil", "/"]] as const) {
       await nav.getByRole("link", { name: label, exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`${path === "/" ? "/$" : path}`));
       await expect(nav.getByRole("link", { name: label, exact: true })).toHaveAttribute("aria-current", "page");
     }
   });
 
-  test("Nos offres détaille la tarification, le ménage et le linge", async ({ page }) => {
-    await page.goto("/nos-offres#fonctionnement");
+  test("le menu mobile propose les six rubriques et l'accès à l'espace", async ({ page, isMobile }) => {
+    test.skip(!isMobile, "menu mobile");
+    await page.goto("/");
+    await page.getByRole("button", { name: /Menu/ }).click();
+    const menu = page.getByRole("dialog", { name: "Menu" });
+    for (const label of ["Accueil", "Nos biens", "Nos offres", "Tarifs", "À propos", "FAQ", "Contact"]) {
+      await expect(menu.getByRole("link", { name: label, exact: true })).toBeVisible();
+    }
+    await expect(menu.getByRole("link", { name: "Connexion à votre espace" })).toHaveAttribute("href", "/connexion");
+  });
+
+  test("le bouton Connexion de l'en-tête mène à l'espace client", async ({ page }) => {
+    await page.goto("/");
+    const login = page.getByRole("banner").getByRole("link", { name: "Connexion à votre espace" });
+    await expect(login).toBeVisible();
+    await expect(login).toHaveAttribute("href", "/connexion");
+  });
+
+  test("Tarifs détaille la commission, le ménage et le linge", async ({ page }) => {
+    await page.goto("/tarifs#fonctionnement");
     const tarifs = page.locator("#fonctionnement");
     await expect(tarifs.getByRole("heading", { name: /Une commission simple/ })).toBeVisible();
     await expect(tarifs.getByText("Box de bienvenue", { exact: true })).toBeVisible();
@@ -74,12 +93,15 @@ test.describe("Pages du site", () => {
     await expect(tarifs.getByText(/Il reste à votre charge/)).toBeVisible();
     await expect(tarifs.getByText(/après déduction des frais prélevés par la plateforme/)).toBeVisible();
     await expect(tarifs.getByText(/versent le prix des séjours directement sur votre compte/)).toBeVisible();
+    await expect(page.locator("#calcul").getByText("Exemple illustratif")).toBeVisible();
+    await page.goto("/nos-offres#box-de-bienvenue");
     await expect(page.locator("#box-de-bienvenue").getByText("Box premium")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Comprendre notre fonctionnement" })).toHaveAttribute("href", "/tarifs");
   });
 
   test("les accordéons de la FAQ s'ouvrent au clavier", async ({ page }) => {
-    await page.goto("/nos-offres#faq");
-    const question = page.locator("#faq summary", { hasText: "La box de bienvenue est-elle incluse ?" });
+    await page.goto("/faq#tarifs");
+    const question = page.locator("#tarifs summary", { hasText: "La box de bienvenue est-elle incluse ?" });
     await question.focus();
     await page.keyboard.press("Enter");
     await expect(page.getByText(/elle est incluse dans notre commission de 20 %/)).toBeVisible();
@@ -110,7 +132,7 @@ test.describe("Pages du site", () => {
   });
 
   test("aucun défilement horizontal", async ({ page }) => {
-    for (const path of ["/", "/nos-offres", "/nos-biens", "/a-propos", "/contact", "/transparence", "/mentions-legales", "/politique-confidentialite"]) {
+    for (const path of ["/", "/nos-offres", "/tarifs", "/faq", "/nos-biens", "/a-propos", "/contact", "/transparence", "/mentions-legales", "/politique-confidentialite"]) {
       await page.goto(path);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(overflow, path).toBeLessThanOrEqual(0);

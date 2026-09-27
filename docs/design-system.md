@@ -62,11 +62,10 @@ Proportions indicatives sur une page : crème 45 %, olive 25 %, vert 18 %, pierr
 
 ## Typographie
 
-- **Titres du site public** : Playfair Display, graisse 400 (500 pour les H3), une serif élégante qui donne le ton « conciergerie haut de gamme ». Portée par la classe `.site-theme` (layout du site), qui redéfinit `--font-display`.
-- **Titres des espaces connectés** : Instrument Sans, graisse 500, largeur 92 %.
-- **Texte et interface** : Hanken Grotesk, partout.
+- **Site public et guide voyageurs** (classe `.site-theme`, posée par leurs layouts) : titres en **EB Garamond** (serif classique, graisse 500, 600 pour les H3), texte et interface en **Source Sans 3** (humaniste, très lisible). Chiffres alignés forcés (`font-feature-settings: "lnum"`) pour les tarifs et le simulateur.
+- **Espaces connectés** : titres en Instrument Sans (graisse 500, largeur 92 %), texte en Hanken Grotesk.
 
-Toutes sont auto-hébergées par `next/font`. (Cormorant Garamond a été écartée : sa version variable place mal les accents « ê », « é » dans Chromium.)
+Toutes sont auto-hébergées par `next/font`. (Playfair Display, trop contrastée, et Hanken Grotesk, trop « start-up », ont été remplacées sur le site public en septembre 2026 ; Cormorant Garamond reste écartée : sa version variable place mal les accents dans Chromium.)
 
 | Style | Utilitaire | Taille (mobile → desktop) |
 |---|---|---|
@@ -80,7 +79,7 @@ Toutes sont auto-hébergées par `next/font`. (Cormorant Garamond a été écart
 | Caption | `text-caption` | 12 px, capitales, +18 % |
 | Chiffre clé | `text-display` | 72 → 120 px (tarif uniquement) |
 
-Principes : textes courts, beaucoup d'espace, une seule action principale (« Confier mon bien ») ; les renvois secondaires utilisent `ArrowLink` (lien souligné + flèche) plutôt qu'un bouton.
+Principes : textes courts, de l'air sans vide inutile (sections de 64 à 96 px de hauteur de marge, cartes plutôt que blocs isolés), une seule action principale (« Confier mon bien ») ; les renvois secondaires utilisent `ArrowLink` (lien souligné + flèche) plutôt qu'un bouton.
 
 ## Motifs
 

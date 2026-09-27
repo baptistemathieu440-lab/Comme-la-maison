@@ -30,7 +30,7 @@ export default async function ReviewsAdminPage({ searchParams }: PageProps<"/adm
       <>
         <PageHeader title="Avis clients" />
         <Notice tone="warning" title="Les avis ne sont pas encore installés dans la base">
-          Appliquez la migration <code>20260927000100_site_reviews.sql</code> (voir docs/plateforme-exploitation.md).
+          Appliquez la migration <code>20260927124120_site_reviews.sql</code> (voir docs/plateforme-exploitation.md).
         </Notice>
       </>
     );

@@ -47,7 +47,7 @@ export function ListingsEmptyState({
           <Period />
         </Heading>
         <p className="text-ink-soft">
-          Aucun logement n’est encore proposé à la réservation directe. Cette page présentera les
+          Aucun logement n’est encore présenté sur notre site. Cette page présentera les
           appartements et maisons que nous accompagnons à {site.area.city} et dans la métropole :
         </p>
         <ul className="flex flex-col gap-3">

@@ -21,7 +21,7 @@ Plateforme de gestion : Supabase (Postgres, comptes, stockage privé, règles d'
 - Textes, tarifs, FAQ, services, coordonnées : `src/content/*.ts` (jamais dans les composants)
 - Photos : `src/content/images.ts` + `src/assets/images/` (les photos actuelles sont provisoires, CC0)
 - Chiffres de la page Transparence : `src/content/metrics.ts`
-- Informations légales : `src/content/legal.ts` (null = « À compléter » affiché)
+- Informations légales : `src/content/legal.ts` (null = « [À COMPLÉTER — …] » affiché) ; pages `/mentions-legales`, `/politique-confidentialite`, `/politique-cookies`, `/conditions-generales-vente` (composants `src/components/legal`) ; démarches des dirigeants dans `JURIDIQUE_A_FAIRE.md`, diagnostic dans `docs/audit-juridique.md`. Demandes de séjour en ligne fermées tant que `stayRequestsValidated` est `false` (qualification loi Hoguet en attente)
 - Design system (couleurs, typographie, motifs) : `src/app/globals.css`, documenté dans `docs/design-system.md`
 - Logo : `src/components/brand/` (composant) et `public/brand/` (fichiers SVG)
 - Plateforme : pages dans `src/app/admin`, `src/app/owner`, `src/app/staff` ; actions serveur à côté des pages (`actions.ts`, chacune commence par `adminContext()` / `ownerContext()` / `staffContext()`) ; kit d'interface dans `src/components/app` ; libellés des statuts dans `src/lib/labels.ts`
@@ -43,6 +43,8 @@ Plateforme de gestion : Supabase (Postgres, comptes, stockage privé, règles d'
 - Aucune intégration simulée : une synchronisation, un email ou un paiement non configuré s'affiche « non connecté » avec ce qu'il manque.
 - Données de démonstration : toujours `is_demo = true`, « Démo » dans les libellés, supprimables en un clic.
 - Orthographe de la marque dans les textes : « Comme à la Maison ». Le logo fourni écrit « maison » en minuscule.
+- Aucun traceur soumis à consentement aujourd'hui (pas de bandeau) : avant d'ajouter mesure d'audience, pixel, vidéo ou bouton social, mettre à jour `/politique-cookies` et installer un recueil du consentement (accepter / refuser / paramétrer). Toute nouvelle donnée collectée ou tout nouveau prestataire : mettre à jour `/politique-confidentialite`.
+- Ne jamais présenter une activité réglementée (loi Hoguet) comme autorisée tant que `legal.regulated.hoguetStatus` vaut `"pending"`.
 - Accessibilité WCAG 2.2 AA : contrastes documentés, jamais la couleur seule pour porter une information, `prefers-reduced-motion` respecté.
 - Tailwind : ne pas passer via `className` des classes qui entrent en conflit avec celles d'un composant (taille, affichage) ; utiliser les props prévues (`size`, `variant`).
 

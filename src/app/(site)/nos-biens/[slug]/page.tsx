@@ -8,6 +8,8 @@ import { requestStay } from "@/app/actions/stay-request";
 import { AvailabilityCalendar } from "@/components/listings/AvailabilityCalendar";
 import { StayRequestForm } from "@/components/listings/StayRequestForm";
 import { Container, Eyebrow, Period, Section } from "@/components/ui/Section";
+import { stayRequestsOpen } from "@/content/legal";
+import { site } from "@/content/site";
 import { addMonths, formatTime, todayIso } from "@/lib/dates";
 import { getPublicListing, monthsFrom, unavailableNights } from "@/server/public-listings";
 
@@ -24,7 +26,7 @@ export async function generateMetadata({ params }: PageProps<"/nos-biens/[slug]"
     title: `${listing.title} · ${listing.city}`,
     description:
       listing.description?.slice(0, 155) ??
-      `${listing.typeLabel} à ${listing.city} géré par Comme à la Maison : disponibilités et demande de séjour.`,
+      `${listing.typeLabel} à ${listing.city} accompagné par Comme à la Maison : photos, caractéristiques et disponibilités.`,
     alternates: { canonical: `/nos-biens/${listing.slug}` },
   };
 }
@@ -133,21 +135,42 @@ export default async function ListingPage({ params }: PageProps<"/nos-biens/[slu
       </Section>
 
       <Section tone="stone" labelledBy="logement-demande" spacing="compact">
-        <div className="grid gap-10 lg:grid-cols-[2fr_3fr]">
-          <div className="flex flex-col gap-4">
+        {stayRequestsOpen() ? (
+          <div className="grid gap-10 lg:grid-cols-[2fr_3fr]">
+            <div className="flex flex-col gap-4">
+              <h2 id="logement-demande" className="text-h2 text-maison">
+                Demander un séjour
+                <Period />
+              </h2>
+              <p className="max-w-[28rem] text-ink">
+                Indiquez vos dates et vos coordonnées. Nous vérifions la disponibilité et revenons vers vous avec le tarif
+                du séjour.
+              </p>
+            </div>
+            <div className="rounded-[var(--radius-card)] border border-line bg-surface p-6 sm:p-8">
+              <StayRequestForm action={requestStay.bind(null, listing.slug)} capacity={listing.capacity} today={today} />
+            </div>
+          </div>
+        ) : (
+          <div className="flex max-w-[40rem] flex-col gap-4">
             <h2 id="logement-demande" className="text-h2 text-maison">
-              Demander un séjour
+              Une question sur ce logement
               <Period />
             </h2>
-            <p className="max-w-[28rem] text-ink">
-              Indiquez vos dates et vos coordonnées. Nous vérifions la disponibilité et revenons vers vous avec le tarif
-              du séjour.
+            <p className="text-ink">
+              Les demandes de séjour en ligne ne sont pas encore ouvertes sur le site de {site.name}.
+              {site.contact.email ? (
+                <>
+                  {" "}Pour toute question sur ce logement, écrivez-nous à{" "}
+                  <a href={`mailto:${site.contact.email}`} className="text-maison underline underline-offset-2">
+                    {site.contact.email}
+                  </a>
+                  .
+                </>
+              ) : null}
             </p>
           </div>
-          <div className="rounded-[var(--radius-card)] border border-line bg-surface p-6 sm:p-8">
-            <StayRequestForm action={requestStay.bind(null, listing.slug)} capacity={listing.capacity} today={today} />
-          </div>
-        </div>
+        )}
       </Section>
     </>
   );

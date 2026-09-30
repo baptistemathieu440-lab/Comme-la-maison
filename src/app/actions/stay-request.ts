@@ -1,5 +1,6 @@
 "use server";
 
+import { stayRequestsOpen } from "@/content/legal";
 import { fail, ok, type ActionState } from "@/lib/action-state";
 import { directContactMessage } from "@/lib/contact";
 import { addDays, diffDays, formatDateShort, isIsoDate, todayIso } from "@/lib/dates";
@@ -23,6 +24,10 @@ function text(formData: FormData, name: string) {
  * « Demande ») et Baptiste ou Simon recontactent le voyageur.
  */
 export async function requestStay(slug: string, _prev: ActionState, formData: FormData): Promise<ActionState> {
+  // Fermées tant que leur qualification juridique n'est pas validée (src/content/legal.ts).
+  if (!stayRequestsOpen()) {
+    return fail(`Les demandes de séjour en ligne ne sont pas ouvertes pour le moment. ${directContactMessage()}`);
+  }
   const firstName = text(formData, "first_name");
   const honeypot = text(formData, "website");
   const startedAt = Number(formData.get("startedAt"));

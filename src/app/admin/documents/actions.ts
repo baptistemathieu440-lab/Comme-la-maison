@@ -6,7 +6,7 @@ import { dbErrorMessage, fail, ok, type ActionState } from "@/lib/action-state";
 import { adminContext } from "@/lib/auth/admin-context";
 import { createUploadTicket, documentTypes, objectExists, removeObjects, type UploadTicket } from "@/lib/storage";
 
-const categories = ["contract", "invoice", "statement", "receipt", "identity", "insurance", "diagnostic", "inventory", "photo", "other"] as const;
+const categories = ["contract", "invoice", "statement", "receipt", "identity", "insurance", "diagnostic", "inventory", "photo", "compliance", "other"] as const;
 
 export async function requestDocumentUpload(file: { name: string; type: string; size: number }): Promise<UploadTicket> {
   await adminContext();

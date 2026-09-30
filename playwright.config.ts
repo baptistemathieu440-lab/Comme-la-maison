@@ -25,6 +25,8 @@ export default defineConfig({
   projects: [
     { name: "desktop", testDir: "./tests/e2e", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } },
     { name: "mobile", testDir: "./tests/e2e", use: { ...devices["Pixel 7"] } },
+    // Tablette : pages et liens légaux (Chromium, au format iPad Mini).
+    { name: "tablet", testDir: "./tests/e2e", testMatch: /legal\.spec\.ts/, use: { ...devices["iPad Mini"], browserName: "chromium" } },
     ...(platform
       ? [
           // Prépare les comptes de test (un par rôle) et leurs sessions.
@@ -48,6 +50,7 @@ export default defineConfig({
         url: `http://localhost:${PORT}`,
         reuseExistingServer: !process.env.CI,
         timeout: 240_000,
-        env: { CONTACT_DELIVERY: "log", NEXT_TELEMETRY_DISABLED: "1", NEXT_PUBLIC_SITE_URL: `http://localhost:${PORT}` },
+        // Demandes de séjour ouvertes pour tester leur parcours (fermées par défaut, src/content/legal.ts).
+        env: { STAY_REQUESTS_OPEN: "true", CONTACT_DELIVERY: "log", NEXT_TELEMETRY_DISABLED: "1", NEXT_PUBLIC_SITE_URL: `http://localhost:${PORT}` },
       },
 });

@@ -333,13 +333,16 @@ export function ContactForm() {
         <Button type="submit" arrow disabled={pending} className="w-full sm:w-auto sm:self-start">
           {pending ? "Envoi en cours…" : "Estimer mon logement"}
         </Button>
-        <p className="text-small text-ink-soft">
-          Vos informations servent uniquement à vous recontacter au sujet de votre logement. Pour en
-          savoir plus, consultez notre{" "}
-          <Link href="/politique-confidentialite" className="text-maison underline underline-offset-2">
+        <p id="contact-privacy" className="text-small text-ink-soft">
+          {site.name} utilise ces informations uniquement pour répondre à votre demande et vous présenter ses prestations
+          (mesures précontractuelles prises à votre demande). Elles sont lues par Baptiste et Simon, ne sont ni vendues ni
+          utilisées pour de la publicité, et sont supprimées si votre demande reste sans suite, selon la durée indiquée
+          dans notre{" "}
+          <Link href="/politique-confidentialite#conservation" className="text-maison underline underline-offset-2">
             politique de confidentialité
           </Link>
-          .
+          . Vous pouvez y accéder, les faire rectifier ou effacer, ou vous opposer à leur traitement en nous écrivant
+          {site.contact.email ? ` à ${site.contact.email}` : ""}.
         </p>
       </div>
     </form>

@@ -116,7 +116,12 @@ export default async function SettingsPage() {
             <Field name="default_check_out_time" label="Heure de départ par défaut">
               <Input type="time" defaultValue={s.default_check_out_time.slice(0, 5)} />
             </Field>
-            <Field name="primary_residence_night_limit" label="Limite annuelle (résidence principale)" required hint="Nuits louées par an.">
+            <Field
+              name="primary_residence_night_limit"
+              label="Limite annuelle par défaut (résidence principale)"
+              required
+              hint="Nuits louées par an, appliquées aux biens sans limite propre. Elle varie selon les communes (Bordeaux a voté 90 nuits à partir du 1er janvier 2026 : à vérifier) ; renseignez la limite de chaque commune sur la fiche du bien."
+            >
               <Input type="number" min={0} max={366} defaultValue={s.primary_residence_night_limit} required />
             </Field>
           </FormGrid>

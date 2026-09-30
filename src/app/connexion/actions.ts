@@ -8,6 +8,7 @@ import { linkValidity } from "@/lib/auth/link-validity";
 import { homeFor, safeNext, type Role } from "@/lib/auth/session";
 import { createAdminClient, isAdminClientConfigured } from "@/lib/supabase/admin";
 import { createClient, type ServerClient } from "@/lib/supabase/server";
+import { isPwnedPassword, pwnedPasswordMessage } from "@/server/pwned-password";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -110,6 +111,7 @@ export async function updatePassword(_prev: ActionState, formData: FormData): Pr
   }
   if (password !== confirmation) errors.confirmation = "Les deux mots de passe ne sont pas identiques.";
   if (Object.keys(errors).length) return fail("Vérifiez les champs indiqués.", errors);
+  if (await isPwnedPassword(password)) return fail(pwnedPasswordMessage, { password: "Mot de passe divulgué : choisissez-en un autre." });
 
   const supabase = await createClient();
   const { data: claims } = await supabase.auth.getClaims();

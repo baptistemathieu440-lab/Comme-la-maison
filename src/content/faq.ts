@@ -165,15 +165,15 @@ export const faq: FaqItem[] = [
     question: "Où voir les logements que vous accompagnez ?",
     category: "biens",
     answer: [
-      "Sur la page Nos biens, avec leurs photos, leurs caractéristiques et leurs disponibilités. Les logements y apparaissent au fur et à mesure qu’ils sont proposés à la réservation directe.",
+      "Sur la page Nos biens, avec leurs photos, leurs caractéristiques et leurs disponibilités. Les logements y apparaissent au fur et à mesure que leurs propriétaires acceptent de les présenter sur notre site.",
     ],
     link: { label: "Découvrir nos biens", href: "/nos-biens" },
   },
   {
-    question: "Je suis voyageur : puis-je réserver un logement en direct ?",
+    question: "Je suis voyageur : comment séjourner dans l’un de ces logements ?",
     category: "voyageurs",
     answer: [
-      "Oui. Sur la fiche d’un logement, choisissez vos dates et envoyez votre demande de séjour. Rien n’est réservé ni payé à ce stade : nous vous recontactons personnellement pour confirmer la disponibilité et le tarif.",
+      "Sur la fiche de chaque logement, vous trouvez ses photos, ses caractéristiques, ses disponibilités et la façon de nous contacter. Rien n’est réservé ni payé tant que votre séjour n’a pas été confirmé.",
     ],
     link: { label: "Voir les logements", href: "/nos-biens" },
   },

@@ -150,8 +150,35 @@ export const documentCategory = {
   diagnostic: "Diagnostic",
   inventory: "État des lieux / inventaire",
   photo: "Photo",
+  compliance: "Conformité du logement",
   other: "Autre",
 } as const;
+
+/**
+ * Conformité d'un logement : suivi interne des justificatifs fournis par le propriétaire.
+ * Aucun libellé ne dit « conforme » : la plateforme ne certifie rien.
+ */
+export const complianceStatus = map({
+  to_check: { label: "À vérifier", tone: "warning" },
+  in_progress: { label: "Vérification en cours", tone: "info" },
+  documents_received: { label: "Justificatifs reçus", tone: "positive" },
+  issue: { label: "Point bloquant", tone: "danger" },
+});
+
+export const changeOfUseStatus = map({
+  to_check: { label: "À vérifier", tone: "warning" },
+  not_required: { label: "Non requise (selon le propriétaire)", tone: "muted" },
+  pending: { label: "Demandée, en attente", tone: "info" },
+  granted: { label: "Obtenue", tone: "positive" },
+  refused: { label: "Refusée", tone: "danger" },
+});
+
+export const condoRulesStatus = map({
+  to_check: { label: "À vérifier", tone: "warning" },
+  not_applicable: { label: "Pas de copropriété", tone: "muted" },
+  allowed: { label: "Location courte durée permise", tone: "positive" },
+  forbidden: { label: "Location courte durée interdite", tone: "danger" },
+});
 
 export const contractStatus = map({
   draft: { label: "Brouillon", tone: "muted" },

@@ -1,7 +1,7 @@
 import { ActionForm, Checkbox, Field, Fieldset, FormActions, FormGrid, Input, Select, SubmitButton, Textarea } from "@/components/app/form";
 import { site } from "@/content/site";
 import type { ActionState } from "@/lib/action-state";
-import { optionsOf, propertyStatus, propertyType } from "@/lib/labels";
+import { changeOfUseStatus, complianceStatus, condoRulesStatus, optionsOf, propertyStatus, propertyType } from "@/lib/labels";
 import { bpsToInput, centsToInput } from "@/lib/money";
 import type { Option } from "@/lib/options";
 import type { Database } from "@/lib/supabase/database.types";
@@ -87,7 +87,7 @@ export function PropertyForm({
         </Field>
       </Fieldset>
 
-      <Fieldset legend="Gestion et réglementation">
+      <Fieldset legend="Gestion">
         <FormGrid>
           <Field
             name="commission_rate"
@@ -105,16 +105,7 @@ export function PropertyForm({
           <Field name="check_out_time" label="Heure de départ">
             <Input type="time" defaultValue={property?.check_out_time?.slice(0, 5) ?? ""} />
           </Field>
-          <Field name="registration_number" label="Numéro d’enregistrement (meublé de tourisme)">
-            <Input defaultValue={property?.registration_number ?? ""} />
-          </Field>
         </FormGrid>
-        <Checkbox
-          name="is_primary_residence"
-          defaultChecked={property?.is_primary_residence ?? false}
-          label="Résidence principale du propriétaire"
-          hint="La plateforme suit alors le nombre de nuits louées dans l’année (limite légale paramétrable)."
-        />
         <Field
           name="cleaning_checklist"
           label="Liste de contrôle du ménage (une ligne par point)"
@@ -124,12 +115,77 @@ export function PropertyForm({
         </Field>
       </Fieldset>
 
+      <Fieldset legend="Conformité du logement">
+        <p className="text-small text-ink-soft">
+          Informations déclarées par le propriétaire, qui reste responsable de ses obligations. Ce suivi ne vaut pas
+          attestation de conformité. Déposez les justificatifs dans Documents (catégorie « Conformité du logement »).
+        </p>
+        <FormGrid>
+          <Field
+            name="registration_number"
+            label="Numéro d’enregistrement (meublé de tourisme)"
+            hint="Obligatoire pour publier le bien sur le site ; à reporter sur chaque annonce."
+          >
+            <Input defaultValue={property?.registration_number ?? ""} />
+          </Field>
+          <Field name="compliance_status" label="Suivi des justificatifs">
+            <Select options={optionsOf(complianceStatus)} defaultValue={property?.compliance_status ?? "to_check"} />
+          </Field>
+          <Field name="change_of_use_status" label="Autorisation de changement d’usage">
+            <Select options={optionsOf(changeOfUseStatus)} defaultValue={property?.change_of_use_status ?? "to_check"} />
+          </Field>
+          <Field name="change_of_use_reference" label="Référence de l’autorisation">
+            <Input defaultValue={property?.change_of_use_reference ?? ""} />
+          </Field>
+          <Field name="condo_rules_status" label="Règlement de copropriété">
+            <Select options={optionsOf(condoRulesStatus)} defaultValue={property?.condo_rules_status ?? "to_check"} />
+          </Field>
+          <Field name="compliance_checked_on" label="Date de la dernière vérification">
+            <Input type="date" defaultValue={property?.compliance_checked_on ?? ""} />
+          </Field>
+          <Field name="owner_insurance" label="Assurance du propriétaire (assureur, n° de contrat)">
+            <Input defaultValue={property?.owner_insurance ?? ""} />
+          </Field>
+          <Field name="owner_insurance_expires_on" label="Échéance de l’assurance">
+            <Input type="date" defaultValue={property?.owner_insurance_expires_on ?? ""} />
+          </Field>
+          <Field name="energy_class" label="Classe énergie (DPE)">
+            <Select
+              options={["A", "B", "C", "D", "E", "F", "G"].map((value) => ({ value, label: value }))}
+              placeholder="Non renseignée"
+              defaultValue={property?.energy_class ?? ""}
+            />
+          </Field>
+          <Field name="energy_diagnosis_on" label="Date du DPE">
+            <Input type="date" defaultValue={property?.energy_diagnosis_on ?? ""} />
+          </Field>
+        </FormGrid>
+        <Checkbox
+          name="is_primary_residence"
+          defaultChecked={property?.is_primary_residence ?? false}
+          label="Résidence principale du propriétaire"
+          hint="La plateforme suit alors le nombre de nuits louées dans l’année."
+        />
+        <FormGrid>
+          <Field
+            name="night_limit"
+            label="Limite de nuits par an dans cette commune"
+            hint="Résidence principale uniquement. Vide : la limite des paramètres. À vérifier auprès de la mairie de la commune."
+          >
+            <Input defaultValue={property?.night_limit ?? ""} inputMode="numeric" />
+          </Field>
+        </FormGrid>
+        <Field name="compliance_notes" label="Notes de conformité">
+          <Textarea defaultValue={property?.compliance_notes ?? ""} />
+        </Field>
+      </Fieldset>
+
       <Fieldset legend="Site internet">
         <Checkbox
           name="visible_on_site"
           defaultChecked={property?.visible_on_site ?? false}
           label="Afficher ce bien sur le site public"
-          hint="Page « Nos logements » du site, avec les disponibilités et un formulaire de demande de séjour. Seuls le titre et la description publics, la commune, les caractéristiques, les horaires, le numéro d’enregistrement et les photos marquées publiques sont affichés (jamais l’adresse ni le propriétaire). Le bien doit être actif ; un bien de démonstration n’est jamais affiché."
+          hint="Page « Nos biens » du site, avec les disponibilités (et le formulaire de demande de séjour lorsqu’il est ouvert). Le numéro d’enregistrement est obligatoire. Seuls le titre et la description publics, la commune, les caractéristiques, les horaires, le numéro d’enregistrement et les photos marquées publiques sont affichés (jamais l’adresse ni le propriétaire). Le bien doit être actif ; un bien de démonstration n’est jamais affiché."
         />
         <FormGrid>
           <Field name="slug" label="Adresse de la page" hint="Exemple : t2-chartrons">

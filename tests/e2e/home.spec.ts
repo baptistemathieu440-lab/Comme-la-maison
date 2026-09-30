@@ -132,7 +132,7 @@ test.describe("Pages du site", () => {
   });
 
   test("aucun défilement horizontal", async ({ page }) => {
-    for (const path of ["/", "/nos-offres", "/tarifs", "/faq", "/nos-biens", "/a-propos", "/contact", "/transparence", "/mentions-legales", "/politique-confidentialite"]) {
+    for (const path of ["/", "/nos-offres", "/tarifs", "/faq", "/nos-biens", "/a-propos", "/contact", "/transparence", "/mentions-legales", "/politique-confidentialite", "/politique-cookies", "/conditions-generales-vente"]) {
       await page.goto(path);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(overflow, path).toBeLessThanOrEqual(0);

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { GuideTabBar, GuideTopNav } from "@/components/guide/GuideNav";
 import { guide } from "@/content/guide/guide";
+import { legalNav } from "@/content/navigation";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -64,6 +65,17 @@ export default function GuideLayout({ children }: LayoutProps<"/guide">) {
               Découvrir {site.name}, conciergerie à Bordeaux
             </Link>
           </p>
+          <nav aria-label="Informations légales">
+            <ul className="flex flex-wrap gap-x-5">
+              {legalNav.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="inline-flex min-h-11 items-center underline-offset-4 hover:text-maison hover:underline">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </footer>
       <GuideTabBar />

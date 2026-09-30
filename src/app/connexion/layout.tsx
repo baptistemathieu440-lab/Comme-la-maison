@@ -19,7 +19,15 @@ export default function AuthLayout({ children }: LayoutProps<"/connexion">) {
       </div>
       <p className="mt-6 max-w-[28rem] text-center text-small text-ink-soft">
         Espace réservé à l’équipe Comme à la Maison, à ses propriétaires et à ses agents. Les comptes sont créés
-        sur invitation.
+        sur invitation. Vos données de connexion sont traitées selon notre{" "}
+        <Link href="/politique-confidentialite" className="text-maison underline underline-offset-2">
+          politique de confidentialité
+        </Link>{" "}
+        ; seul un cookie de session, indispensable, est utilisé (
+        <Link href="/politique-cookies" className="text-maison underline underline-offset-2">
+          politique cookies
+        </Link>
+        ).
       </p>
     </main>
   );

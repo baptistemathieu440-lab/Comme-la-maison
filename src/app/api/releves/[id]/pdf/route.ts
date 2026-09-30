@@ -14,6 +14,8 @@ export async function GET(_request: Request, { params }: RouteContext<"/api/rele
   const { id } = await params;
   const session = await getSession();
   if (!session) return new Response("Connexion requise.", { status: 401 });
+  // Mot de passe provisoire : aucun accès avant son remplacement (comme pour les pages).
+  if (session.mustChangePassword) return new Response("Choisissez d’abord votre mot de passe.", { status: 403 });
   if (session.roles.includes("admin") && session.aal !== "aal2") return new Response("Double authentification requise.", { status: 403 });
 
   const supabase = await createClient();

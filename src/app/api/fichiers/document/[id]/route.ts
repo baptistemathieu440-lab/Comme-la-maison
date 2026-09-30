@@ -13,6 +13,8 @@ export async function GET(_request: Request, { params }: RouteContext<"/api/fich
   const { id } = await params;
   const session = await getSession();
   if (!session) return new Response("Connexion requise.", { status: 401 });
+  // Mot de passe provisoire : aucun accès avant son remplacement (comme pour les pages).
+  if (session.mustChangePassword) return new Response("Choisissez d’abord votre mot de passe.", { status: 403 });
   const supabase = await createClient();
   const { data: document } = await supabase.from("documents").select("storage_path, title, mime_type").eq("id", id).maybeSingle();
   if (!document) return new Response("Document introuvable.", { status: 404 });

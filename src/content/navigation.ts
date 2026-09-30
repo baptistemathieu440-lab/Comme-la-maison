@@ -24,9 +24,12 @@ export const pricingHref = "/tarifs";
  */
 export const loginNav: NavItem = { label: "Connexion à votre espace", href: "/connexion" };
 
+/** Documents légaux : pied de page, guide voyageurs, page de connexion et pages légales entre elles. */
 export const legalNav: NavItem[] = [
   { label: "Mentions légales", href: "/mentions-legales" },
   { label: "Politique de confidentialité", href: "/politique-confidentialite" },
+  { label: "Politique cookies", href: "/politique-cookies" },
+  { label: "Conditions générales", href: "/conditions-generales-vente" },
 ];
 
 /** Plan du site, dans le pied de page. */

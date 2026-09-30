@@ -28,8 +28,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/guide/itineraires", priority: 0.7 },
     ...themes.map((theme) => ({ path: `/guide/${theme.slug}`, priority: 0.7 })),
     ...guidePlaces.map((place) => ({ path: placeHref(place.slug), priority: 0.5 })),
-    { path: "/mentions-legales", priority: 0.2 },
-    { path: "/politique-confidentialite", priority: 0.2 },
+    // Pages légales : accessibles depuis chaque page, mais non indexées (noindex) tant qu'elles
+    // contiennent des informations à compléter ; elles ne figurent donc pas ici.
   ];
   return pages.map(({ path, priority }) => ({
     url: `${site.url}${path}`,

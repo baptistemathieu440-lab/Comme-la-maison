@@ -11,6 +11,10 @@ import { PUBLIC_LISTINGS_TAG } from "@/server/public-listings";
 const propertyTypes = ["studio", "apartment", "house", "villa", "room", "other"] as const;
 const propertyStatuses = ["active", "inactive", "onboarding", "maintenance", "unavailable"] as const;
 const platforms = ["airbnb", "booking", "abritel", "direct", "other"] as const;
+const complianceStatuses = ["to_check", "in_progress", "documents_received", "issue"] as const;
+const changeOfUseStatuses = ["to_check", "not_required", "pending", "granted", "refused"] as const;
+const condoRulesStatuses = ["to_check", "not_applicable", "allowed", "forbidden"] as const;
+const energyClasses = ["A", "B", "C", "D", "E", "F", "G"] as const;
 
 function readProperty(form: FormReader) {
   const visible = form.bool("visible_on_site");
@@ -19,6 +23,12 @@ function readProperty(form: FormReader) {
     form.errors.slug = "Lettres minuscules, chiffres et tirets uniquement (exemple : t2-chartrons).";
   }
   if (visible && !slug) form.errors.slug = "Indiquez une adresse de page pour publier le bien sur le site.";
+  // Toute annonce d'un meublé de tourisme doit afficher son numéro d'enregistrement (Code du tourisme, art. L324-2).
+  const registrationNumber = form.optional("registration_number", 60);
+  if (visible && !registrationNumber) {
+    form.errors.registration_number = "Le numéro d’enregistrement est requis pour publier le bien sur le site.";
+  }
+  const energyClass = form.optional("energy_class", 1);
   const checklist = form
     .optional("cleaning_checklist", 4000)
     ?.split("\n")
@@ -40,8 +50,19 @@ function readProperty(form: FormReader) {
     capacity: form.int("capacity", { min: 1, max: 100 }),
     floor_info: form.optional("floor_info", 120),
     description: form.optional("description", 4000),
-    registration_number: form.optional("registration_number", 60),
+    registration_number: registrationNumber,
     is_primary_residence: form.bool("is_primary_residence"),
+    night_limit: form.int("night_limit", { max: 366 }),
+    change_of_use_status: form.choice("change_of_use_status", changeOfUseStatuses, "to_check"),
+    change_of_use_reference: form.optional("change_of_use_reference", 120),
+    condo_rules_status: form.choice("condo_rules_status", condoRulesStatuses, "to_check"),
+    owner_insurance: form.optional("owner_insurance", 200),
+    owner_insurance_expires_on: form.date("owner_insurance_expires_on"),
+    energy_class: energyClass && (energyClasses as readonly string[]).includes(energyClass) ? energyClass : null,
+    energy_diagnosis_on: form.date("energy_diagnosis_on"),
+    compliance_status: form.choice("compliance_status", complianceStatuses, "to_check"),
+    compliance_checked_on: form.date("compliance_checked_on"),
+    compliance_notes: form.optional("compliance_notes", 4000),
     commission_rate_bps: form.bps("commission_rate"),
     default_cleaning_fee_cents: form.cents("default_cleaning_fee"),
     check_in_time: form.time("check_in_time"),

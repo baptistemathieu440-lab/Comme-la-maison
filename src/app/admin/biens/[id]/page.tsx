@@ -4,8 +4,19 @@ import { Meter } from "@/components/app/charts";
 import { ActionForm, SubmitButton } from "@/components/app/form";
 import { DescriptionList, EmptyState, Notice, Panel, StatCard, StatusBadge, TextLink } from "@/components/app/ui";
 import { adminContext } from "@/lib/auth/admin-context";
-import { formatDayMonth, formatTime, startOfMonth, todayIso } from "@/lib/dates";
-import { bookingStatus, incidentStatus, labelOf, propertyType, taskStatus, taskType, textOf } from "@/lib/labels";
+import { formatDateShort, formatDayMonth, formatTime, startOfMonth, todayIso } from "@/lib/dates";
+import {
+  bookingStatus,
+  changeOfUseStatus,
+  complianceStatus,
+  condoRulesStatus,
+  incidentStatus,
+  labelOf,
+  propertyType,
+  taskStatus,
+  taskType,
+  textOf,
+} from "@/lib/labels";
 import { formatBps, formatCents, formatCentsRounded } from "@/lib/money";
 import { displayName } from "@/lib/people";
 import { averageNightly, formatRatio, occupancy, sumMonths } from "@/lib/stats";
@@ -85,32 +96,78 @@ export default async function PropertyOverview({ params }: PageProps<"/admin/bie
       ) : null}
 
       <div className="grid gap-4 xl:grid-cols-2">
-        <Panel title="Fiche" id="fiche" actions={<TextLink href={`/admin/biens/${id}/modifier`} className="text-small">Modifier</TextLink>}>
-          <DescriptionList
-            items={[
-              { label: "Type", value: textOf(propertyType, property.property_type) },
-              { label: "Adresse", value: [property.address_line, property.postal_code, property.city].filter(Boolean).join(", ") },
-              { label: "Surface", value: property.surface_m2 ? `${property.surface_m2} m²` : null },
-              { label: "Capacité", value: property.capacity ? `${property.capacity} voyageurs` : null },
-              { label: "Chambres / lits", value: `${property.bedrooms ?? "—"} / ${property.beds ?? "—"}` },
-              { label: "Commission", value: `${formatBps(rate)} TTC des nuitées perçues${property.commission_rate_bps !== null ? " (taux propre au bien)" : ""}` },
-              { label: "Frais de ménage par séjour", value: property.default_cleaning_fee_cents !== null ? formatCents(property.default_cleaning_fee_cents) : null },
-              {
-                label: "Arrivée / départ",
-                value: `${formatTime(property.check_in_time ?? settings?.default_check_in_time)} / ${formatTime(property.check_out_time ?? settings?.default_check_out_time)}`,
-              },
-              { label: "Numéro d’enregistrement", value: property.registration_number },
-              { label: "Résidence principale", value: property.is_primary_residence ? "Oui" : "Non" },
-            ]}
-          />
-          <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-line pt-4 text-small">
-            <TextLink href={`/admin/reservations?bien=${id}`}>Réservations</TextLink>
-            <TextLink href={`/admin/calendrier?bien=${id}`}>Calendrier</TextLink>
-            <TextLink href={`/admin/taches?bien=${id}`}>Tâches</TextLink>
-            <TextLink href={`/admin/depenses?bien=${id}`}>Dépenses</TextLink>
-            <TextLink href={`/admin/documents?bien=${id}`}>Documents</TextLink>
-          </div>
-        </Panel>
+        <div className="flex flex-col gap-4">
+          <Panel title="Fiche" id="fiche" actions={<TextLink href={`/admin/biens/${id}/modifier`} className="text-small">Modifier</TextLink>}>
+            <DescriptionList
+              items={[
+                { label: "Type", value: textOf(propertyType, property.property_type) },
+                { label: "Adresse", value: [property.address_line, property.postal_code, property.city].filter(Boolean).join(", ") },
+                { label: "Surface", value: property.surface_m2 ? `${property.surface_m2} m²` : null },
+                { label: "Capacité", value: property.capacity ? `${property.capacity} voyageurs` : null },
+                { label: "Chambres / lits", value: `${property.bedrooms ?? "—"} / ${property.beds ?? "—"}` },
+                { label: "Commission", value: `${formatBps(rate)} TTC des nuitées perçues${property.commission_rate_bps !== null ? " (taux propre au bien)" : ""}` },
+                { label: "Frais de ménage par séjour", value: property.default_cleaning_fee_cents !== null ? formatCents(property.default_cleaning_fee_cents) : null },
+                {
+                  label: "Arrivée / départ",
+                  value: `${formatTime(property.check_in_time ?? settings?.default_check_in_time)} / ${formatTime(property.check_out_time ?? settings?.default_check_out_time)}`,
+                },
+              ]}
+            />
+            <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-line pt-4 text-small">
+              <TextLink href={`/admin/reservations?bien=${id}`}>Réservations</TextLink>
+              <TextLink href={`/admin/calendrier?bien=${id}`}>Calendrier</TextLink>
+              <TextLink href={`/admin/taches?bien=${id}`}>Tâches</TextLink>
+              <TextLink href={`/admin/depenses?bien=${id}`}>Dépenses</TextLink>
+              <TextLink href={`/admin/documents?bien=${id}`}>Documents</TextLink>
+            </div>
+          </Panel>
+          <Panel
+            title="Conformité du logement"
+            id="conformite"
+            actions={<StatusBadge value={labelOf(complianceStatus, property.compliance_status)} />}
+          >
+            <p className="mb-4 text-small text-ink-soft">
+              Suivi des informations déclarées par le propriétaire ; ne vaut pas attestation de conformité.
+            </p>
+            <DescriptionList
+              items={[
+                { label: "Numéro d’enregistrement", value: property.registration_number ?? "À renseigner" },
+                { label: "Résidence principale", value: property.is_primary_residence ? "Oui" : "Non" },
+                {
+                  label: "Limite de nuits (résidence principale)",
+                  value: property.is_primary_residence ? (property.night_limit !== null ? `${property.night_limit} nuits (propre à la commune)` : "Valeur des paramètres") : null,
+                },
+                {
+                  label: "Changement d’usage",
+                  value: `${labelOf(changeOfUseStatus, property.change_of_use_status).label}${property.change_of_use_reference ? ` · ${property.change_of_use_reference}` : ""}`,
+                },
+                { label: "Règlement de copropriété", value: labelOf(condoRulesStatus, property.condo_rules_status).label },
+                {
+                  label: "Assurance du propriétaire",
+                  value: property.owner_insurance
+                    ? `${property.owner_insurance}${property.owner_insurance_expires_on ? ` · échéance ${formatDateShort(property.owner_insurance_expires_on)}` : ""}`
+                    : "À renseigner",
+                },
+                {
+                  label: "DPE",
+                  value: property.energy_class
+                    ? `Classe ${property.energy_class}${property.energy_diagnosis_on ? ` · ${formatDateShort(property.energy_diagnosis_on)}` : ""}`
+                    : null,
+                },
+                { label: "Dernière vérification", value: property.compliance_checked_on ? formatDateShort(property.compliance_checked_on) : "Jamais" },
+                { label: "Notes", value: property.compliance_notes },
+              ]}
+            />
+            {property.owner_insurance_expires_on && property.owner_insurance_expires_on < today ? (
+              <Notice tone="warning" className="mt-4">
+                L’assurance déclarée par le propriétaire est échue : demandez l’attestation en cours.
+              </Notice>
+            ) : null}
+            <div className="mt-5 border-t border-line pt-4 text-small">
+              <TextLink href={`/admin/documents?bien=${id}`}>Justificatifs (Documents)</TextLink>
+            </div>
+          </Panel>
+        </div>
 
         <div className="flex flex-col gap-4">
           <Panel title="Prochains séjours" id="sejours">

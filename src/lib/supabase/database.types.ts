@@ -1777,22 +1777,33 @@ export type Database = {
           bedrooms: number | null
           beds: number | null
           capacity: number | null
+          change_of_use_reference: string | null
+          change_of_use_status: string
           check_in_time: string | null
           check_out_time: string | null
           city: string
           cleaning_checklist: Json | null
           commission_rate_bps: number | null
+          compliance_checked_on: string | null
+          compliance_notes: string | null
+          compliance_status: string
+          condo_rules_status: string
           created_at: string
           created_by: string | null
           default_cleaning_fee_cents: number | null
           description: string | null
+          energy_class: string | null
+          energy_diagnosis_on: string | null
           floor_info: string | null
           id: string
           internal_notes: string | null
           is_demo: boolean
           is_primary_residence: boolean
           name: string
+          night_limit: number | null
           owner_id: string
+          owner_insurance: string | null
+          owner_insurance_expires_on: string | null
           postal_code: string | null
           property_type: string
           public_description: string | null
@@ -1812,22 +1823,33 @@ export type Database = {
           bedrooms?: number | null
           beds?: number | null
           capacity?: number | null
+          change_of_use_reference?: string | null
+          change_of_use_status?: string
           check_in_time?: string | null
           check_out_time?: string | null
           city?: string
           cleaning_checklist?: Json | null
           commission_rate_bps?: number | null
+          compliance_checked_on?: string | null
+          compliance_notes?: string | null
+          compliance_status?: string
+          condo_rules_status?: string
           created_at?: string
           created_by?: string | null
           default_cleaning_fee_cents?: number | null
           description?: string | null
+          energy_class?: string | null
+          energy_diagnosis_on?: string | null
           floor_info?: string | null
           id?: string
           internal_notes?: string | null
           is_demo?: boolean
           is_primary_residence?: boolean
           name: string
+          night_limit?: number | null
           owner_id: string
+          owner_insurance?: string | null
+          owner_insurance_expires_on?: string | null
           postal_code?: string | null
           property_type?: string
           public_description?: string | null
@@ -1847,22 +1869,33 @@ export type Database = {
           bedrooms?: number | null
           beds?: number | null
           capacity?: number | null
+          change_of_use_reference?: string | null
+          change_of_use_status?: string
           check_in_time?: string | null
           check_out_time?: string | null
           city?: string
           cleaning_checklist?: Json | null
           commission_rate_bps?: number | null
+          compliance_checked_on?: string | null
+          compliance_notes?: string | null
+          compliance_status?: string
+          condo_rules_status?: string
           created_at?: string
           created_by?: string | null
           default_cleaning_fee_cents?: number | null
           description?: string | null
+          energy_class?: string | null
+          energy_diagnosis_on?: string | null
           floor_info?: string | null
           id?: string
           internal_notes?: string | null
           is_demo?: boolean
           is_primary_residence?: boolean
           name?: string
+          night_limit?: number | null
           owner_id?: string
+          owner_insurance?: string | null
+          owner_insurance_expires_on?: string | null
           postal_code?: string | null
           property_type?: string
           public_description?: string | null

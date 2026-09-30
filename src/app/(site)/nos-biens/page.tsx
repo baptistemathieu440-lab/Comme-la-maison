@@ -34,7 +34,7 @@ export default async function ListingsPage() {
             <Period />
           </>
         }
-        intro={`Appartements et maisons que nous accompagnons à ${site.area.city} et dans sa métropole. Consultez leurs disponibilités et réservez en direct : nous vous répondons personnellement.`}
+        intro={`Appartements et maisons que nous accompagnons à ${site.area.city} et dans sa métropole. Consultez leurs photos, leurs caractéristiques et leurs disponibilités.`}
       />
 
       <Section spacing="flush-top" labelledBy={listings.length > 0 ? undefined : "biens-vide-title"}>

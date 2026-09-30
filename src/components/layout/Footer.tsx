@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 import { Logo } from "@/components/brand/Logo";
+import { legal } from "@/content/legal";
 import { footerNav, legalNav, loginNav } from "@/content/navigation";
 import { site } from "@/content/site";
 import { telHref } from "@/lib/format";
@@ -19,6 +20,8 @@ export function Footer() {
   );
   const { phones, email, availability } = site.contact;
   const year = new Date().getFullYear();
+  // Identité légale : affichée dès qu'elle est renseignée dans src/content/legal.ts.
+  const { company } = legal;
 
   return (
     <footer className="on-dark bg-maison text-cream">
@@ -60,6 +63,11 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href={loginNav.href} className={linkClass}>
+                  {loginNav.label}
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -92,8 +100,8 @@ export function Footer() {
             {availability ? <p className="text-small text-cream/75">{availability}</p> : null}
           </div>
 
-          <div className="flex flex-col gap-4">
-            <h2 className="text-caption text-olive-light">Informations</h2>
+          <nav aria-label="Informations légales" className="flex flex-col gap-4">
+            <h2 className="text-caption text-olive-light">Informations légales</h2>
             <ul className="flex flex-col">
               {legalNav.map((item) => (
                 <li key={item.href}>
@@ -102,13 +110,8 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link href={loginNav.href} className={linkClass}>
-                  {loginNav.label}
-                </Link>
-              </li>
             </ul>
-          </div>
+          </nav>
         </div>
 
         <div className="mt-14 flex flex-col gap-2 border-t border-cream/15 pt-8 text-small text-cream/70 md:flex-row md:items-center md:justify-between">
@@ -117,7 +120,9 @@ export function Footer() {
             {site.area.region}.
           </p>
           <p>
-            © {year} {site.name}
+            © {year} {company.legalName ?? site.name}
+            {company.siren ? ` · SIREN ${company.siren}` : null}
+            {company.headOffice ? ` · ${company.headOffice}` : null}
           </p>
         </div>
       </div>

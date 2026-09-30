@@ -7,6 +7,7 @@ import { fail, ok, type ActionState } from "@/lib/action-state";
 import { requireSession } from "@/lib/auth/session";
 import { supabaseUrl, supabasePublishableKey } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
+import { isPwnedPassword, pwnedPasswordMessage } from "@/server/pwned-password";
 
 function text(formData: FormData, name: string) {
   const value = formData.get(name);
@@ -53,6 +54,7 @@ export async function changeAccountPassword(_prev: ActionState, formData: FormDa
   }
   if (password !== confirmation) errors.confirmation = "Les deux mots de passe ne sont pas identiques.";
   if (Object.keys(errors).length) return fail("Vérifiez les champs indiqués.", errors);
+  if (await isPwnedPassword(password)) return fail(pwnedPasswordMessage, { password: "Mot de passe divulgué : choisissez-en un autre." });
 
   const check = createStatelessClient(supabaseUrl, supabasePublishableKey, {
     auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },

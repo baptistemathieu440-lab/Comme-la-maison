@@ -223,11 +223,18 @@ export default function ConfidentialitePage() {
           Les polices de caractères sont hébergées avec le site : votre navigateur ne contacte aucun service tiers pour les
           afficher. Les calendriers échangés avec les plateformes de réservation ne contiennent que des dates.
         </p>
+        <p>
+          Lorsque vous choisissez un mot de passe, notre serveur vérifie qu’il ne figure pas dans des fuites de données
+          connues auprès du service Pwned Passwords (Have I Been Pwned). Seuls les 5 premiers caractères d’une empreinte
+          (hachage) du mot de passe lui sont transmis : ni le mot de passe, ni votre adresse email, ni aucune donnée
+          permettant de vous identifier.
+        </p>
       </LegalSection>
 
       <LegalSection id="securite" title="Sécurité">
         <p>
-          Les espaces connectés sont protégés par mot de passe, avec double authentification obligatoire pour l’équipe. Chaque
+          Les espaces connectés sont protégés par mot de passe, avec double authentification obligatoire pour l’équipe ; un
+          mot de passe déjà divulgué lors d’une fuite de données est refusé. Chaque
           compte n’accède qu’aux données de son rôle, contrôle appliqué jusque dans la base de données. Les fichiers sont
           stockés dans des espaces privés et ne sont accessibles que par des liens temporaires. Les coordonnées bancaires sont
           chiffrées. Les échanges avec le site sont chiffrés (HTTPS).
